@@ -48,3 +48,15 @@ def test_scalar_spectrum_matches_vector_and_transient_slicing():
     vector=cell_spectrum(times,m,discard_s=1e-9)
     scalar=cell_spectrum(times,m[...,2],component=None,discard_s=1e-9)
     for a,b in zip(vector,scalar): np.testing.assert_array_equal(a,b)
+
+
+def test_space_time_fft_wavevector_units_and_opposite_rows():
+    from spinfreq.dynamics import space_time_spectrum
+    times=np.arange(1000)*5e-12
+    x=np.arange(32)*1e-9
+    k=2*np.pi*3/(32e-9)
+    wave=.01*np.cos(2*np.pi*2e9*times[:,None]+k*x[None,:])
+    trace=np.stack([wave,-wave],axis=1)
+    q,f,power=space_time_spectrum(times,trace,1e-9,time_window='rectangular',space_window='rectangular')
+    it,ix=np.unravel_index(np.argmax(power),power.shape)
+    np.testing.assert_allclose([f[it],q[ix],power[it,ix]],[2e9,k,.0001],rtol=1e-10)

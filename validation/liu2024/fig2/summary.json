@@ -1,0 +1,149 @@
+{
+  "paper": {
+    "FMR_GHz": 37.5,
+    "shifted_continuum_GHz": 34.5,
+    "gyration_band_GHz": [
+      0.1,
+      4.0
+    ],
+    "breathing_band_GHz": [
+      13.4,
+      20.4
+    ]
+  },
+  "model": "Infinite x-periodic chain, 40 nm period, 40 nm open width, 1 nm thickness",
+  "material": {
+    "Ms": 580000.0,
+    "A": 1.5e-11,
+    "D": 0.003,
+    "K": 600000.0,
+    "alpha": 0.001,
+    "gamma": 175950000000.0
+  },
+  "FM": {
+    "max_relative_error": 9.325873406851315e-15,
+    "FMR_GHz": 37.527649859285944,
+    "paper_FMR_GHz": 37.5,
+    "FMR_difference_percent": 0.07373295809585123
+  },
+  "finite_width_FM_onset_GHz": 38.35822744365638,
+  "meshes": [
+    {
+      "cells_per_axis": 20,
+      "cell_nm": 2.0,
+      "images_each_side": 32,
+      "residual_torque_T": 9.28878728438048e-07,
+      "topology_open_y": -0.9405504610103453,
+      "maximum_eigen_residual": 1.6893108410346173e-09,
+      "seconds": 0.5514502770001855,
+      "raw_eigenpairs_reused": true,
+      "maximum_computed_growth_rate_per_s": -8468316.185477914
+    },
+    {
+      "cells_per_axis": 40,
+      "cell_nm": 1.0,
+      "images_each_side": 32,
+      "residual_torque_T": 1.362624615357078e-06,
+      "topology_open_y": -0.982633592898944,
+      "maximum_eigen_residual": 4.922543700015988e-10,
+      "seconds": 1.912517620000017,
+      "raw_eigenpairs_reused": true,
+      "maximum_computed_growth_rate_per_s": -6272396.404425364
+    }
+  ],
+  "sampled_band_ranges_GHz": {
+    "gyration": [
+      0.0,
+      1.9327821550736162
+    ],
+    "breathing": [
+      13.078646753315347,
+      16.667199820474004
+    ]
+  },
+  "k0_upper_branch_GHz": 34.66624317801595,
+  "k0_upper_difference_percent": 0.48186428410419424,
+  "breathing_endpoint_errors_percent": [
+    2.3981585573481623,
+    18.298040095715663
+  ],
+  "image_convergence_checks": [
+    {
+      "reduced_ka_over_pi": 0,
+      "absolute_frequency_changes_GHz": {
+        "gyration": 0.0,
+        "breathing": 2.738820047198942e-06,
+        "upper_branch": 3.8269745161301216e-05
+      }
+    },
+    {
+      "reduced_ka_over_pi": 0.5,
+      "absolute_frequency_changes_GHz": {
+        "gyration": 1.4180567200483551e-06,
+        "breathing": 1.6732689271492518e-05,
+        "upper_branch": 2.4102349627241892e-05
+      }
+    },
+    {
+      "reduced_ka_over_pi": 1,
+      "absolute_frequency_changes_GHz": {
+        "gyration": 4.150475779507445e-06,
+        "breathing": 2.188606879371946e-05,
+        "upper_branch": 1.9266555163710564e-05
+      }
+    }
+  ],
+  "maximum_image_frequency_change_GHz": 3.8269745161301216e-05,
+  "collective_fits": {
+    "gyration": {
+      "coefficients": [
+        1.1860023941769842,
+        -0.4145200036228771
+      ],
+      "units": "GHz",
+      "rms_frequency_residual_GHz": 0.12156086792555222
+    },
+    "breathing": {
+      "coefficients": [
+        220.99031437423102,
+        26.310674102520174
+      ],
+      "units": "GHz\u00b2",
+      "rms_frequency_residual_GHz": 0.0855572232941575
+    },
+    "literal_paper_fits": {
+      "c1_GHz": 1.15,
+      "c2_GHz": -0.5,
+      "c3_GHz2": 294.9,
+      "c4_GHz2": 124,
+      "gyration_range_GHz": [
+        0.15,
+        2.15
+      ],
+      "breathing_range_GHz": [
+        6.848357467305571,
+        23.300214591286494
+      ],
+      "note": "Literal printed formulas/coefficients do not produce the quoted 0.1\u20134 and 13.4\u201320.4 GHz ranges; no correction assumed"
+    }
+  },
+  "checks": {
+    "paper_1nm_mesh_used": true,
+    "no_instability_in_computed_modes": true,
+    "infinite_FM_FMR_within_1_percent": true,
+    "shifted_upper_onset_within_1_percent": true,
+    "breathing_endpoints_within_5_percent": false,
+    "gyration_endpoints_within_5_percent": false,
+    "periodic_image_change_below_0p01_GHz": true
+  },
+  "full_fig2_validation_passed": false,
+  "intensity_note": "Intrinsic Bloch-mode weights, not a reproduction of finite-chain sinc-driven time/space FFT intensities",
+  "limitations": [
+    "Finite chain length and exact boundary conditions unspecified in paper; infinite-chain approximation used",
+    "Band classification by frequency intervals, not a complete mode-character tracking algorithm",
+    "Near-zero nonoscillatory translation modes recorded as zero, not discarded",
+    "Targeted 12-mode spectrum is incomplete above sampled window; global magnonic gaps not certified",
+    "Published fit coefficients and reported band intervals are internally inconsistent",
+    "No nonlinear frequency comb or Fig.3 standing waves included in this benchmark"
+  ]
+}

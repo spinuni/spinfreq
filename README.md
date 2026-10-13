@@ -1,6 +1,8 @@
 # spinfreq
 
-Reference micromagnetic simulator for periodic thin films, with **both** linear eigenmodes and forced frequency-domain response. SI units throughout. The film is discretized in x/y and magnetization is assumed uniform through its thickness. One skyrmion per periodic rectangular cell describes an infinite rectangular lattice; it is not an isolated skyrmion or automatically a triangular ground state.
+Micromagnetic simulator for thin films with linear eigenmodes, forced frequency response, 1D Bloch bands and nonlinear LLG dynamics. `Film` models periodic x/y lattices, `ConfinedFilm` models finite rectangles, and `BlochChain` models x-periodic chains with open y boundaries. SI units throughout; magnetization is uniform through the thickness.
+
+See the **[detailed usage guide](docs/USAGE.md)** for installation, model selection, API examples, units, outputs, paper benchmarks and MuMax3 exchange.
 
 ## Install and run
 
@@ -16,7 +18,7 @@ In the prepared cloud environment, activate `/workspace/venvs/spinfreq/bin/activ
 
 ## Physics and conventions
 
-The energy contains exchange `A |∇m|²`, interfacial DMI `D[mz div(m) - m·∇mz]`, uniaxial anisotropy `-K mz²`, Zeeman `-Ms B·m` and demagnetizing energy. Derivatives and the exchange Laplacian use periodic Fourier operators. Nyquist odd derivatives vanish. The demagnetizing kernel is the thickness-averaged uniform-through-thickness film kernel: `Nzz=(1-exp(-|k|t))/(|k|t)`, with longitudinal in-plane component `1-Nzz`. At zero wavevector, `Nzz=1`. Mixed Nyquist coefficients are symmetrized to preserve a real self-adjoint field. This model does not resolve z-dependent modes, edges, substrates, multilayers or nonperiodic boundaries.
+The energy contains exchange `A |∇m|²`, interfacial DMI `D[mz div(m) - m·∇mz]`, uniaxial anisotropy `-K mz²`, Zeeman `-Ms B·m` and demagnetizing energy. For the periodic `Film` class, derivatives and the exchange Laplacian use Fourier operators. Nyquist odd derivatives vanish. The demagnetizing kernel is the thickness-averaged uniform-through-thickness film kernel: `Nzz=(1-exp(-|k|t))/(|k|t)`, with longitudinal in-plane component `1-Nzz`. At zero wavevector, `Nzz=1`. Mixed Nyquist coefficients are symmetrized to preserve a real self-adjoint field. This periodic model does not resolve edges or nonperiodic boundaries; use `ConfinedFilm` for finite rectangles. No current model resolves z-dependent modes or multilayers.
 
 `B_eff = -(1/Ms) δE/δm` is in tesla. LLG is
 
@@ -51,7 +53,7 @@ Spatially varying and complex polarized drives of shape `(ny,nx,3)` are supporte
 
 Tests exercise the energy derivative including DMI and dipolar terms, uniform-film perpendicular Kittel frequency and damping, exchange dispersion, driven resonance and positive absorption, the analytical Jacobian against finite differences, relaxation and equilibrium guards, and the topological charge of a resolved seed.
 
-The current solver explicitly assembles a dense `2N × 2N` Jacobian and uses dense eigenvalue/response solvers; it is a small-system reference implementation, limited to 1024 cells. Start with 12×12; finer meshes become expensive. Production calculations require mesh/cell-size and supercell convergence, validation against an independent solver, and a sparse/matrix-free solver for larger grids. A coarse-grid demo alone does not establish quantitatively converged skyrmion frequencies. Thermal fluctuations, nonlinear response and Bloch-wave band dispersion are not implemented.
+Full eigenmode/direct-response solvers explicitly assemble a dense `2N × 2N` Jacobian. The periodic class limits assembly to 1024 cells and the confined/Bloch classes to 4096 cells. Confined matrix-free response and targeted Bloch shift-invert modes are also available. Start with 12×12; finer meshes become expensive. Production calculations require mesh/cell-size and supercell convergence, validation against an independent solver, and a sparse/matrix-free solver for larger grids. A coarse-grid demo alone does not establish quantitatively converged skyrmion frequencies. Nonlinear time response and Bloch-wave bands are implemented in separate workflows. Thermal fluctuations and z-dependent thickness modes remain unsupported.
 
 ## Literature-oriented validation and plots
 
@@ -62,3 +64,7 @@ Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/validate.py` to 
 The [paper validation](validation/liu2024/README.md) adds a finite-film `ConfinedFilm` model with nearest-neighbor exchange, MuMax-compatible DMI boundary ghosts and Newell cell-averaged demagnetization. With the paper's 40×40×1 nm geometry, 1 nm cells, material and damping, the three single-skyrmion frequencies agree within 0.3% of Fig. 1. Run `OPENBLAS_NUM_THREADS=1 python benchmarks/liu2024.py` for comparison figures and CSVs.
 
 Full nonlinear LLG, localized sinc/harmonic fields, per-cell FFTs, bounded sample recording and OVF interchange are available for array work. See `benchmarks/liu2024_dynamics.py`, `benchmarks/export_mumax.py` and `benchmarks/analyze_mumax.py`. The paper's nonlinear frequency comb has not yet been validated; matching single-skyrmion frequencies does not establish comb reproduction. The original `Film` class retains its periodic spectral model.
+
+## 1D collective excitations: Fig. 2
+
+Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/liu2024_fig2.py` for independent FM checks and wavevector-resolved 1D-chain calculations. See the [Fig. 2 report](validation/liu2024/fig2/README.md) for numerical convergence, plots and explicit disagreements with the reported band ranges. `benchmarks/liu2024_fk.py` produces time/space FFT maps from finite-array recordings. Intrinsic Bloch weights and pulse-driven FFT intensity are distinguished.

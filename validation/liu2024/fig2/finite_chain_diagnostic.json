@@ -1,0 +1,28 @@
+[
+  {
+    "columns": 3,
+    "cell_nm": 2,
+    "residual_torque_T": 2.1962834163990495e-06,
+    "breathing_candidates_GHz": [
+      13.650155140491744,
+      15.53464305437254,
+      17.611550165317183
+    ],
+    "max_eigen_residual": 1.8069130590653795e-15,
+    "note": "Targeted finite-chain diagnostic at 2 nm; not full 1 nm paper validation"
+  },
+  {
+    "columns": 5,
+    "cell_nm": 2,
+    "residual_torque_T": 3.937170832402136e-06,
+    "breathing_candidates_GHz": [
+      13.180286263453354,
+      14.003260419287361,
+      15.162097566077314,
+      16.399690880947507,
+      17.388153518192425
+    ],
+    "max_eigen_residual": 5.865386076151834e-15,
+    "note": "Targeted finite-chain diagnostic at 2 nm; not full 1 nm paper validation"
+  }
+]

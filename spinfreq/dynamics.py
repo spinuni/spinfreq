@@ -135,3 +135,43 @@ def cell_spectrum(times_s,magnetization,component=2,discard_s=0,window='hann',ba
         amplitude+=np.sum(abs(fft),axis=1)/cells
         power+=np.sum(abs(fft)**2,axis=1)/cells
     return frequencies,amplitude,power
+
+
+def space_time_spectrum(times_s,scalar_trace,dx_m,discard_s=0,time_window='hann',space_window='hann',batch_rows=1):
+    """f–kx power of scalar (time,y,x) data, averaged over y after transforms.
+
+    Spatial angular wavevectors are in rad/m. Temporal frequencies are Hz.
+    Power is one-sided amplitude squared, not a spectral density. Opposite-phase
+    transverse rows are retained. Rows are transformed in bounded batches.
+    """
+    times=np.asarray(times_s,dtype=float)
+    trace=np.asarray(scalar_trace)
+    if trace.ndim!=3 or trace.shape[0]!=len(times) or len(times)<3:
+        raise ValueError('Require scalar trace of shape (time,y,x) and >=3 sample times')
+    if not np.isfinite(dx_m) or dx_m<=0 or batch_rows<1:
+        raise ValueError('Require positive cell width and row batch size')
+    dt=times[1]-times[0]
+    if dt<=0 or not np.all(np.isfinite(times)) or not np.allclose(np.diff(times),dt,rtol=1e-8,atol=dt*1e-8):
+        raise ValueError('Space-time FFT requires uniformly increasing finite times')
+    first=np.searchsorted(times,discard_s)
+    trace=trace[first:]
+    nt,ny,nx=trace.shape
+    if nt<3 or nx<3: raise ValueError('Need at least three retained time and x samples')
+    def window(name,size):
+        if name=='hann': return np.hanning(size)
+        if name=='rectangular': return np.ones(size)
+        raise ValueError('Window must be hann or rectangular')
+    wt,wx=window(time_window,nt),window(space_window,nx)
+    frequencies=np.fft.rfftfreq(nt,dt)
+    wavevectors=2*np.pi*np.fft.fftshift(np.fft.fftfreq(nx,dx_m))
+    power=np.zeros((len(frequencies),nx))
+    for index in range(0,ny,batch_rows):
+        block=np.asarray(trace[:,index:index+batch_rows],dtype=float)
+        if not np.all(np.isfinite(block)): raise ValueError('Nonfinite samples in trace')
+        block=block-block.mean(axis=0)
+        temporal=np.fft.rfft(block*wt[:,None,None],axis=0)*2/wt.sum()
+        temporal[0]*=.5
+        if nt%2==0: temporal[-1]*=.5
+        transformed=np.fft.fftshift(np.fft.fft(temporal*wx[None,None,:],axis=-1),axes=-1)/wx.sum()
+        power+=np.sum(abs(transformed)**2,axis=1)/ny
+    return wavevectors,frequencies,power
