@@ -1,0 +1,102 @@
+{
+  "analytical_relative_errors": {
+    "kittel_inplane_relative": 1.199040866595169e-14,
+    "kittel_perpendicular_relative": 2.19824158875781e-14,
+    "dipole_exchange_relative": 2.4424906541753444e-15,
+    "susceptibility_relative": 4.2135961688339956e-13
+  },
+  "skyrmion": {
+    "geometry": {
+      "period_x_m": 4.8e-08,
+      "period_y_m": 4.8e-08,
+      "thickness_m": 1e-09
+    },
+    "material": {
+      "Ms": 580000.0,
+      "A": 1.5e-11,
+      "D": 0.003,
+      "K": 800000.0,
+      "alpha": 0.02,
+      "gamma": 176085900000.0
+    },
+    "field_T": [
+      0.0,
+      0.0,
+      0.1
+    ],
+    "meshes": [
+      12,
+      16,
+      20,
+      24
+    ],
+    "driven_grid": 16,
+    "pinning_diagnostics": {
+      "12": {
+        "selected_offset_cells": 0.0,
+        "candidates": [
+          {
+            "offset_cells": 0.0,
+            "energy_J": -1.215883348456378e-18,
+            "max_growth_per_s": -549808698.0628502
+          },
+          {
+            "offset_cells": 0.5,
+            "energy_J": -1.2150549825899402e-18,
+            "max_growth_per_s": 41428086.009902745
+          }
+        ]
+      },
+      "16": {
+        "selected_offset_cells": 0.5,
+        "candidates": [
+          {
+            "offset_cells": 0.0,
+            "energy_J": -1.2152012175550344e-18,
+            "max_growth_per_s": 12236347.318047032
+          },
+          {
+            "offset_cells": 0.5,
+            "energy_J": -1.2152241071743663e-18,
+            "max_growth_per_s": -16564921.164396703
+          }
+        ]
+      },
+      "20": {
+        "selected_offset_cells": 0.0,
+        "candidates": [
+          {
+            "offset_cells": 0.0,
+            "energy_J": -1.2152296570411652e-18,
+            "max_growth_per_s": -3014760.938126322
+          },
+          {
+            "offset_cells": 0.5,
+            "energy_J": -1.215226589441979e-18,
+            "max_growth_per_s": 3017336.4395230673
+          }
+        ]
+      },
+      "24": {
+        "selected_offset_cells": 0.5,
+        "candidates": [
+          {
+            "offset_cells": 0.0,
+            "energy_J": -1.2152276122546797e-18,
+            "max_growth_per_s": 229688.80060188752
+          },
+          {
+            "offset_cells": 0.5,
+            "energy_J": -1.2152277749770635e-18,
+            "max_growth_per_s": -230469.52883669361
+          }
+        ]
+      }
+    },
+    "last_step_relative_frequency_change": [
+      12.083072377990838,
+      0.001636450069963224,
+      3.569556554483865e-05
+    ]
+  }
+}

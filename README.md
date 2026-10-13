@@ -52,3 +52,7 @@ Spatially varying and complex polarized drives of shape `(ny,nx,3)` are supporte
 Tests exercise the energy derivative including DMI and dipolar terms, uniform-film perpendicular Kittel frequency and damping, exchange dispersion, driven resonance and positive absorption, the analytical Jacobian against finite differences, relaxation and equilibrium guards, and the topological charge of a resolved seed.
 
 The current solver explicitly assembles a dense `2N × 2N` Jacobian and uses dense eigenvalue/response solvers; it is a small-system reference implementation, limited to 1024 cells. Start with 12×12; finer meshes become expensive. Production calculations require mesh/cell-size and supercell convergence, validation against an independent solver, and a sparse/matrix-free solver for larger grids. A coarse-grid demo alone does not establish quantitatively converged skyrmion frequencies. Thermal fluctuations, nonlinear response and Bloch-wave band dispersion are not implemented.
+
+## Literature-oriented validation and plots
+
+Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/validate.py` to regenerate analytical Kittel, dipole/exchange and complex-susceptibility comparisons, plus skyrmion mesh convergence, absorption and mode maps. See [validation/README.md](validation/README.md) for references, equations, results and comparison limits. Figures are provided as PNG and vector PDF, with CSV source data. The coarse 12×12 low-frequency mode is a mesh-sensitive feature; use the convergence study before quoting skyrmion frequencies.
