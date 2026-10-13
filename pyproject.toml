@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spinfreq"
+version = "0.1.0"
+description = "Frequency-domain micromagnetics for periodic thin films"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2.0", "scipy>=1.14", "matplotlib>=3.8"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.scripts]
+spinfreq = "spinfreq.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["spinfreq*"]
