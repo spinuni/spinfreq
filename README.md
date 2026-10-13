@@ -56,3 +56,9 @@ The current solver explicitly assembles a dense `2N × 2N` Jacobian and uses den
 ## Literature-oriented validation and plots
 
 Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/validate.py` to regenerate analytical Kittel, dipole/exchange and complex-susceptibility comparisons, plus skyrmion mesh convergence, absorption and mode maps. See [validation/README.md](validation/README.md) for references, equations, results and comparison limits. Figures are provided as PNG and vector PDF, with CSV source data. The coarse 12×12 low-frequency mode is a mesh-sensitive feature; use the convergence study before quoting skyrmion frequencies.
+
+## Liu 2024 MuMax3 benchmark
+
+The [paper validation](validation/liu2024/README.md) adds a finite-film `ConfinedFilm` model with nearest-neighbor exchange, MuMax-compatible DMI boundary ghosts and Newell cell-averaged demagnetization. With the paper's 40×40×1 nm geometry, 1 nm cells, material and damping, the three single-skyrmion frequencies agree within 0.3% of Fig. 1. Run `OPENBLAS_NUM_THREADS=1 python benchmarks/liu2024.py` for comparison figures and CSVs.
+
+Full nonlinear LLG, localized sinc/harmonic fields, per-cell FFTs, bounded sample recording and OVF interchange are available for array work. See `benchmarks/liu2024_dynamics.py`, `benchmarks/export_mumax.py` and `benchmarks/analyze_mumax.py`. The paper's nonlinear frequency comb has not yet been validated; matching single-skyrmion frequencies does not establish comb reproduction. The original `Film` class retains its periodic spectral model.

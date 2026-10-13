@@ -1,0 +1,77 @@
+{
+  "paper": {
+    "doi": "10.1103/PhysRevB.110.184413",
+    "figure": 1,
+    "reference_frequencies_GHz": [
+      1.9,
+      17.2,
+      39.1
+    ],
+    "reported_FMR_GHz": 37.5
+  },
+  "material": {
+    "Ms": 580000.0,
+    "A": 1.5e-11,
+    "D": 0.003,
+    "K": 600000.0,
+    "alpha": 0.001,
+    "gamma": 175950000000.0
+  },
+  "geometry": {
+    "width_m": 4e-08,
+    "height_m": 4e-08,
+    "thickness_m": 1e-09
+  },
+  "assumptions": [
+    "No static field: none stated in paper",
+    "Open finite geometry with MuMax3 default DMI ghost boundary",
+    "gamma=1.7595e11 rad/(s T), matching inspected MuMax3 GammaLL default; paper does not give value",
+    "Mode identities inferred from frequencies and spatial maps; not automatic chirality classification"
+  ],
+  "calculated_infinite_film_FMR_GHz": 37.52768738693584,
+  "results": [
+    {
+      "cells_per_axis": 20,
+      "cell_nm": 2.0,
+      "frequencies_GHz": [
+        1.8418732370513777,
+        16.424513908488862,
+        39.08719022310081
+      ],
+      "relative_errors_percent": [
+        3.059303313085382,
+        4.508640066925218,
+        0.03276157774728672
+      ],
+      "residual_torque_T": 1.1181149343974307e-06,
+      "energy_J": -5.517689796678656e-19,
+      "topological_charge_open_domain": -0.8506426912917496,
+      "maximum_growth_rate_per_s": -13493901.201061249,
+      "seconds": 0.7485268049999831
+    },
+    {
+      "cells_per_axis": 40,
+      "cell_nm": 1.0,
+      "frequencies_GHz": [
+        1.8970450482817942,
+        17.175744507776948,
+        38.98884980196144
+      ],
+      "relative_errors_percent": [
+        0.15552377464240763,
+        0.1410203036223967,
+        0.284271606236719
+      ],
+      "residual_torque_T": 7.593310674003048e-07,
+      "energy_J": -5.415562152628086e-19,
+      "topological_charge_open_domain": -0.9101833584458946,
+      "maximum_growth_rate_per_s": -13978644.886714041,
+      "seconds": 20.22646498200004
+    }
+  ],
+  "fig1_frequency_validation_passed": true,
+  "fig1_frequency_acceptance_percent": 1,
+  "acceptance_note": "Project validation criterion, not a tolerance stated by the authors",
+  "nonlinear_comb_validated": false,
+  "mumax3_executed": false
+}

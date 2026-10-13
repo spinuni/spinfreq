@@ -1,0 +1,24 @@
+// Liu et al. PRB 110,184413 (2024); generated independent reference.
+// Array/source details supplied by user are explicit assumptions, not author files.
+SetGridSize(40, 40, 1)
+SetCellSize(1e-9, 1e-9, 1e-9)
+SetPBC(0, 0, 0)
+Msat = 5.8e5
+Aex = 1.5e-11
+Dind = 3e-3
+Ku1 = 0.6e6
+anisU = vector(0, 0, 1)
+GammaLL = 1.7595e11
+alpha = 0.001
+OpenBC = false // MuMax default: DMI natural boundary via extrapolated ghost spins.
+B_ext = vector(0, 0, 0)
+m.LoadFile("seed.ovf")
+MinimizerStop = 1e-7
+Minimize()
+OutputFormat = OVF2_TEXT
+SaveAs(m, "equilibrium")
+TableAdd(MaxTorque)
+B_ext = vector(0.0050000000000000001*sinc(2*pi*50000000000*(t-1e-9)),0,0)
+TableAutoSave(5e-12)
+AutoSave(m, 5e-12)
+Run(4.0000000000000001e-08)

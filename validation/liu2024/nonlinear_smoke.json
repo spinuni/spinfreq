@@ -1,0 +1,36 @@
+{
+  "recorded_components": [
+    0,
+    2
+  ],
+  "case": "chain-comb",
+  "material": {
+    "Ms": 580000.0,
+    "A": 1.5e-11,
+    "D": 0.003,
+    "K": 600000.0,
+    "alpha": 0.001,
+    "gamma": 175950000000.0
+  },
+  "columns": 3,
+  "rows": 1,
+  "cell_nm": 2.0,
+  "duration_ns": 0.1,
+  "sample_ps": 5,
+  "frequency_bin_Hz": 10000000000.0,
+  "drive_amplitude_mT": 5,
+  "drive_frequency_or_cutoff_Hz": 13400000000.0,
+  "residual_torque_T": 2.1962834163990495e-06,
+  "max_norm_error": 3.699929251865797e-12,
+  "rhs_evaluations": 3634,
+  "seconds": 2.1894038279999677,
+  "window": "rectangular",
+  "discard_ns": 0,
+  "assumptions": [
+    "Open rectangular boundaries; no static field",
+    "Array source width assumed 40 nm; PDF does not give numeric width",
+    "Duration 40 ns and sample 5 ps default copied from single-skyrmion protocol; comb-specific duration not stated"
+  ],
+  "nonlinear_comb_validated": false,
+  "note": "Spectral output alone does not validate a comb. Identify teeth and spacing, confirm mode mixing, and check run-length/time-step convergence."
+}
