@@ -27,7 +27,7 @@ def savefig(fig, folder, name):
 
 def table(folder, name, header, rows):
     with (folder/f'{name}.csv').open('w', newline='') as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, lineterminator='\n')
         writer.writerow(header)
         writer.writerows(rows)
 
