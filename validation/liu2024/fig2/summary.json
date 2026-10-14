@@ -26,90 +26,90 @@
     "paper_FMR_GHz": 37.5,
     "FMR_difference_percent": 0.07373295809585123
   },
-  "finite_width_FM_onset_GHz": 38.35822744365638,
+  "finite_width_FM_onset_GHz": 38.358225925207144,
   "meshes": [
     {
       "cells_per_axis": 20,
       "cell_nm": 2.0,
       "images_each_side": 32,
-      "residual_torque_T": 9.28878728438048e-07,
-      "topology_open_y": -0.9405504610103453,
-      "maximum_eigen_residual": 1.6893108410346173e-09,
-      "seconds": 0.5514502770001855,
-      "raw_eigenpairs_reused": true,
-      "maximum_computed_growth_rate_per_s": -8468316.185477914
+      "residual_torque_T": 1.7243899237858104e-11,
+      "topology_open_y": -0.940550500496377,
+      "maximum_eigen_residual": 1.4556135340679222e-09,
+      "seconds": 16.0377031349999,
+      "raw_eigenpairs_reused": false,
+      "maximum_computed_growth_rate_per_s": -8468323.294104002
     },
     {
       "cells_per_axis": 40,
       "cell_nm": 1.0,
       "images_each_side": 32,
-      "residual_torque_T": 1.362624615357078e-06,
-      "topology_open_y": -0.982633592898944,
-      "maximum_eigen_residual": 4.922543700015988e-10,
-      "seconds": 1.912517620000017,
-      "raw_eigenpairs_reused": true,
-      "maximum_computed_growth_rate_per_s": -6272396.404425364
+      "residual_torque_T": 4.6657235430012966e-09,
+      "topology_open_y": -0.9826335937483075,
+      "maximum_eigen_residual": 4.2952274517831233e-10,
+      "seconds": 130.5199918110011,
+      "raw_eigenpairs_reused": false,
+      "maximum_computed_growth_rate_per_s": -121955.93657205156
     }
   ],
   "sampled_band_ranges_GHz": {
     "gyration": [
       0.0,
-      1.9327821550736162
+      1.932782733104208
     ],
     "breathing": [
-      13.078646753315347,
-      16.667199820474004
+      13.078650042694882,
+      16.667201611436827
     ]
   },
-  "k0_upper_branch_GHz": 34.66624317801595,
-  "k0_upper_difference_percent": 0.48186428410419424,
+  "k0_upper_branch_GHz": 34.66624572459058,
+  "k0_upper_difference_percent": 0.4818716654799493,
   "breathing_endpoint_errors_percent": [
-    2.3981585573481623,
-    18.298040095715663
+    2.398134009739694,
+    18.298031316486142
   ],
   "image_convergence_checks": [
     {
       "reduced_ka_over_pi": 0,
       "absolute_frequency_changes_GHz": {
         "gyration": 0.0,
-        "breathing": 2.738820047198942e-06,
-        "upper_branch": 3.8269745161301216e-05
+        "breathing": 5.472600520306514e-06,
+        "upper_branch": 4.170874563413918e-05
       }
     },
     {
       "reduced_ka_over_pi": 0.5,
       "absolute_frequency_changes_GHz": {
-        "gyration": 1.4180567200483551e-06,
-        "breathing": 1.6732689271492518e-05,
-        "upper_branch": 2.4102349627241892e-05
+        "gyration": 1.7669724492463956e-06,
+        "breathing": 2.057471485450435e-05,
+        "upper_branch": 2.643255240286635e-05
       }
     },
     {
       "reduced_ka_over_pi": 1,
       "absolute_frequency_changes_GHz": {
-        "gyration": 4.150475779507445e-06,
-        "breathing": 2.188606879371946e-05,
-        "upper_branch": 1.9266555163710564e-05
+        "gyration": 3.1513031009122727e-06,
+        "breathing": 2.6576064920291742e-05,
+        "upper_branch": 2.103543289422305e-05
       }
     }
   ],
-  "maximum_image_frequency_change_GHz": 3.8269745161301216e-05,
+  "maximum_image_frequency_change_GHz": 4.170874563413918e-05,
   "collective_fits": {
     "gyration": {
       "coefficients": [
-        1.1860023941769842,
-        -0.4145200036228771
+        1.1860021447316216,
+        -0.4145204960160037
       ],
       "units": "GHz",
-      "rms_frequency_residual_GHz": 0.12156086792555222
+      "rms_frequency_residual_GHz": 0.1215608333181186
     },
     "breathing": {
       "coefficients": [
-        220.99031437423102,
-        26.310674102520174
+        220.9903896054054,
+        26.310667809251896
       ],
       "units": "GHz\u00b2",
-      "rms_frequency_residual_GHz": 0.0855572232941575
+      "rms_frequency_residual_GHz": 0.08555714987067757
     },
     "literal_paper_fits": {
       "c1_GHz": 1.15,

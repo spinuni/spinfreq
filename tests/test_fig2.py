@@ -39,3 +39,13 @@ def test_bloch_cache_rejects_invalid_mesh(tmp_path):
     np.savez(tmp_path/'bloch_4.npz',m=np.zeros((3,3,3)),k_rad_m=np.zeros(3))
     with pytest.raises(ValueError,match='Cached mesh'):
         module.chain_scan(4,3,2,tmp_path,reuse=True)
+
+
+def test_old_bloch_physics_cache_is_rejected(tmp_path):
+    import pytest
+    module=benchmark()
+    m=np.zeros((4,4,3));m[...,2]=1
+    k=np.linspace(-1,1,3)*np.pi/(40e-9)
+    np.savez(tmp_path/'bloch_4.npz',m=m,k_rad_m=k)
+    with pytest.raises(ValueError,match='predates periodic'):
+        module.chain_scan(4,3,2,tmp_path,reuse=True)

@@ -48,3 +48,18 @@ def test_targeted_modes_match_dense_eigenvalues():
     for value in spec.eigenvalues:
         assert np.min(abs(dense-value))/abs(value)<1e-8
     assert max(film.last_eigen_residuals)<1e-8
+    # Ordinary GHz modes require a relative mode residual, not a universal
+    # sub-radian absolute tolerance across different exchange scales.
+    assert max(film.last_eigen_absolute_residuals/abs(spec.eigenvalues))<1e-8
+
+
+def test_demag_commutes_with_bloch_cell_translation():
+    film=BlochChain(nx=6,ny=4,images=4)
+    rng=np.random.default_rng(11)
+    m=rng.normal(size=film.shape)+1j*rng.normal(size=film.shape)
+    for k in [0,.6*np.pi/film.period_m]:
+        def shift(field):
+            shifted=np.roll(field,1,axis=1).copy()
+            shifted[:,0]*=np.exp(-1j*k*film.period_m)
+            return shifted
+        np.testing.assert_allclose(film.demag_bloch(shift(m),k),shift(film.demag_bloch(m,k)),rtol=1e-12,atol=1e-13)

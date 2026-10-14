@@ -68,3 +68,7 @@ Full nonlinear LLG, localized sinc/harmonic fields, per-cell FFTs, bounded sampl
 ## 1D collective excitations: Fig. 2
 
 Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/liu2024_fig2.py` for independent FM checks and wavevector-resolved 1D-chain calculations. See the [Fig. 2 report](validation/liu2024/fig2/README.md) for numerical convergence, plots and explicit disagreements with the reported band ranges. `benchmarks/liu2024_fk.py` produces time/space FFT maps from finite-array recordings. Intrinsic Bloch weights and pulse-driven FFT intensity are distinguished.
+
+## Boundary hypotheses and independent checks
+
+The [condition study](validation/liu2024/conditions/README.md) tests widths, DMI edges and fixed buffers without fitting material constants. Pinned-strip hypotheses bring the low bands close to the paper, while upper-band and near-zero-mode limitations remain explicit. It also fixes periodic Bloch demag symmetry and introduces `refine_equilibrium` for more accurate static residuals. Independent prism surface integrals and continuum/finite-difference DMI helix checks are available in `benchmarks/standard_checks.py`.

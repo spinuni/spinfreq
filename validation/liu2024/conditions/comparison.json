@@ -1,0 +1,271 @@
+{
+  "paper": {
+    "breathing_GHz": [
+      13.4,
+      20.4
+    ],
+    "gyration_GHz": [
+      0.1,
+      4
+    ],
+    "k0_upper_GHz": 34.5
+  },
+  "material_parameters_fitted": false,
+  "geometry_search_exploratory": true,
+  "best_breathing_case": "pinned2_w46",
+  "paper_validation_passed": false,
+  "fine_comparisons": [
+    {
+      "case": "pinned2_w45",
+      "assumptions": {
+        "width_nm": 45,
+        "boundary": "mumax",
+        "pinned_nm": 2
+      },
+      "bands_GHz": {
+        "gyration": [
+          0.0,
+          4.022066632495082
+        ],
+        "breathing": [
+          13.800829426588374,
+          21.382700405160517
+        ]
+      },
+      "k0_upper_GHz": 32.54714888592797,
+      "breathing_endpoint_errors_percent": [
+        2.9912643775251713,
+        4.817158848826075
+      ],
+      "upper_onset_error_percent": 5.660438011802993,
+      "gyration_upper_error_percent": 0.5516658123770446,
+      "torque_T": 1.800860182382913e-10,
+      "max_growth_per_s": -1011.5748551676686,
+      "source": "midpoint/summary_1nm.json",
+      "collective_fits": {
+        "gyration": {
+          "coefficients": [
+            2.2717197785071046,
+            -0.9387521448349653
+          ],
+          "units": "GHz",
+          "rms_frequency_residual_GHz": 0.26036584565899584
+        },
+        "breathing": {
+          "coefficients": [
+            314.34623816452284,
+            66.00273700388746
+          ],
+          "units": "GHz\u00b2",
+          "rms_frequency_residual_GHz": 0.2525014645031284
+        },
+        "literal_paper_fits": {
+          "c1_GHz": 1.15,
+          "c2_GHz": -0.5,
+          "c3_GHz2": 294.9,
+          "c4_GHz2": 124,
+          "gyration_range_GHz": [
+            0.15,
+            2.15
+          ],
+          "breathing_range_GHz": [
+            6.848357467305571,
+            23.300214591286494
+          ],
+          "note": "Literal printed formulas/coefficients do not produce the quoted 0.1\u20134 and 13.4\u201320.4 GHz ranges; no correction assumed"
+        }
+      }
+    },
+    {
+      "case": "natural_w40",
+      "assumptions": {
+        "width_nm": 40,
+        "boundary": "mumax",
+        "pinned_nm": 0
+      },
+      "bands_GHz": {
+        "gyration": [
+          0.0,
+          1.9327827331037322
+        ],
+        "breathing": [
+          13.078650042694926,
+          16.667201611436827
+        ]
+      },
+      "k0_upper_GHz": 34.66624572459058,
+      "breathing_endpoint_errors_percent": [
+        2.398134009739361,
+        18.298031316486142
+      ],
+      "upper_onset_error_percent": 0.4818716654799493,
+      "gyration_upper_error_percent": 51.6804316724067,
+      "torque_T": 4.6657235430012966e-09,
+      "max_growth_per_s": -121955.93657205156,
+      "source": "refined/summary_1nm.json",
+      "collective_fits": {
+        "gyration": {
+          "coefficients": [
+            1.137433631680078,
+            -0.4484297784152461
+          ],
+          "units": "GHz",
+          "rms_frequency_residual_GHz": 0.1618577493697128
+        },
+        "breathing": {
+          "coefficients": [
+            221.5441410639323,
+            26.54876190056186
+          ],
+          "units": "GHz\u00b2",
+          "rms_frequency_residual_GHz": 0.09016343944524084
+        },
+        "literal_paper_fits": {
+          "c1_GHz": 1.15,
+          "c2_GHz": -0.5,
+          "c3_GHz2": 294.9,
+          "c4_GHz2": 124,
+          "gyration_range_GHz": [
+            0.15,
+            2.15
+          ],
+          "breathing_range_GHz": [
+            6.848357467305571,
+            23.300214591286494
+          ],
+          "note": "Literal printed formulas/coefficients do not produce the quoted 0.1\u20134 and 13.4\u201320.4 GHz ranges; no correction assumed"
+        }
+      }
+    },
+    {
+      "case": "pinned2_w44",
+      "assumptions": {
+        "width_nm": 44,
+        "boundary": "mumax",
+        "pinned_nm": 2
+      },
+      "bands_GHz": {
+        "gyration": [
+          0.0,
+          4.164427259528028
+        ],
+        "breathing": [
+          14.356453735304898,
+          21.78489210080245
+        ]
+      },
+      "k0_upper_GHz": 34.040860743645474,
+      "breathing_endpoint_errors_percent": [
+        7.1377144425738726,
+        6.7886867686394625
+      ],
+      "upper_onset_error_percent": 1.3308384242160187,
+      "gyration_upper_error_percent": 4.110681488200707,
+      "torque_T": 4.862230781214555e-10,
+      "max_growth_per_s": -3124.211100385232,
+      "source": "refined/summary_1nm.json",
+      "collective_fits": {
+        "gyration": {
+          "coefficients": [
+            2.3562746321132457,
+            -0.9721883819783994
+          ],
+          "units": "GHz",
+          "rms_frequency_residual_GHz": 0.2722721068331719
+        },
+        "breathing": {
+          "coefficients": [
+            331.04645624471476,
+            66.45100600636069
+          ],
+          "units": "GHz\u00b2",
+          "rms_frequency_residual_GHz": 0.2403582955034055
+        },
+        "literal_paper_fits": {
+          "c1_GHz": 1.15,
+          "c2_GHz": -0.5,
+          "c3_GHz2": 294.9,
+          "c4_GHz2": 124,
+          "gyration_range_GHz": [
+            0.15,
+            2.15
+          ],
+          "breathing_range_GHz": [
+            6.848357467305571,
+            23.300214591286494
+          ],
+          "note": "Literal printed formulas/coefficients do not produce the quoted 0.1\u20134 and 13.4\u201320.4 GHz ranges; no correction assumed"
+        }
+      }
+    },
+    {
+      "case": "pinned2_w46",
+      "assumptions": {
+        "width_nm": 46,
+        "boundary": "mumax",
+        "pinned_nm": 2
+      },
+      "bands_GHz": {
+        "gyration": [
+          0.0,
+          3.860151251958705
+        ],
+        "breathing": [
+          13.27143416337397,
+          20.980825659501857
+        ]
+      },
+      "k0_upper_GHz": 31.224741491170956,
+      "breathing_endpoint_errors_percent": [
+        0.9594465419853093,
+        2.847184605401276
+      ],
+      "upper_onset_error_percent": 9.493502924142161,
+      "gyration_upper_error_percent": 3.496218701032372,
+      "torque_T": 4.153203984490117e-10,
+      "max_growth_per_s": -12590.385597122808,
+      "source": "refined/summary_1nm.json",
+      "collective_fits": {
+        "gyration": {
+          "coefficients": [
+            2.177939685718765,
+            -0.9006181348321126
+          ],
+          "units": "GHz",
+          "rms_frequency_residual_GHz": 0.24866113298080947
+        },
+        "breathing": {
+          "coefficients": [
+            298.5570960320596,
+            65.32324918457448
+          ],
+          "units": "GHz\u00b2",
+          "rms_frequency_residual_GHz": 0.2628939880964695
+        },
+        "literal_paper_fits": {
+          "c1_GHz": 1.15,
+          "c2_GHz": -0.5,
+          "c3_GHz2": 294.9,
+          "c4_GHz2": 124,
+          "gyration_range_GHz": [
+            0.15,
+            2.15
+          ],
+          "breathing_range_GHz": [
+            6.848357467305571,
+            23.300214591286494
+          ],
+          "note": "Literal printed formulas/coefficients do not produce the quoted 0.1\u20134 and 13.4\u201320.4 GHz ranges; no correction assumed"
+        }
+      }
+    }
+  ],
+  "caveats": [
+    "45 nm case was an adaptive midpoint probe after 44/46 nm checks, not an author-specified geometry",
+    "Near matching frequency intervals do not validate the full dispersion curve or finite-chain source response",
+    "Infinite-chain neutral translation mode does not reproduce the finite 0.1 GHz cutoff",
+    "Boundary pinning assumed; no author script establishes it",
+    "Upper candidate remains shifted for the low-band-matching cases",
+    "No MuMax3 switching dynamics or time-domain frequency comb comparison executed"
+  ]
+}

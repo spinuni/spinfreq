@@ -1,0 +1,128 @@
+[
+  {
+    "case": "natural_w30",
+    "cell_nm": 2,
+    "assumptions": {
+      "width_nm": 30,
+      "boundary": "mumax",
+      "pinned_nm": 0
+    },
+    "status": "no stable converged k=0 candidate",
+    "seed_diagnostics": [
+      {
+        "offset": 0,
+        "converged": true,
+        "energy_J": -3.044775164551949e-19,
+        "torque_T": 8.106275321947847e-07,
+        "growth_per_s": 88492005.68111654
+      },
+      {
+        "offset": 0.25,
+        "converged": true,
+        "energy_J": -3.044775143569655e-19,
+        "torque_T": 1.2591169667827343e-06,
+        "growth_per_s": 7693891.1638579825
+      },
+      {
+        "offset": 0.5,
+        "converged": true,
+        "energy_J": -3.0447751220394967e-19,
+        "torque_T": 9.811241793397082e-07,
+        "growth_per_s": 7694410.126044082
+      }
+    ]
+  },
+  {
+    "case": "pinned2_w50",
+    "cell_nm": 2,
+    "images": 32,
+    "assumptions": {
+      "width_nm": 50,
+      "boundary": "mumax",
+      "pinned_nm": 2
+    },
+    "status": "computed",
+    "seed_diagnostics": [
+      {
+        "offset": 0,
+        "converged": true,
+        "energy_J": -6.487837180578606e-19,
+        "torque_T": 1.392812316433096e-06,
+        "growth_per_s": -10746253.06383803
+      },
+      {
+        "offset": 0.25,
+        "converged": true,
+        "energy_J": -6.487837172012208e-19,
+        "torque_T": 9.715013000269142e-07,
+        "growth_per_s": -45331.57505457381
+      },
+      {
+        "offset": 0.5,
+        "converged": true,
+        "energy_J": -6.487837163304401e-19,
+        "torque_T": 9.522521113929092e-07,
+        "growth_per_s": 41349438.20124835
+      }
+    ],
+    "selected_offset_cells": 0,
+    "torque_T": 1.392812316433096e-06,
+    "energy_J": -6.487837180578606e-19,
+    "minimum_mz": -0.9944317255481475,
+    "Q_open_y": -0.9609487110191807,
+    "bands_GHz": {
+      "gyration": [
+        0.007973513789619238,
+        2.7479252704237656
+      ],
+      "breathing": [
+        10.873078944766565,
+        18.839008372918432
+      ]
+    },
+    "k0_upper_GHz": 27.15999681528491,
+    "breathing_endpoint_errors_percent": [
+      18.857619815174886,
+      7.651919740595914
+    ],
+    "max_growth_per_s": -10746253.06383803,
+    "max_eigen_residual": 1.3131628764132235e-09,
+    "seconds": 10.599390193994623,
+    "frequency_samples": [
+      {
+        "reduced_ka_over_pi": 0.0,
+        "gyration_GHz": 0.007973513789619238,
+        "breathing_GHz": 18.839008372918432,
+        "upper_branch_GHz": 27.15999681528491,
+        "near_zero_nonoscillatory": false,
+        "maximum_growth_per_s": -10746253.06383803
+      },
+      {
+        "reduced_ka_over_pi": 0.5,
+        "gyration_GHz": 1.7662961287616779,
+        "breathing_GHz": 14.649886677520707,
+        "upper_branch_GHz": 26.9254568221576,
+        "near_zero_nonoscillatory": false,
+        "maximum_growth_per_s": -15778877.507661957
+      },
+      {
+        "reduced_ka_over_pi": 1.0,
+        "gyration_GHz": 2.7479252704237656,
+        "breathing_GHz": 10.873078944766565,
+        "upper_branch_GHz": 27.244742341894202,
+        "near_zero_nonoscillatory": false,
+        "maximum_growth_per_s": -25929265.198410433
+      }
+    ],
+    "material": {
+      "Ms": 580000.0,
+      "A": 1.5e-11,
+      "D": 0.003,
+      "K": 600000.0,
+      "alpha": 0.001,
+      "gamma": 175950000000.0
+    },
+    "paper_validation_passed": false,
+    "note": "Alternative geometry/boundary; closeness alone does not establish the author setup"
+  }
+]

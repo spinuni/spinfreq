@@ -9,7 +9,7 @@ from dataclasses import asdict
 from pathlib import Path
 import numpy as np
 from scipy.linalg import eigvals
-from spinfreq import Film,BlochChain,lattice_seed
+from spinfreq import Film,BlochChain,lattice_seed,refine_equilibrium
 from spinfreq.model import MU0,Spectrum
 from liu2024 import paper_material,savefig,write_table
 import matplotlib
@@ -64,12 +64,15 @@ def chain_scan(n,kpoints,images,folder,reuse=False):
     if cached is not None:
         if cached['m'].shape!=film.shape or not np.allclose(cached['k_rad_m'],np.linspace(-1,1,kpoints)*np.pi/film.period_m,rtol=1e-12,atol=1e-6):
             raise ValueError('Cached mesh or wavevector sampling does not match requested benchmark')
+        if 'physics_model' not in cached or str(cached['physics_model'])!='bloch-periodic-envelope-1':
+            raise ValueError('Cache predates periodic convolution correction; rerun without --reuse')
         from spinfreq.model import Relaxation
         equilibrium=cached['m']
         torque=film.torque(equilibrium)
-        relaxed=Relaxation(equilibrium,film.energy(equilibrium),torque,torque<=1e-5,0,'Cache equilibrium revalidated')
+        relaxed=Relaxation(equilibrium,film.energy(equilibrium),torque,torque<=1e-8,0,'Cache equilibrium revalidated')
     else:
         relaxed=film.relax(lattice_seed(film),maxiter=6000)
+        if relaxed.converged: relaxed=refine_equilibrium(film,relaxed.m)
     if not relaxed.converged: raise RuntimeError(f'Chain relaxation failed: {relaxed.torque_T:g} T')
     start=time.monotonic()
     rows=[];spectra=[];residuals=[]
@@ -94,7 +97,7 @@ def chain_scan(n,kpoints,images,folder,reuse=False):
         residuals.append(float(residual))
         print(f'{n}×{n}, k a/π={reduced:+.3f}: {values}',flush=True)
     write_table(folder/f'bands_{n}.csv',list(rows[0]),[list(row.values()) for row in rows])
-    np.savez_compressed(folder/f'bloch_{n}.npz',m=relaxed.m,k_rad_m=np.array([row['k_rad_per_nm']*1e9 for row in rows]),
+    np.savez_compressed(folder/f'bloch_{n}.npz',physics_model='bloch-periodic-envelope-1',m=relaxed.m,k_rad_m=np.array([row['k_rad_per_nm']*1e9 for row in rows]),
                         eigenvalues=np.array([s.eigenvalues for s in spectra]),modes=np.array([s.modes for s in spectra]))
     report=dict(cells_per_axis=n,cell_nm=40/n,images_each_side=images,residual_torque_T=relaxed.torque_T,
                 topology_open_y=film.topological_charge(relaxed.m),maximum_eigen_residual=max(residuals),seconds=time.monotonic()-start,raw_eigenpairs_reused=cached is not None,
@@ -167,6 +170,7 @@ def main():
     image_checks=[]
     refined=BlochChain(nx=film.nx,ny=film.ny,dx=film.dx,images=args.check_images,material=paper_material(),field_T=(0,0,0))
     refined_result=refined.relax(relaxed.m,maxiter=6000)
+    if refined_result.converged: refined_result=refine_equilibrium(refined,refined_result.m)
     if not refined_result.converged: raise RuntimeError('Image-convergence equilibrium failed')
     for reduced in [0,.5,1]:
         s=refined.bloch_modes(refined_result.m,reduced*np.pi/refined.period_m,count=12,target_Hz=15e9)

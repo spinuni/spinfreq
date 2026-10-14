@@ -46,6 +46,9 @@ class BlochChain(ConfinedFilm):
         self.demag=demag
         self.images=int(images)
         self.period_m=self.nx*self.dx
+        # x convolution is circular; y retains zero padding. A doubled x
+        # Toeplitz convolution of a truncated image sum is not exactly periodic.
+        self._fft_shape=(self._fft_shape[0],self.nx)
         self._image_tensors=None
         self._kernel_cache={}
         if self.demag:
@@ -53,7 +56,7 @@ class BlochChain(ConfinedFilm):
             iy=np.arange(self._fft_shape[0])
             ix=np.arange(self._fft_shape[1])
             iy=np.where(iy<self.ny,iy,iy-self._fft_shape[0])
-            ix=np.where(ix<self.nx,ix,ix-self._fft_shape[1])
+            ix=np.where(ix<=self.nx//2,ix,ix-self.nx)
             x,y=np.meshgrid(ix*self.dx/scale,iy*self.dy/scale)
             self._image_tensors=np.stack([cell_tensor(x-r*self.period_m/scale,y,self.dx/scale,self.dy/scale,self.thickness/scale)
                                          for r in range(-self.images,self.images+1)])
@@ -66,15 +69,25 @@ class BlochChain(ConfinedFilm):
         if k not in self._kernel_cache:
             phases=np.exp(1j*k*self.period_m*np.arange(-self.images,self.images+1))
             tensor=np.einsum('r,rcyx->cyx',phases,self._image_tensors)
+            displacement=np.arange(self.nx)
+            displacement=np.where(displacement<=self.nx//2,displacement,displacement-self.nx)*self.dx
+            # Transform the quasiperiodic field into a periodic envelope.
+            tensor=tensor*np.exp(-1j*k*displacement)[None,None,:]
+            # At the half-period sample, finite image truncation can violate
+            # Hermiticity. Symmetrize displacement pairs without changing physics.
+            inverse_y=(-np.arange(self._fft_shape[0]))%self._fft_shape[0]
+            inverse_x=(-np.arange(self.nx))%self.nx
+            tensor=.5*(tensor+tensor[:,inverse_y][:,:,inverse_x].conj())
             self._kernel_cache={k:fft2(tensor,axes=(-2,-1))}
         kernel=self._kernel_cache[k]
-        h=fft2(np.moveaxis(m,-1,0),s=self._fft_shape,axes=(-2,-1))
+        envelope=np.exp(-1j*k*np.arange(self.nx)*self.dx)
+        h=fft2(np.moveaxis(m,-1,0)*envelope[None,None,:],s=self._fft_shape,axes=(-2,-1))
         out=np.empty_like(h)
         out[0]=kernel[0]*h[0]+kernel[3]*h[1]
         out[1]=kernel[3]*h[0]+kernel[1]*h[1]
         out[2]=kernel[2]*h[2]
         result=ifft2(out,axes=(-2,-1))[:,:self.ny,:self.nx]
-        field=-MU0*self.material.Ms*np.moveaxis(result,0,-1)
+        field=-MU0*self.material.Ms*np.moveaxis(result,0,-1)*envelope.conj()[None,:,None]
         return field.real if k==0 and not np.iscomplexobj(m) else field
 
     def demag_field(self,m):
@@ -142,6 +155,10 @@ class BlochChain(ConfinedFilm):
             unit[j]=0
         return matrix,basis
 
+    def _mode_coordinates(self,vectors):
+        """Embed tangent eigenvectors; subclasses may restrict frozen spins."""
+        return vectors.reshape(self.ny,self.nx,2,-1)
+
     def bloch_modes(self,m,k_rad_m,count=12,target_Hz=15e9,tolerance=1e-9):
         """Shift-invert targeted eigenmodes; complete-field physics, truncated spectrum.
 
@@ -158,10 +175,12 @@ class BlochChain(ConfinedFilm):
         # Fixed deterministic starting vector for reproducible ARPACK iterations.
         initial=np.random.default_rng(17).normal(size=n)+1j*np.random.default_rng(18).normal(size=n)
         values,vectors=eigs(matrix,k=count,sigma=shift,OPinv=inverse,tol=tolerance,v0=initial)
-        residuals=np.linalg.norm(matrix@vectors-vectors*values,axis=0)/(np.linalg.norm(matrix,ord=np.inf)+abs(values))
+        absolute_residuals=np.linalg.norm(matrix@vectors-vectors*values,axis=0)/np.linalg.norm(vectors,axis=0)
+        residuals=absolute_residuals/(np.linalg.norm(matrix,ord=np.inf)+abs(values))
         if np.max(residuals)>max(1e-8,10*tolerance):
             raise RuntimeError(f'Bloch eigenvalue residual too large: {residuals.max():g}')
         order=np.argsort(values.imag)
-        modes=np.einsum('...ci,...ik->k...c',basis,vectors.reshape(self.ny,self.nx,2,-1))
+        modes=np.einsum('...ci,...ik->k...c',basis,self._mode_coordinates(vectors))
         self.last_eigen_residuals=residuals[order]
+        self.last_eigen_absolute_residuals=absolute_residuals[order]
         return Spectrum(values[order],modes[order])

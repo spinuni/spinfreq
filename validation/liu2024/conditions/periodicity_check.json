@@ -1,0 +1,22 @@
+{
+  "grid": {
+    "nx": 5,
+    "ny": 4,
+    "dx_nm": 4,
+    "dy_nm": 4,
+    "thickness_nm": 1
+  },
+  "seed": 1,
+  "checks": [
+    {
+      "images": 4,
+      "pre_fix_relative_error": 8.240981679756191e-06,
+      "corrected_relative_error": 2.6471473257718324e-16
+    },
+    {
+      "images": 32,
+      "pre_fix_relative_error": 3.02911000197274e-09,
+      "corrected_relative_error": 2.3994145824881635e-16
+    }
+  ]
+}

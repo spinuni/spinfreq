@@ -349,3 +349,40 @@ Run the analytical suite with `python benchmarks/validate.py` and the matched Fi
 - **Literature disagreement:** match model, static field, lattice, boundaries, numerical mesh, damping and excitation. Do not fit material constants while calling the result an independent validation.
 
 For new quantitative results, retain parameter metadata, check mesh/image/time convergence, inspect equilibrium and mode character, and compare against an independent solver. A zero-test run, a successful process, a plot or matching one frequency does not establish full physical validation.
+
+## 13. Refine equilibria and test boundary hypotheses
+
+For near-zero modes, the default energy-minimization stopping criterion can leave a residual too large to assess weak growth/decay reliably. Use the public residual-based refinement before linearizing:
+
+```python
+from spinfreq import refine_equilibrium
+refined = refine_equilibrium(film, relaxed.m, tolerance_T=1e-8, maxiter=40)
+if not refined.converged:
+    raise RuntimeError(refined.message)
+spectrum = film.modes(refined.m)
+```
+
+Refinement uses normalized tangent coordinates and Newton/Krylov root finding. It preserves frozen spins when the model supplies a free-spin mask. It solves the static torque equations and can converge to a saddle; eigenvalue/stability checks remain necessary. It is not a replacement for first finding an appropriate local energy minimum.
+
+For Bloch modes, `last_eigen_residuals` contains normalized residuals and `last_eigen_absolute_residuals` contains residuals in s⁻¹. Inspect absolute residuals for near-zero eigenvalues: a small residual divided by a large exchange matrix norm alone does not establish their accuracy. The periodic kernel now uses a circular x convolution of the Bloch envelope, open-y zero padding and Hermitian displacement pairing. This preserves cell-translation symmetry at each wavevector even with a finite image sum. The cache marker invalidates older Bloch arrays.
+
+```bash
+# Independent magnetostatics and analytical helix checks
+OPENBLAS_NUM_THREADS=1 python benchmarks/standard_checks.py
+# Default 2 nm screen skips widths that are not resolved by that cell size
+OPENBLAS_NUM_THREADS=1 python benchmarks/liu2024_conditions.py
+# Refine promising cases to the paper mesh, including the explicit midpoint probe
+OPENBLAS_NUM_THREADS=1 python benchmarks/liu2024_conditions.py \
+  --cases natural_w40 pinned2_w44 pinned2_w46 --cell-nm 1 --k-points 5 \
+  --output validation/liu2024/conditions/refined
+OPENBLAS_NUM_THREADS=1 python benchmarks/liu2024_conditions.py \
+  --cases pinned2_w45 --cell-nm 1 --k-points 5 \
+  --output validation/liu2024/conditions/midpoint
+OPENBLAS_NUM_THREADS=1 python benchmarks/check_condition_images.py
+python benchmarks/condition_mode_character.py
+python benchmarks/summarize_conditions.py
+```
+
+The benchmark `PinnedChain` freezes +z boundary rows and removes their tangent degrees of freedom. It supports relaxation and Bloch modes for this study; do not use inherited generic dynamics/response methods as a frozen-spin time solver. Its 2 nm fixed layer is kept physically 2 nm thick across mesh refinement, not one row at every resolution. The 44 nm case has a 40 nm free region plus 2 nm magnetic buffers on each side. The 45 and 46 nm widths are explicit sensitivity probes, not parameters supplied by the authors.
+
+See [the condition report](../validation/liu2024/conditions/README.md) for the numerical corrections, standard checks, mode-character evidence and remaining upper-band/neutral-mode disagreements. Full Standard Problem 4 switching dynamics, exact author geometry and full source-dependent paper response are not validated by the prism-factor checks.

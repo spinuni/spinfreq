@@ -8,3 +8,7 @@ __all__ += ["ConfinedFilm", "lattice_seed"]
 from .bloch import BlochChain
 
 __all__ += ["BlochChain"]
+
+from .equilibrium import refine_equilibrium
+
+__all__ += ["refine_equilibrium"]

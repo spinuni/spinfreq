@@ -6,3 +6,4 @@ results/
 validation/*.npz
 validation/liu2024/*.npz
 validation/liu2024/fig2/*.npz
+validation/liu2024/conditions/**/*.npz

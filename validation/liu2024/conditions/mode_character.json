@@ -1,0 +1,299 @@
+[
+  {
+    "case": "pinned2_w45",
+    "cell_nm": 1.0,
+    "source": "midpoint/summary_1nm.json",
+    "selected_breathing_GHz": 21.382700405160517,
+    "radial_mz_overlap": 0.9560763118104669,
+    "strongest_radial_mode": {
+      "frequency_GHz": 21.382700405160513,
+      "radial_mz_overlap": 0.9560763118104669
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 21.382700405160513,
+        "radial_mz_overlap": 0.9560763118104669
+      },
+      {
+        "frequency_GHz": 32.54714888592797,
+        "radial_mz_overlap": 0.004441459892490036
+      },
+      {
+        "frequency_GHz": 40.643052639368015,
+        "radial_mz_overlap": 1.901817467072581e-27
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "natural_w40",
+    "cell_nm": 1.0,
+    "source": "refined/summary_1nm.json",
+    "selected_breathing_GHz": 16.667201611436827,
+    "radial_mz_overlap": 0.9660196213112663,
+    "strongest_radial_mode": {
+      "frequency_GHz": 16.667201611436827,
+      "radial_mz_overlap": 0.9660196213112663
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 16.667201611436827,
+        "radial_mz_overlap": 0.9660196213112663
+      },
+      {
+        "frequency_GHz": 34.66624572459058,
+        "radial_mz_overlap": 2.426149710282153e-27
+      },
+      {
+        "frequency_GHz": 47.767351026551104,
+        "radial_mz_overlap": 0.0009488817151014211
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "pinned2_w44",
+    "cell_nm": 1.0,
+    "source": "refined/summary_1nm.json",
+    "selected_breathing_GHz": 21.78489210080245,
+    "radial_mz_overlap": 0.9545891211097013,
+    "strongest_radial_mode": {
+      "frequency_GHz": 21.78489210080245,
+      "radial_mz_overlap": 0.9545891211097013
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 21.78489210080245,
+        "radial_mz_overlap": 0.9545891211097013
+      },
+      {
+        "frequency_GHz": 34.040860743645474,
+        "radial_mz_overlap": 0.009449579312167847
+      },
+      {
+        "frequency_GHz": 41.570490627360776,
+        "radial_mz_overlap": 3.1943562965277843e-28
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "pinned2_w46",
+    "cell_nm": 1.0,
+    "source": "refined/summary_1nm.json",
+    "selected_breathing_GHz": 20.980825659501857,
+    "radial_mz_overlap": 0.9564299830430637,
+    "strongest_radial_mode": {
+      "frequency_GHz": 20.980825659501857,
+      "radial_mz_overlap": 0.9564299830430637
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 20.980825659501857,
+        "radial_mz_overlap": 0.9564299830430637
+      },
+      {
+        "frequency_GHz": 31.224741491170956,
+        "radial_mz_overlap": 0.000983805216202459
+      },
+      {
+        "frequency_GHz": 39.76847989903477,
+        "radial_mz_overlap": 1.2178980787052088e-07
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "natural_w40",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 16.38157092793301,
+    "radial_mz_overlap": 0.9594294342920218,
+    "strongest_radial_mode": {
+      "frequency_GHz": 16.38157092793301,
+      "radial_mz_overlap": 0.9594294342920218
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 16.38157092793301,
+        "radial_mz_overlap": 0.9594294342920218
+      },
+      {
+        "frequency_GHz": 34.63132486015416,
+        "radial_mz_overlap": 3.888385532135029e-28
+      },
+      {
+        "frequency_GHz": 48.79095814670768,
+        "radial_mz_overlap": 0.0014402351669747248
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "natural_w60",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 16.618484094645,
+    "radial_mz_overlap": 0.9374184302884896,
+    "strongest_radial_mode": {
+      "frequency_GHz": 16.618484094645,
+      "radial_mz_overlap": 0.9374184302884896
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 16.618484094645,
+        "radial_mz_overlap": 0.9374184302884896
+      },
+      {
+        "frequency_GHz": 29.055147491812356,
+        "radial_mz_overlap": 0.01672886361835257
+      },
+      {
+        "frequency_GHz": 31.41359546054226,
+        "radial_mz_overlap": 7.247235985258542e-30
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "open_dmi_w40",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 16.233499161700983,
+    "radial_mz_overlap": 0.9594771023894382,
+    "strongest_radial_mode": {
+      "frequency_GHz": 16.233499161700983,
+      "radial_mz_overlap": 0.9594771023894382
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 16.233499161700983,
+        "radial_mz_overlap": 0.9594771023894382
+      },
+      {
+        "frequency_GHz": 34.105211663801065,
+        "radial_mz_overlap": 4.601434481836171e-28
+      },
+      {
+        "frequency_GHz": 48.573153022283506,
+        "radial_mz_overlap": 0.0015962073757839694
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "pinned2_w40",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 22.767067876900352,
+    "radial_mz_overlap": 0.9412180547200527,
+    "strongest_radial_mode": {
+      "frequency_GHz": 22.76706787690035,
+      "radial_mz_overlap": 0.9412180547200527
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 22.76706787690035,
+        "radial_mz_overlap": 0.9412180547200527
+      },
+      {
+        "frequency_GHz": 40.31434532310296,
+        "radial_mz_overlap": 0.02152548514379239
+      },
+      {
+        "frequency_GHz": 44.325499786034634,
+        "radial_mz_overlap": 2.0946707948779434e-11
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "pinned2_w50",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 18.83900939684474,
+    "radial_mz_overlap": 0.9285865113008752,
+    "strongest_radial_mode": {
+      "frequency_GHz": 18.83900939684474,
+      "radial_mz_overlap": 0.9285865113008752
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 18.83900939684474,
+        "radial_mz_overlap": 0.9285865113008752
+      },
+      {
+        "frequency_GHz": 27.15997797909091,
+        "radial_mz_overlap": 0.028055987284292518
+      },
+      {
+        "frequency_GHz": 35.909011089443474,
+        "radial_mz_overlap": 4.499527908914495e-28
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "pinned2_w44",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 21.17989040611777,
+    "radial_mz_overlap": 0.950699918409722,
+    "strongest_radial_mode": {
+      "frequency_GHz": 21.17989040611777,
+      "radial_mz_overlap": 0.950699918409722
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 21.17989040611777,
+        "radial_mz_overlap": 0.950699918409722
+      },
+      {
+        "frequency_GHz": 33.10558283358582,
+        "radial_mz_overlap": 0.00420670274226892
+      },
+      {
+        "frequency_GHz": 40.3540751961729,
+        "radial_mz_overlap": 2.291492527067152e-28
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  },
+  {
+    "case": "pinned2_w46",
+    "cell_nm": 2.0,
+    "source": "summary_2nm.json",
+    "selected_breathing_GHz": 20.406073334926713,
+    "radial_mz_overlap": 0.9509558837196864,
+    "strongest_radial_mode": {
+      "frequency_GHz": 20.40607333492671,
+      "radial_mz_overlap": 0.9509558837196864
+    },
+    "matches_strongest_radial_mode": true,
+    "positive_mode_projections": [
+      {
+        "frequency_GHz": 20.40607333492671,
+        "radial_mz_overlap": 0.9509558837196864
+      },
+      {
+        "frequency_GHz": 30.59289351964919,
+        "radial_mz_overlap": 6.542738941486215e-06
+      },
+      {
+        "frequency_GHz": 38.6848264950518,
+        "radial_mz_overlap": 2.514945121975602e-27
+      }
+    ],
+    "note": "Normalized overlap with radial derivative of equilibrium mz; checks k=0 mode shape, not full band tracking"
+  }
+]

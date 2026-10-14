@@ -13,7 +13,7 @@ This benchmark evaluates Fig. 2(b,c) and the linear collective-excitation discus
 5. A same-width ferromagnetic Bloch strip, relaxed with the same DMI boundary prescription, to separate finite-edge effects from the uniform infinite-film reference.
 6. Additional finite 3- and 5-skyrmion chains at 2 nm resolution to diagnose whether simply adding end boundaries recovers the breathing-band top. These are diagnostics, not paper-resolution validation runs.
 
-The raw eigenpairs were first computed directly. After a report-serialization correction, the report was regenerated using `--reuse`: cached equilibria, k grids and every eigenvector were rechecked against the current physical operator. Reported cache timings are not fresh eigensolver timings. Raw arrays are retained locally and ignored in Git; figures, CSVs and reports are tracked.
+The raw eigenpairs were regenerated directly after correcting the periodic demag convolution and adding residual-based equilibrium refinement. The current report records fresh eigensolver timings. `--reuse` checks the physics-version marker, equilibria, k grids and eigenvector residuals; caches from before the periodic correction are rejected. Raw arrays are retained locally and ignored in Git; figures, CSVs and reports are tracked.
 
 ## Numerical results and comparisons
 
@@ -27,7 +27,7 @@ The raw eigenpairs were first computed directly. After a report-serialization co
 
 The infinite-film numerical dispersion matches its independent analytical formula with maximum relative error **9.33e-15**. This validates numerical units, exchange/dipolar linear dynamics and the FM control, not the full skyrmion geometry.
 
-The largest ±32→±64 image change is **3.83e-5 GHz**, far smaller than the breathing-band discrepancy. At 1 nm the equilibrium residual is **1.36 μT**. No growing modes are found in the targeted eigenpairs; this does not certify the entire uncomputed high-frequency spectrum. Positive/negative k frequencies agree within numerical precision. All candidate collective bands remain below the uniform FM resonance, reproducing the qualitative appearance of low-frequency branches.
+The largest ±32→±64 image change is **4.17e-5 GHz**, far smaller than the breathing-band discrepancy. At 1 nm the equilibrium residual is **4.67 nT**. No growing modes are found in the targeted eigenpairs; this does not certify the entire uncomputed high-frequency spectrum. Positive/negative k frequencies agree within numerical precision. All candidate collective bands remain below the uniform FM resonance, reproducing the qualitative appearance of low-frequency branches.
 
 At k=0 the 1 nm lowest branch is near-zero and nonoscillatory under the chosen damping, so it is recorded as **0 GHz** with an explicit flag. It is not discarded or replaced by a fitted finite gap. Infinite-chain translation symmetry and residual grid pinning make this a different limit from a finite chain with pinned ends. Matching the paper's nonzero low-frequency cutoff requires its exact geometry and boundary setup.
 
@@ -89,3 +89,7 @@ python benchmarks/liu2024_fk.py results/chain_pulse/trajectory.npy \
 ```
 
 The FFT implementation is tested against a traveling wave with known frequency/wavevector and opposite-phase transverse rows. A short recorded-array workflow was also analyzed, but its 10 GHz frequency bins do not validate the paper's low-frequency spectrum. See the [full usage guide](../../../docs/USAGE.md) for model selection, units, recordings and output interpretation.
+
+## Boundary-condition sensitivity follow-up
+
+A [condition sweep](../conditions/README.md) now tests strip width, open DMI edges and fixed transverse buffer layers with the paper material unchanged. Some pinned-buffer cases closely reproduce the quoted low-band intervals, but no assumed geometry establishes full paper validation. Independent surface-charge prism checks and analytical continuum/discrete DMI helices pass. The follow-up also corrected exact periodic-cell translation symmetry in the Bloch demag convolution and added torque refinement for near-zero modes.

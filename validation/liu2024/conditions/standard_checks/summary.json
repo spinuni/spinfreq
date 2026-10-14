@@ -1,0 +1,94 @@
+{
+  "prism_checks": [
+    {
+      "name": "cube",
+      "dimensions_nm": [
+        5,
+        5,
+        5
+      ],
+      "numerical_N": [
+        0.33333333333333376,
+        0.33333333333333454,
+        0.333333333333334
+      ],
+      "surface_integral_N": [
+        0.33333333333333426,
+        0.33333333333333426,
+        0.33333333333333426
+      ],
+      "max_absolute_error": 4.996003610813204e-16,
+      "quadrature_refinement_change": 7.771561172376096e-16,
+      "trace": 1.0000000000000022,
+      "passed": true,
+      "note": "Uniform prism magnetostatics only; this does not validate Standard Problem 4 switching dynamics"
+    },
+    {
+      "name": "paper_single_film",
+      "dimensions_nm": [
+        40,
+        40,
+        1
+      ],
+      "numerical_N": [
+        0.03519867118575591,
+        0.035198671187960676,
+        0.9296026576248138
+      ],
+      "surface_integral_N": [
+        0.03519867118535797,
+        0.03519867118535797,
+        0.929602657629404
+      ],
+      "max_absolute_error": 4.59021709531271e-12,
+      "quadrature_refinement_change": 8.315570454442422e-14,
+      "trace": 0.9999999999985303,
+      "passed": true,
+      "note": "Uniform prism magnetostatics only; this does not validate Standard Problem 4 switching dynamics"
+    },
+    {
+      "name": "standard_problem_4_geometry",
+      "dimensions_nm": [
+        500,
+        125,
+        3
+      ],
+      "numerical_N": [
+        0.009179670377093701,
+        0.038176123042803364,
+        0.9526442065720734
+      ],
+      "surface_integral_N": [
+        0.009179670364539124,
+        0.038176123052831065,
+        0.9526442065828659
+      ],
+      "max_absolute_error": 1.2554577169532344e-11,
+      "quadrature_refinement_change": 1.6464607455191071e-13,
+      "trace": 0.9999999999919704,
+      "passed": true,
+      "note": "Uniform prism magnetostatics only; this does not validate Standard Problem 4 switching dynamics"
+    }
+  ],
+  "DMI_helix": {
+    "pitch_nm": 62.831853071795855,
+    "q_rad_m": -100000000.0,
+    "computed_energy_density_J_m3": -149999.99999999997,
+    "analytical_energy_density_J_m3": -150000.0,
+    "residual_torque_T": 3.2585045772748344e-14,
+    "energy_error_relative": 2.220446049250313e-16,
+    "lower_than_neighbor_windings": true,
+    "passed": true
+  },
+  "finite_difference_DMI_helix": {
+    "discrete_pitch_nm": 63.65195756149056,
+    "cell_nm": 1.98912367379658,
+    "computed_energy_density_J_m3": -148544.91651971047,
+    "analytical_energy_density_J_m3": -148544.91651971033,
+    "bulk_residual_torque_T": 1.2934098236883074e-14,
+    "energy_error_relative": 8.881784197001252e-16,
+    "note": "Open-y edge torque is physical and excluded; only bulk stationarity is tested",
+    "passed": true
+  },
+  "all_passed": true
+}

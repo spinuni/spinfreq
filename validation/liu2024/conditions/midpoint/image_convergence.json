@@ -1,0 +1,36 @@
+{
+  "case": "pinned2_w45",
+  "baseline_images": 32,
+  "refined_images": 64,
+  "residual_torque_T": 2.8286378171274397e-10,
+  "checks": [
+    {
+      "reduced_ka_over_pi": 0,
+      "changes_GHz": {
+        "gyration": 0.0,
+        "breathing": 2.279144123917831e-05,
+        "upper_branch": 6.499183042052437e-05
+      },
+      "max_growth_per_s": 4827.101073656957
+    },
+    {
+      "reduced_ka_over_pi": 0.5,
+      "changes_GHz": {
+        "gyration": 7.645443282022768e-06,
+        "breathing": 6.112852091177956e-08,
+        "upper_branch": 6.332937378772385e-05
+      },
+      "max_growth_per_s": -23107477.322769
+    },
+    {
+      "reduced_ka_over_pi": 1,
+      "changes_GHz": {
+        "gyration": 1.4827449038357088e-05,
+        "breathing": 1.0283614910733263e-05,
+        "upper_branch": 6.262708149762375e-05
+      },
+      "max_growth_per_s": -29927616.495153893
+    }
+  ],
+  "max_frequency_change_GHz": 6.499183042052437e-05
+}
