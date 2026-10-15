@@ -1,0 +1,173 @@
+# Validation and first release: package and web application
+
+The recommended first release is a **CPU linear micromagnetics research tool for
+rectangular thin films with uniform magnetization through the thickness**.
+Provide the Python package and a web application using the same validated
+calculation API. Frequency response, damped eigenmodes and supported 1D Bloch
+calculations belong in that scope. Nonlinear dynamics can remain an explicitly
+experimental API workflow until its own external comparisons are complete.
+
+**Readiness: research preview; neither a validated general-purpose MuMax3
+replacement nor a deployed web application.** A package build is possible, but
+several physics and delivery gates below remain open. The version string
+`0.1.0` in `pyproject.toml` is not evidence of a published release.
+
+## 1. Literature selected by physics, not by one target paper
+
+Sources were checked against the authors' repositories, simulator source and
+input files on 2026-10-15. Publisher/arXiv hosts were inaccessible from this
+environment; the linked primary repositories provided the reproducible inputs
+and, for Baker and Cortés-Ortuño, reference data. Solver attribution below is
+limited to what those sources establish. No new MuMax3 or OOMMF simulation was
+executed here.
+
+| Paper / primary source | Temporal solver or reference | What to compare | Fit to the current solver |
+| --- | --- | --- | --- |
+| **Baker et al., “Proposal of a micromagnetic standard problem for ferromagnetic resonance simulations,” JMMM 421, 428–439 (2017), [DOI](https://doi.org/10.1016/j.jmmm.2016.08.009), [author inputs and OOMMF/Nmag data](https://github.com/fangohr/micromagnetic-standard-problem-ferromagnetic-resonance)** | OOMMF and Nmag; author reference traces and spatial arrays | Equilibrium, visible and dark modes, frequency, decay, phase/amplitude maps, FFT processing | **First external frequency/linewidth benchmark.** Implemented here with a disclosed one-layer approximation of their two-layer discretization. |
+| **Cortés-Ortuño et al., “Proposal for a micromagnetic standard problem for materials with Dzyaloshinskii–Moriya interaction,” NJP 20, 113015 (2018), [DOI](https://doi.org/10.1088/1367-2630/aaea1c), [author scripts and data](https://github.com/fangohr/paper-supplement-standard-problem-dmi), [dataset DOI](https://doi.org/10.5281/zenodo.1174311)** | MuMax3, OOMMF, Fidimag, with additional finite-element comparisons | 1D boundary canting; 2D skyrmion profile; 3D texture; signed-wavevector spin-wave dispersion and DMI nonreciprocity | **Next external DMI benchmark.** Interfacial thin-film cases are relevant. Exact 1D meshes, disk masks, bulk/D2d DMI and the 3D cylinder require additional features. Do not mark all four problems supported. |
+| **Vansteenkiste et al., “The design and verification of MuMax3,” AIP Advances 4, 107133 (2014), [DOI](https://doi.org/10.1063/1.4899186), [official source](https://github.com/mumax/3), [official SP4 example](https://mumax.github.io/examples.html#ex_SP4)** | MuMax3 verification suite; classic μMAG problems | Demag, exchange, damping, numerical convergence; SP4 switching if nonlinear dynamics are advertised | **Foundation and integration checks.** Existing uniform-prism factors do not constitute SP4 trajectory validation. SP5 current-driven motion needs missing spin torque. |
+| **Rohart and Thiaville, “Skyrmion confinement in ultrathin film nanostructures in the presence of Dzyaloshinskii-Moriya interaction,” PRB 88, 184422 (2013), [DOI](https://doi.org/10.1103/PhysRevB.88.184422), [related OOMMF extension and references](https://github.com/joommf/oommf-extension-dmi-cnv), [Fidimag/OOMMF comparison inputs](https://github.com/computationalmodelling/fidimag/tree/master/examples/micromagnetic/PRB_88_184422)** | The linked OOMMF/Fidimag implementations supply reproducible related checks; a later extension's sign convention is not automatically the original paper's | Natural DMI edges, radius/profile, chirality and confinement | **Static prerequisite for skyrmion spectra.** Our helix and stencil tests are partial evidence. Circular confinement and independent radius/profile comparisons are open. |
+| **Moon et al., “Spin-wave propagation in the presence of interfacial Dzyaloshinskii-Moriya interaction,” PRB 88, 184404 (2013), [DOI](https://doi.org/10.1103/PhysRevB.88.184404), [theory versus temporal solvers in the DMI standard notebook](https://github.com/fangohr/paper-supplement-standard-problem-dmi/blob/master/notebooks/spin_waves_dmi.ipynb)** | The linked Cortés-Ortuño notebook compares Moon's dispersion with OOMMF/Fidimag/MuMax3 | Sign and slope of `f(k)-f(-k)`, dispersion minimum, field dependence | **Analytical companion to the DMI dynamics gate.** The original Moon article's solver is not inferred from the later notebook. |
+| **Liu et al., “Low-lying magnon frequency comb in skyrmion crystals,” PRB 110, 184413 (2024), [DOI](https://doi.org/10.1103/PhysRevB.110.184413), [our report](../validation/liu2024/README.md)** | MuMax3 in the attached paper | Isolated-skyrmion modes; collective bands; nonlinear comb only in a separate nonlinear tier | **One application family.** Isolated modes agree within 0.3%; full collective-band reproduction and nonlinear comb remain unvalidated. Geometry hypotheses are exploratory. |
+
+Use analytical Kittel, dipole/exchange dispersion and Gilbert susceptibility as
+the first tier, the FMR and DMI standard problems as independent implementation
+comparisons, and several skyrmion applications as the final tier. Fitting one
+paper's material constants until a peak matches would not substitute for these
+tiers.
+
+The DMI reference MuMax3 spin-wave input is particularly informative: a
+2000×200×1 nm strip, 2×2×1 nm cells, `Ms=0.86 MA/m`, `A=13 pJ/m`, a signed
+interfacial DMI input of `-3 mJ/m²`, `B_y=0.4 T`, `alpha=0.01` and a localized
+4 ns excitation. Its 100,000 lateral cells exceed our dense assembly limits.
+The D sign must be translated from the **energy convention**, not copied by
+symbol name alone. The associated notebook also exposes intensity thresholds
+and imperfect dispersion fits: matching a theoretical dispersion curve is
+different from reproducing a driven FFT intensity map.
+
+## 2. New external result: the FMR standard problem
+
+[Detailed result, plots and commands](../validation/fmr_standard_problem/README.md).
+The new benchmark reads the authors' pinned, SHA-256-checked OOMMF data. It
+computes our equilibrium and full damped Jacobian, then reconstructs a small
+field-rotation ringdown as `exp(J t) u0`, directly in the eigenbasis. It does
+not integrate our nonlinear LLG to manufacture a second reference.
+
+At 3 nm lateral spacing, the two visible eigenfrequencies are **8.25264 and
+11.23406 GHz**, versus **8.25 and 11.25 GHz** raw OOMMF FFT bins. Their complex
+y-component mode overlaps (MAC) are **0.99988 and 0.98029**. Refining lateral
+spacing from 4 to 3 nm changes those frequencies by **0.00375% and 0.00136%**.
+The reference FFT bin spacing is 0.05 GHz; sub-bin accuracy needs a trace fit,
+not extra printed digits on a bin position.
+
+A three-damped-sinusoid fit to the independent OOMMF mean trace also supplies
+sub-bin pole frequencies and linewidths. It is repeated over four starting
+times; the finest-grid discrepancies are **0.172% and 0.057%** in fitted
+frequency and **0.295% and 0.396%** in fitted pole linewidth. Fit sensitivity and
+limitations are saved in `summary.json`. Higher
+modes and arbitrary damping values are not validated by those two comparisons.
+The one-z-layer approximation cannot establish agreement for z-dependent modes
+or reproduce the exact 3D standard problem.
+
+## 3. Required physics evidence for v0.1
+
+The thresholds below are **proposed project acceptance criteria**, not tolerances
+claimed by the papers. Use the larger of the stated frequency tolerance and a
+documented reference uncertainty. Do not relax a criterion after seeing a failed
+result without recording the scientific reason.
+
+| Gate | Required evidence | Current evidence / missing work |
+| --- | --- | --- |
+| P1. Energy and linearization | Energy/field derivatives; analytic Jacobian versus finite differences on noncollinear states; norm/tangent constraints; matrix-free versus dense action | Existing tests cover these. Preserve them in CI. |
+| P2. Analytic baselines | Kittel orientations, exchange/dipolar dispersion, complex susceptibility including phase and positive absorption, damping | Existing analytic reports and tests pass. Extend field, damping and material sweeps before claiming a broad accuracy envelope. |
+| P3. Independent finite-film FMR | Visible frequencies within 1%; complex mode MAC >0.95; linewidth within 5% with a credible extraction method; final lateral refinement <0.5% | New Baker/OOMMF benchmark supplies the two visible low-mode comparisons. Exact z-resolved replication and wider parameter sweeps remain outside that result. |
+| P4. Interfacial DMI and propagation | Independent static canting/profile; chirality under `D -> -D`; signed `f(k)` versus temporal data; nonreciprocity slope within 2% after mesh convergence | Helix energy/stationarity and boundary stencils pass. The published DMI standard comparisons are **not run**. Required for a public skyrmion/propagation claim. |
+| P5. Noncollinear dynamics | At least one skyrmion case with independent equilibrium/profile and complex mode fields, plus two fields or sizes; frequencies within 2% after refinement; no material fitting | Liu's three isolated frequencies are partial evidence. Independent mode/profile data and a second parameter point are still needed. Full agreement with Liu Fig. 2 is not a universal release gate. |
+| P6. Driven response and the linear regime | External small-drive complex response/decay; peak positions and phase; halving drive halves δm and quarters power; repeat near two resonances | Analytic macrospin and scaling checks exist; external multi-mode forced-response/phase sweep is open. Compare like excitation and like observable. |
+| P7. Stability and band completeness | Physical static residual; absolute and relative eigen residuals; growth-rate error bounds near zero; targeted-mode count/shift convergence and branch overlap tracking | Root refinement and Bloch residual checks exist. Neutral-mode certification, automatic tracking and completeness checks are open. Do not present a targeted subset as a proven band gap. |
+| P8. Supported envelope | Fixed-size mesh refinement; finite-size/image convergence; reference z refinement at representative thicknesses; measured time/RAM | Some individual convergence studies exist. There is no general validated thickness/grid/parameter envelope yet. |
+
+For finite-time comparisons, choose the observation duration before measuring
+error: `Δf = 1/T`. Account for window broadening, transient removal, excitation
+symmetry and local versus spatially averaged signals. A dark mode can be absent
+from a uniform-drive spectrum and still be a valid eigenmode. Near degeneracies,
+compare mode subspaces rather than forcing a unique mode ordering.
+
+For a nonnormal damped Jacobian, mode populations require left/right information
+or an actual inverse of the right-mode basis; a conjugate transpose generally
+does not invert it. Compare a resolvent or reconstructed signal as well as
+eigenvalues. The FMR benchmark's ringdown helper is checked against an independent
+matrix exponential on an elliptical damped system.
+
+## 4. Limitations and improvements in priority order
+
+| Limitation found in the code | Consequence | Recommended improvement / verification |
+| --- | --- | --- |
+| Full modes, direct response and Bloch shift-invert assemble dense matrices | `O(N²)` storage and `O(N³)` factorization; targeted Bloch extraction still pays for dense LU | Add matrix-free targeted modes and a tested preconditioned inner solve. Use FFT demag action plus an exchange/local-field preconditioner; validate residuals and agreement with small dense cases before claiming speedups. |
+| Direct response refactorizes a shifted matrix at every frequency; GMRES has no preconditioner | Fine resonant sweeps are expensive, and iterative convergence can deteriorate around narrow poles | Reuse a Schur/modal representation for repeated dense sweeps; consider rational Krylov and continuation with preconditioning for large systems. Retain true-residual checks. |
+| Single magnetization value through z in every class | No perpendicular standing spin waves, surface asymmetry, multilayer hybridization or 3D textures | Establish thickness validity against z-refined OOMMF/MuMax3 first. Add multilayer/z cells only if needed; do not label 10 nm universally safe because two FMR modes agree. |
+| Periodic `Film` uses spectral operators/continuum film demag; confined/Bloch use FD/cell-averaged Newell demag | Same grid and constants are not necessarily the same discrete problem | Compare discrete operators when matching a solver and continuum limits when matching physics. Include FD dispersion and boundary settings in run metadata. |
+| Only homogeneous material, easy-z anisotropy, interfacial DMI and rectangular occupied meshes | Disk/vortex, patterned antidot, bulk-DMI and heterogeneous-interface papers cannot be copied faithfully | Prioritize occupancy masks with correct exchange/DMI edge treatment for disk benchmarks. Later add arbitrary anisotropy axes and material regions. Reject unsupported inputs clearly. |
+| Minimum of three cells per lateral axis; no explicit 1D mesh | The DMI standard's exact 100×1×1-cell wire is unsupported | Add a genuinely 1D geometry or explicit dimension reduction; do not substitute a wider strip silently. |
+| Equilibrium is a local stationary state; targeted spectra cannot certify all instability directions | A converged optimizer or one positive-frequency branch is insufficient evidence of stability | Check the tangent energy Hessian or an appropriate full/matrix-free stability bound; classify neutral modes using absolute numerical error. Keep the near-neutral pinned-chain issue visible. |
+| Modes are sorted by frequency or benchmark windows, without general branch tracking | Crossings can look like gaps; a mode can be mistaken for another after refinement | Implement overlap/subspace tracking, driven oscillator strengths and residual-aware mode labels. |
+| Linear frequency-domain formulation | No amplitude-dependent shifts, harmonic mixing, switching or frequency comb generation in that solver | State small-signal limits in the UI/API. Keep nonlinear time-domain workflows separate; harmonic balance would be a later research feature, not implied by existing LLG integration. |
+| No thermal noise, STT/SOT, spin pumping, magnetoelasticity or experimental disorder | Many current-driven, finite-temperature or hybrid-mode papers are outside scope | Exclude these claims from v0.1; select benchmarks whose Hamiltonian and dynamics we actually implement. |
+
+The 100,000-cell DMI strip above would require **320 GB for one real dense
+Jacobian**, or **640 GB for one complex matrix**, before work arrays. Our
+4096-cell confined/Bloch cap allows a single 512 MiB real or 1 GiB complex
+matrix, also before copies, factorization and eigenvectors. These caps are
+implementation limits, not safe web-service quotas.
+
+Dense reference calculations should remain available after adding scalable
+methods: they are useful for validating new algorithms. Frequency methods are
+especially useful for small-signal poles and narrow linewidths, but are not
+automatically faster when every mode or hundreds of fresh dense solves are
+requested.
+
+## 5. Delivery gates for the package and web application
+
+| Delivery gate | Evidence required before public deployment | Status |
+| --- | --- | --- |
+| D1. Build and install | Wheel and sdist build; fresh-environment installation; run the installed CLI outside the repository; tests on supported Python versions | Workflow added for Python 3.11–3.13, external FMR regression gates and distribution smoke checks. Local results are recorded separately; remote CI is not assumed to have run. |
+| D2. Reproducible jobs | One serializable configuration/schema for materials, geometry, boundaries, solver and drive; save package/git version, dependency versions, units, tolerances, seeds, residuals and machine limits | Current basic CLI records some inputs but exposes only the periodic demo/default material. Full schema and material/model selection remain open. |
+| D3. User-visible numerical status | Failed relaxation/solve rejects spectral output; distinguish unstable, neutral/uncertain and stable; display drive size and convergence limits | Some failure guards exist. Shared diagnostics, completeness status and UI presentation remain open. |
+| D4. Web computation lifecycle | Background worker, bounded queue, measured RAM/CPU/time/disk limits, progress, cancellation, timeout recovery; heavy jobs do not execute inside an HTTP request | No web application or worker exists in the current repository. Benchmark the worker on the actual deployment host before choosing quotas. |
+| D5. Web reproducibility and results | Three vetted presets; editable SI-labelled parameters; plots of equilibrium/modes/response; download config, JSON, CSV and array/OVF outputs | Not implemented. A web result must reproduce the same package call and show unsupported combinations before submission. |
+| D6. Web service tests | Browser-to-worker-to-download smoke test; malformed/oversized-job rejection; isolation of job inputs/results; simultaneous jobs, cancellation and restart tests | Not implemented. These are required operational checks for this compute service. |
+| D7. Release provenance | Owner-selected license; citation metadata; supported-model statement; versioned example results; tag/changelog; dependency/environment record and release artifacts | Owner license selection and release metadata remain open. GitHub commits, package publication and a public running app are different deliverables. |
+
+Local delivery checks passed on Python 3.12.14: 42 tests in the development
+environment (NumPy 2.4.4, SciPy 1.17.1, Matplotlib 3.10.8); 42 tests from the
+unpacked source distribution in a fresh environment (NumPy 2.5.4, SciPy 1.18.1,
+Matplotlib 3.11.2); isolated wheel/sdist builds; installed CLI execution from
+`/tmp`; and `pip check`. The hash-checked reference download path was also
+exercised. Python 3.11/3.13 and hosted CI outcomes are not inferred from these
+local checks. Source distributions include benchmark scripts and comparison
+reports; large intermediate NPZ arrays and downloaded external references are
+excluded.
+
+Do not make a particular cloud provider a physics dependency. First define the
+worker's compute budget and result-storage requirements, then choose hosting.
+The browser should request a validated configuration and inspect results; the
+package should own the physics.
+
+## 6. Practical sequence
+
+1. Retain the new FMR regression; finish the interfacial DMI static and signed-k
+   standard comparisons. Obtain an independently generated skyrmion equilibrium
+   and mode/response dataset at a second parameter point.
+2. Add shared configuration, diagnostics and mode tracking; qualify a finite
+   range of thicknesses, mesh sizes and drive amplitudes. Keep larger and
+   unsupported requests outside the first public presets.
+3. Add scalable, preconditioned frequency methods and benchmark their accuracy,
+   RAM and time against the dense reference. This is needed before promising
+   literature-scale strip or large-array jobs.
+4. Build the web worker/UI around the shared API, test the job lifecycle, and
+   set limits from measurements. Complete package CI, licensing and release
+   metadata, then deploy the bounded v0.1 scope.
+
+SP4 switching, full nonlinear combs, thermal/current-driven problems and 3D
+thickness modes become release blockers only if those capabilities are included
+in the advertised first version. They remain distinct future validation tracks.

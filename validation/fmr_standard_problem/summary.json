@@ -1,0 +1,278 @@
+{
+  "paper_DOI": "10.1016/j.jmmm.2016.08.009",
+  "reference_repository": "https://github.com/fangohr/micromagnetic-standard-problem-ferromagnetic-resonance",
+  "reference_commit": "c7051885417864508bfe6bb3511adad361395b87",
+  "reference_sha256": {
+    "dynamic_txyz.txt": "4e45feb9b7e335d44c8c95e979f53c40c091fb1d7a25e2f5a9eb66fc5969d35e",
+    "mys.npy": "f3956266eb289c198c818e48eb8eb7fe899d5a7162fc5c1a6df5c2de51694dca"
+  },
+  "reference_solver": "OOMMF 1.2 alpha 6 (per author repository)",
+  "reference_geometry_nm": [
+    120,
+    120,
+    10
+  ],
+  "reference_cell_nm": [
+    5,
+    5,
+    5
+  ],
+  "spinfreq_z_cells": 1,
+  "reference_z_cells": 2,
+  "reference_FFT_spacing_GHz": 0.050000000000000086,
+  "reference_window": "rectangular, 4000 samples at 5 ps, times 5 ps to 20 ns",
+  "protocol": "All-mode linearized ringdown after the specified small in-plane field rotation; no nonlinear time integration",
+  "H_A_per_m": 80000.0,
+  "old_field_direction": [
+    0.8134585631685802,
+    0.5816228726655348,
+    0.0
+  ],
+  "new_field_direction": [
+    0.8192319205190405,
+    0.5734623443633283,
+    0.0
+  ],
+  "material": {
+    "Ms": 800000.0,
+    "A": 1.3e-11,
+    "D": 0,
+    "K": 0,
+    "alpha": 0.008,
+    "gamma": 175879979019.1218
+  },
+  "meshes": [
+    {
+      "nx": 24,
+      "ny": 24,
+      "cell_nm": 5.0,
+      "thickness_nm": 10,
+      "torque_T": 2.8796597051350403e-11,
+      "max_growth_rate_per_s": -608361785.5259657,
+      "max_initial_tangent_amplitude": 0.011864791997582076,
+      "real_matrix_MiB": 10.125,
+      "equilibrium_and_assembly_s": 1.8529837079986464,
+      "eigendecomposition_and_ringdown_s": 3.4041005420149304,
+      "mean_my_equilibrium": 0.5864987097926906,
+      "comparisons": [
+        {
+          "reference_FFT_peak_GHz": 8.250000000000014,
+          "eigenfrequency_GHz": 8.253056941855982,
+          "relative_peak_error": 0.0003705384067840267,
+          "reference_fitted_frequency_GHz": 8.266841000673768,
+          "relative_fitted_frequency_error": 0.001667391306626298,
+          "y_component_MAC": 0.9999064833347503,
+          "pole_FWHM_GHz": 0.20498010997475324,
+          "reference_fitted_FWHM_GHz": 0.205468332731393,
+          "relative_fitted_FWHM_error": 0.0023761459985077726,
+          "eigen_absolute_residual_per_s": 0.005814473486785863
+        },
+        {
+          "reference_FFT_peak_GHz": 11.250000000000021,
+          "eigenfrequency_GHz": 11.23430678329527,
+          "relative_peak_error": 0.001394952595977772,
+          "reference_fitted_frequency_GHz": 11.227706247677881,
+          "relative_fitted_frequency_error": 0.0005878792579521175,
+          "y_component_MAC": 0.9801702437844537,
+          "pole_FWHM_GHz": 0.21905657949037108,
+          "reference_fitted_FWHM_GHz": 0.22019595209166867,
+          "relative_fitted_FWHM_error": 0.005174357614091241,
+          "eigen_absolute_residual_per_s": 0.0058532096361246354
+        }
+      ]
+    },
+    {
+      "nx": 30,
+      "ny": 30,
+      "cell_nm": 4.0,
+      "thickness_nm": 10,
+      "torque_T": 6.770608379502718e-11,
+      "max_growth_rate_per_s": -608181196.9255371,
+      "max_initial_tangent_amplitude": 0.012016814120875286,
+      "real_matrix_MiB": 24.71923828125,
+      "equilibrium_and_assembly_s": 3.4532872409909032,
+      "eigendecomposition_and_ringdown_s": 9.927121832995908,
+      "mean_my_equilibrium": 0.586583784249484,
+      "comparisons": [
+        {
+          "reference_FFT_peak_GHz": 8.250000000000014,
+          "eigenfrequency_GHz": 8.252945844797837,
+          "relative_peak_error": 0.00035707209670587936,
+          "reference_fitted_frequency_GHz": 8.266841000673768,
+          "relative_fitted_frequency_error": 0.0016808301834760897,
+          "y_component_MAC": 0.9999006608864313,
+          "pole_FWHM_GHz": 0.20491512710794005,
+          "reference_fitted_FWHM_GHz": 0.205468332731393,
+          "relative_fitted_FWHM_error": 0.00269241306482082,
+          "eigen_absolute_residual_per_s": 0.011010216657782805
+        },
+        {
+          "reference_FFT_peak_GHz": 11.250000000000021,
+          "eigenfrequency_GHz": 11.23421713855848,
+          "relative_peak_error": 0.0014029210170258821,
+          "reference_fitted_frequency_GHz": 11.227706247677881,
+          "relative_fitted_frequency_error": 0.0005798950147939408,
+          "y_component_MAC": 0.9802727828986461,
+          "pole_FWHM_GHz": 0.21920351335629915,
+          "reference_fitted_FWHM_GHz": 0.22019595209166867,
+          "relative_fitted_FWHM_error": 0.004507070751947229,
+          "eigen_absolute_residual_per_s": 0.01161647591515828
+        }
+      ]
+    },
+    {
+      "nx": 40,
+      "ny": 40,
+      "cell_nm": 3.0,
+      "thickness_nm": 10,
+      "torque_T": 1.3325720735202218e-11,
+      "max_growth_rate_per_s": -608045341.2990608,
+      "max_initial_tangent_amplitude": 0.012163073157763705,
+      "real_matrix_MiB": 78.125,
+      "equilibrium_and_assembly_s": 6.450341836985899,
+      "eigendecomposition_and_ringdown_s": 22.34729645898915,
+      "mean_my_equilibrium": 0.5866462565702472,
+      "comparisons": [
+        {
+          "reference_FFT_peak_GHz": 8.250000000000014,
+          "eigenfrequency_GHz": 8.25263623176723,
+          "relative_peak_error": 0.00031954324451111127,
+          "reference_fitted_frequency_GHz": 8.266841000673768,
+          "relative_fitted_frequency_error": 0.0017182825828366832,
+          "y_component_MAC": 0.9998787438020751,
+          "pole_FWHM_GHz": 0.20486291510524615,
+          "reference_fitted_FWHM_GHz": 0.205468332731393,
+          "relative_fitted_FWHM_error": 0.0029465252289671007,
+          "eigen_absolute_residual_per_s": 0.02541130720574623
+        },
+        {
+          "reference_FFT_peak_GHz": 11.250000000000021,
+          "eigenfrequency_GHz": 11.234064292421799,
+          "relative_peak_error": 0.0014165073402864214,
+          "reference_fitted_frequency_GHz": 11.227706247677881,
+          "relative_fitted_frequency_error": 0.000566281714507122,
+          "y_component_MAC": 0.9802852701722599,
+          "pole_FWHM_GHz": 0.21932385097790538,
+          "reference_fitted_FWHM_GHz": 0.22019595209166867,
+          "relative_fitted_FWHM_error": 0.003960568327796676,
+          "eigen_absolute_residual_per_s": 0.02531705586040963
+        }
+      ]
+    }
+  ],
+  "reference_pole_fit": {
+    "method": "Three damped sinusoids, variable projection; frequency bounds FFT peak +/- 0.35 GHz, decay bounds 0.01 to 3 per ns",
+    "runs": [
+      {
+        "start_ns": 0.0,
+        "stop_ns": 8.0,
+        "frequencies_GHz": [
+          8.266841000673768,
+          11.227706247677881,
+          13.818991616691267
+        ],
+        "decay_rates_per_s": [
+          645497804.6542876,
+          691765985.4413964,
+          761242185.0376091
+        ],
+        "pole_FWHM_GHz": [
+          0.205468332731393,
+          0.22019595209166867,
+          0.24231091327762147
+        ],
+        "residual_RMS_over_signal_std": 0.0037761810598017963
+      },
+      {
+        "start_ns": 0.1,
+        "stop_ns": 8.0,
+        "frequencies_GHz": [
+          8.266879646649313,
+          11.227631948109856,
+          13.815027703931031
+        ],
+        "decay_rates_per_s": [
+          645048337.1006147,
+          689316001.7871306,
+          719394866.9191084
+        ],
+        "pole_FWHM_GHz": [
+          0.2053252627655401,
+          0.2194160980735272,
+          0.22899049821022463
+        ],
+        "residual_RMS_over_signal_std": 0.003817697992234275
+      },
+      {
+        "start_ns": 0.3,
+        "stop_ns": 8.0,
+        "frequencies_GHz": [
+          8.266893844473303,
+          11.227979441669131,
+          13.795494445973983
+        ],
+        "decay_rates_per_s": [
+          645386063.1500597,
+          685255124.6361883,
+          791124262.5808641
+        ],
+        "pole_FWHM_GHz": [
+          0.20543276430590024,
+          0.2181234807298044,
+          0.2518226739793502
+        ],
+        "residual_RMS_over_signal_std": 0.0037572933711350442
+      },
+      {
+        "start_ns": 0.5,
+        "stop_ns": 8.0,
+        "frequencies_GHz": [
+          8.266929049275262,
+          11.228761398084794,
+          13.816568907075442
+        ],
+        "decay_rates_per_s": [
+          645628172.6316319,
+          682569786.2287519,
+          848759622.0283413
+        ],
+        "pole_FWHM_GHz": [
+          0.2055098301474235,
+          0.21726871096696834,
+          0.2701685786852385
+        ],
+        "residual_RMS_over_signal_std": 0.0034277632456967463
+      }
+    ],
+    "first_two_linewidth_relative_window_sensitivity": [
+      0.0006963115140469212,
+      0.013293800802849032
+    ],
+    "interpretation": "Window sensitivity is empirical; these are not statistical confidence intervals"
+  },
+  "finest_pair_relative_frequency_change": [
+    3.751545647212584e-05,
+    1.360541057693343e-05
+  ],
+  "proposed_gate_frequency_error_below_1_percent": true,
+  "proposed_gate_finest_pair_change_below_half_percent": true,
+  "proposed_gate_y_MAC_above_095": true,
+  "proposed_gate_fitted_frequency_error_below_1_percent": true,
+  "proposed_gate_fitted_linewidth_error_and_window_sensitivity_below_5_percent": true,
+  "exact_3D_standard_problem_validated": false,
+  "linewidth_validated": true,
+  "linewidth_scope": "Two visible low FMR poles, using a three-sinusoid fit to the published OOMMF mean-my trace",
+  "limitations": [
+    "Uniform-through-thickness approximation: no z-dependent eigenmodes.",
+    "Raw peak positions have 0.05 GHz FFT bins; sub-bin frequencies use a three-pole damped-trace fit.",
+    "MAC compares the y component at a finite-window reference FFT peak, not full-vector eigenmodes.",
+    "Fitted linewidths have empirical window sensitivity, not statistical confidence bounds; higher modes are not validated.",
+    "Nmag data are available upstream but are not compared in this run."
+  ],
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41"
+  }
+}

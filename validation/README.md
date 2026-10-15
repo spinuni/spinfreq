@@ -1,5 +1,7 @@
 # Validation and literature comparison
 
+See the [validation/release assessment](../docs/VALIDATION_AND_RELEASE.md) for physics gates and selected MuMax3/OOMMF/Fidimag/Nmag papers beyond skyrmion frequency combs. The [external FMR standard comparison](fmr_standard_problem/README.md) now checks two visible frequencies, fitted decay linewidths and complex spatial mode overlaps against published OOMMF data. The analytical results below remain the foundation; application-specific agreement does not validate every geometry or parameter range.
+
 Run from the repository root:
 
 ```bash

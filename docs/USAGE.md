@@ -28,6 +28,8 @@ Use the existing checkout; a cloud task is already isolated. No Git worktree or 
 
 Single BLAS threads usually reduce overhead for these small dense systems. Increase parallelism only after measuring it; each process may allocate its own dense matrices. The prepared environment uses Python 3.12 with NumPy 2.4.4, SciPy 1.17.1 and Matplotlib 3.10.8. Project dependency ranges permit other supported versions; record versions for reproducible comparisons.
 
+For the broader validation suite, published OOMMF FMR data, DMI benchmark priorities and the planned package/web release requirements, see [Validation and release](VALIDATION_AND_RELEASE.md). The external FMR benchmark is documented [here](../validation/fmr_standard_problem/README.md); it downloads reference data only when `--fetch-reference` is explicitly requested. A public web interface is not yet implemented.
+
 ## 2. Units and array layout
 
 | Quantity | Python API unit | Example |

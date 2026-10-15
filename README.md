@@ -4,6 +4,8 @@ Micromagnetic simulator for thin films with linear eigenmodes, forced frequency 
 
 See the **[detailed usage guide](docs/USAGE.md)** for installation, model selection, API examples, units, outputs, paper benchmarks and MuMax3 exchange.
 
+For the planned Python-package and web release, see the **[validation and release assessment](docs/VALIDATION_AND_RELEASE.md)**. It covers independent FMR and DMI standard problems, literature sources, supported physics, solver scaling and remaining release gates. The repository currently provides a research package; a web application has not been implemented or deployed.
+
 ## Install and run
 
 ```bash
@@ -58,6 +60,8 @@ Full eigenmode/direct-response solvers explicitly assemble a dense `2N × 2N` Ja
 ## Literature-oriented validation and plots
 
 Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/validate.py` to regenerate analytical Kittel, dipole/exchange and complex-susceptibility comparisons, plus skyrmion mesh convergence, absorption and mode maps. See [validation/README.md](validation/README.md) for references, equations, results and comparison limits. Figures are provided as PNG and vector PDF, with CSV source data. The coarse 12×12 low-frequency mode is a mesh-sensitive feature; use the convergence study before quoting skyrmion frequencies.
+
+The **[Baker et al. FMR standard comparison](validation/fmr_standard_problem/README.md)** uses the authors' published OOMMF data, independently of Liu. On the finest 3 nm lateral mesh, its two visible low-mode frequencies agree within 0.18% of fitted OOMMF poles, fitted linewidths within 0.4%, and complex y-mode overlaps exceed 0.98. This uses one uniform z layer versus the reference's two layers; it does not validate z-dependent modes. Run `OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmarks/fmr_standard_problem.py --fetch-reference` for the 5, 4 and 3 nm lateral meshes, plots, CSVs and fit diagnostics.
 
 ## Liu 2024 MuMax3 benchmark
 
