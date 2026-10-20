@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/fangohr/paper-supplement-standard-problem-dmi",
+  "commit": "1d9390c06c13cda29b0eb2f38f7e132be05e97f4",
+  "sha256": {
+    "notebooks/spin_waves_dmi.ipynb": "cd2fafd80c6511eea21a5069138e888c7386123418766c061ad46ec030f40fe6",
+    "sims/spin_waves_sims/data_libs/process_data.py": "2e8d94d775a9dbffe55f3b46d089abff2296892379e846561fc0cda2ebbe63bf",
+    "sims/spin_waves_sims/oommf/dmi/OOMMF_dynamics.mif": "69edb244b023149dc3fa9c03482ae671a62822acf5c768f02a62e6bee77b9b6d",
+    "sims/spin_waves_sims/fidimag/dmi/sw_dynamics.py": "a1f924c60fb85b8de2f60a3b65b1570498bcdb28da29253ae30694e6508056e0",
+    "sims/spin_waves_sims/mumax3/dmi/spin_waves_simulation.mx3": "cfcc1a5de35b3af96100172e6fed0049b4a858d64d1ba5ab576cce7b8b866d91"
+  },
+  "findings": {
+    "notebook_peak_extraction": "data = im_data[-1::-1], retaining original fftshift frequency labels",
+    "even_samples_frequency_bias_bins": -1,
+    "odd_samples_frequency_bias_bins": 0,
+    "oommf_requested_stages": 4000,
+    "fidimag_requested_samples": 4000,
+    "sample_ps": 1,
+    "fidimag_excitation_T": 0.016,
+    "other_scripts_nominal_excitation_T": 0.04,
+    "historical_mumax_actual_sample_count": null,
+    "full_historical_disagreement_resolved": false
+  }
+}

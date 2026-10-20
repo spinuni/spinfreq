@@ -1,0 +1,17 @@
+{
+  "amplitude_ratio": 2.0,
+  "harmonics": [
+    {
+      "harmonic": 1,
+      "relative_complex_trace_L2_error": 1.8448459643504342e-06,
+      "integrated_power_ratio": 0.25000000011560947
+    },
+    {
+      "harmonic": 2,
+      "relative_complex_trace_L2_error": 2.380148830483222e-06,
+      "integrated_power_ratio": 0.2500000032479796
+    }
+  ],
+  "all_executed_gates_passed": true,
+  "scope": "Initial-perturbation free ringdown; forced-response amplitude sweeps remain open"
+}

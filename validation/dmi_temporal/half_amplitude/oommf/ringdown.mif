@@ -1,0 +1,33 @@
+# MIF 2.2
+set mu0 [expr {4*acos(-1)*1e-7}]
+SetOptions {basename ringdown vector_field_output_format {text %.17g} scalar_output_format %.17g}
+Specify Oxs_BoxAtlas:atlas {name film xrange {0 128e-9} yrange {0 200e-9} zrange {0 1e-9}}
+Specify Oxs_PeriodicRectangularMesh:mesh {cellsize {2e-9 2e-9 1e-9} atlas :atlas periodic x}
+Specify Oxs_UniformExchange {A 13e-12}
+Specify Oxs_Demag {}
+Specify Oxs_DMI_Cnv_z {atlas :atlas default_D 3e-3 D {film film 3e-3}}
+Specify Oxs_FixedZeeman [subst {field {0 [expr {.4/$mu0}] 0}}]
+Specify Oxs_RungeKuttaEvolve:evolver {alpha .01 gamma_G 2.21e5 method rkf54 absolute_step_error 1e-7 relative_step_error 1e-7}
+proc Weight {j trig x y z} {
+ set w 0.0
+ if {$y >= 98e-9 && $y < 100e-9} {
+  set angle [expr {2*acos(-1)*$j*$x/128e-9}]
+  if {$trig eq "cos"} {set w [expr {100*cos($angle)}]} else {set w [expr {100*sin($angle)}]}
+ }
+ return [list $w 0 0]
+}
+Specify Oxs_ScriptVectorField:w1cos {atlas :atlas script_args rawpt script {Weight 1 cos}}
+Specify Oxs_ScriptVectorField:w1sin {atlas :atlas script_args rawpt script {Weight 1 sin}}
+Specify Oxs_ScriptVectorField:w2cos {atlas :atlas script_args rawpt script {Weight 2 cos}}
+Specify Oxs_ScriptVectorField:w2sin {atlas :atlas script_args rawpt script {Weight 2 sin}}
+Specify Oxs_TimeDriver {
+ evolver :evolver mesh :mesh Ms 860e3
+ m0 {Oxs_FileVectorField {atlas :atlas file initial.ovf norm 1}}
+ stopping_time 1e-12 stage_count 4000 checkpoint_interval 0
+user_output {name q1_cos source_field Spin select_field :w1cos normalize 0}
+user_output {name q1_sin source_field Spin select_field :w1sin normalize 0}
+user_output {name q2_cos source_field Spin select_field :w2cos normalize 0}
+user_output {name q2_sin source_field Spin select_field :w2sin normalize 0}
+}
+Destination archive mmArchive
+Schedule DataTable archive Stage 1

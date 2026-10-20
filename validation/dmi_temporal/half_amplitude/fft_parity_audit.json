@@ -1,0 +1,20 @@
+[
+  {
+    "samples": 4000,
+    "true_frequency_GHz": 12.5,
+    "bin_GHz": 0.24999999999999997,
+    "k_rad_m": 147262155.63702154,
+    "correct_peak_GHz": 12.499999999999998,
+    "legacy_peak_GHz": 12.249999999999998,
+    "legacy_error_GHz": -0.2500000000000018
+  },
+  {
+    "samples": 4001,
+    "true_frequency_GHz": 12.496875781054737,
+    "bin_GHz": 0.24993751562109473,
+    "k_rad_m": 147262155.63702154,
+    "correct_peak_GHz": 12.496875781054737,
+    "legacy_peak_GHz": 12.496875781054737,
+    "legacy_error_GHz": 0.0
+  }
+]

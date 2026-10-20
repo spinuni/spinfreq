@@ -1,0 +1,35 @@
+{
+  "nx": 64,
+  "ny": 100,
+  "dx_m": 2e-09,
+  "dy_m": 2e-09,
+  "thickness_m": 1e-09,
+  "period_m": 1.28e-07,
+  "width_m": 2e-07,
+  "harmonics": [
+    1,
+    2
+  ],
+  "duration_ns": 4.0,
+  "sample_ps": 1.0,
+  "amplitude": 5e-05,
+  "observed_y_row": 49,
+  "material": {
+    "Ms": 860000.0,
+    "A": 1.3e-11,
+    "D": -0.003,
+    "K": 0,
+    "alpha": 0.01,
+    "gamma": 175866212116.54434
+  },
+  "field_T": [
+    0,
+    0.4,
+    0
+  ],
+  "oommf_D_J_m2": 0.003,
+  "oommf_D_class": "Oxs_DMI_Cnv_z",
+  "spinfreq_boundary": "bond",
+  "images": 1024,
+  "oommf_gamma_convention": "gamma_G 2.21e5 m/(A s)"
+}

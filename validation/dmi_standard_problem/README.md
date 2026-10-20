@@ -204,8 +204,11 @@ sign errors.
 Published OOMMF/Fidimag fitted minima are 12.161520/12.149453 GHz, respectively.
 Our exploratory bond-boundary strip gives 12.511661 GHz. It does **not** close
 that disagreement and is not identified with those solvers' implementations.
-Recovering their full fields, exact historical operators and spectra is still
-needed. The pinned notebook does supply all three reported summaries in
+The [subsequent CPU OOMMF experiment](../dmi_temporal/README.md) now verifies
+the matched modern bond operator against independently executed complex traces
+to better than 0.058%, and proves a one-bin even-FFT analysis bias. Exact
+historical operators, full finite-strip spectra and the remaining offset still
+need resolution. The pinned notebook does supply all three reported summaries in
 `summary.json`.
 
 ## 5. Convergence and acceptance scope
@@ -231,8 +234,9 @@ and low-k signed-D estimates have a 2% project threshold, image refinement
 criteria**, not tolerances specified by the paper. Only the stated low-band
 window is used for the mesh gate; full-range differences remain in the CSVs.
 
-`full_P4_release_gate_closed` remains **false**: independently regenerated
-temporal f–k curves, driven phase/mode comparisons, and resolution of the
+`full_P4_release_gate_closed` remains **false**: the new two-q OOMMF ringdowns
+add independent complex temporal evidence, but full finite-strip f–k curves,
+forced-response phase/mode comparisons, and resolution of the
 OOMMF/Fidimag band differences are open. The disk problem, bulk/D2d DMI and
 3D cylinder are also outside this report's validation scope.
 

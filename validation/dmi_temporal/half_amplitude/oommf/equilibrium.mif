@@ -1,0 +1,14 @@
+# MIF 2.2
+set mu0 [expr {4*acos(-1)*1e-7}]
+SetOptions {basename equilibrium vector_field_output_format {text %.17g} scalar_output_format %.17g}
+Specify Oxs_BoxAtlas:atlas {name film xrange {0 128e-9} yrange {0 200e-9} zrange {0 1e-9}}
+Specify Oxs_PeriodicRectangularMesh:mesh {cellsize {2e-9 2e-9 1e-9} atlas :atlas periodic x}
+Specify Oxs_UniformExchange {A 13e-12}
+Specify Oxs_Demag {}
+Specify Oxs_DMI_Cnv_z {atlas :atlas default_D 3e-3 D {film film 3e-3}}
+Specify Oxs_FixedZeeman [subst {field {0 [expr {.4/$mu0}] 0}}]
+Specify Oxs_CGEvolve:evolver {}
+Specify Oxs_MinDriver {evolver :evolver mesh :mesh Ms 860e3 m0 {0 1 0} stopping_mxHxm 0.001 checkpoint_interval 0}
+Destination archive mmArchive
+Schedule DataTable archive Stage 1
+Schedule Oxs_MinDriver::Spin archive Stage 1

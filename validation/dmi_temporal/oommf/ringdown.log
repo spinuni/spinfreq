@@ -1,0 +1,3 @@
+[20:56:14] Start: "/workspace/spinfreq/results/dmi_oommf_probe/ringdown.mif"
+Options: -exitondone 1 -kill archive -logfile /tmp/spinfreq-oommf-ringdown-errors.log -threads 2
+[20:59:23] Boxsi run end

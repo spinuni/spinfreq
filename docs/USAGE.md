@@ -264,10 +264,25 @@ stored = np.load('trajectory.npy', mmap_mode='r')
 f, amplitude, power = cell_spectrum(times, stored, component=2,
                                     discard_s=0, window='hann')
 k, f, fk_power = space_time_spectrum(times, stored[...,2], dx_m=film.dx,
-                                     time_window='hann', space_window='hann')
+                                     time_window='hann', space_window='hann',
+                                     temporal_sign=-1)
 ```
 
 For scalar `(time,y,x)` recordings, call `cell_spectrum(..., component=None)`. `amplitude` is the mean per-cell one-sided magnitude; `power` is mean per-cell amplitude squared. Neither is W or a spectral density. The f–kx result is `(frequency, kx)`, averaged across y **after** temporal and spatial transforms. Averaging the magnetization first can cancel antiphase modes. Space/time windows are independent and reported with the result.
+
+For the physical wave `exp(i k x - i omega t)`, set `temporal_sign=-1`:
+positive returned frequency then belongs to the negative temporal branch and
+its signed physical k. The default `+1` preserves the earlier convention
+`exp(i k x + i omega t)`. Choosing the wrong branch reverses k in a
+nonreciprocal dispersion. Never reverse FFT rows to change convention: with
+an even sample count this shifts frequency labels by one bin. The API pairs
+bins explicitly for both even and odd lengths. The standalone f–kx runner also
+accepts `--temporal-sign -1` and records the convention.
+
+The [executed CPU OOMMF comparison](../validation/dmi_temporal/README.md)
+provides pinned headless-build instructions, native reference files, hash-checked
+reanalysis commands, complex amplitude/phase comparisons and an amplitude-halving
+check. It uses the modern OOMMF bond boundary, not the default MuMax ghost edge.
 
 Frequency bins are `1/(N*dt)`. With 8000 samples at 5 ps, Δf=0.025 GHz and Nyquist=100 GHz. With 0.1 ns of data, Δf=10 GHz. After discarding a transient, recalculate resolution from the retained length. The rectangular window matches an unwindowed FFT but has stronger leakage; Hann reduces leakage while broadening peaks. Compare amplitudes only under the same window and normalization.
 

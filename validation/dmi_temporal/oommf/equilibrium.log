@@ -1,0 +1,3 @@
+[20:55:22] Start: "/workspace/spinfreq/results/dmi_oommf_probe/equilibrium.mif"
+Options: -exitondone 1 -kill archive -logfile /tmp/spinfreq-oommf-equilibrium-errors.log -threads 2
+[20:55:24] Boxsi run end

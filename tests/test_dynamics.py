@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from spinfreq import Material
 from spinfreq.confined import ConfinedFilm
 from spinfreq.dynamics import integrate,sinc_drive,harmonic_drive,cell_spectrum,left_strip
@@ -60,3 +61,23 @@ def test_space_time_fft_wavevector_units_and_opposite_rows():
     q,f,power=space_time_spectrum(times,trace,1e-9,time_window='rectangular',space_window='rectangular')
     it,ix=np.unravel_index(np.argmax(power),power.shape)
     np.testing.assert_allclose([f[it],q[ix],power[it,ix]],[2e9,k,.0001],rtol=1e-10)
+
+
+@pytest.mark.parametrize('samples',[1000,1001])
+@pytest.mark.parametrize('temporal_sign',[-1,1])
+def test_space_time_fft_exact_signed_bins_for_even_and_odd_samples(samples,temporal_sign):
+    from spinfreq.dynamics import space_time_spectrum
+    dt=1e-12;dx=2e-9;nx=32
+    times=np.arange(samples)*dt;x=np.arange(nx)*dx
+    frequency=17/(samples*dt);k=2*np.pi*3/(nx*dx)
+    wave=.01*np.cos(temporal_sign*2*np.pi*frequency*times[:,None]+k*x[None,:])
+    q,f,power=space_time_spectrum(times,wave[:,None,:],dx,time_window='rectangular',
+                                 space_window='rectangular',temporal_sign=temporal_sign)
+    it,ix=np.unravel_index(np.argmax(power),power.shape)
+    np.testing.assert_allclose([f[it],q[ix],power[it,ix]],[frequency,k,.0001],rtol=1e-12)
+
+
+def test_space_time_fft_rejects_unknown_temporal_sign():
+    from spinfreq.dynamics import space_time_spectrum
+    with pytest.raises(ValueError,match='temporal_sign'):
+        space_time_spectrum(np.arange(5)*1e-12,np.zeros((5,1,3)),1e-9,temporal_sign=0)

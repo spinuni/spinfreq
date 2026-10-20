@@ -1,0 +1,22 @@
+{
+  "runtime": {
+    "tclsh": "/tmp/spinfreq-tcl/bin/tclsh8.6",
+    "oommf_tcl": "/tmp/spinfreq-oommf-source/oommf/oommf.tcl",
+    "env": {
+      "OOMMF_TCL_CONFIG": "/tmp/spinfreq-tcl/lib/tclConfig.sh",
+      "OOMMF_TCL_INCLUDE_DIR": "/tmp/spinfreq-tcl/include"
+    },
+    "oommf_repository": "https://github.com/fangohr/oommf",
+    "oommf_commit": "8880fff5446eeab030a18881b474814f1ea60687",
+    "tcl_commit": "cbf86d62348d6b052e1961b4df995960fb21545f"
+  },
+  "elapsed_s": 137.9846073790104,
+  "source_sha256": {
+    "app/oxs/local/oommf-extension-dmi-cnv/DMI_Cnv_z.cc": "629b12535f64fef86d41cb662f6f038f790bd10b66be870bafdd331fba69ab35",
+    "app/oxs/local/oommf-extension-dmi-cnv/DMI_Cnv_z.h": "e048e0072a8c1ce7c94696d539c722ca42cb7ab9678240e6e6ecab7d451fb3f7",
+    "app/oxs/ext/uniformexchange.cc": "ef88c27f9e785826eb43319e9aa85fc717391a6699a208459421f5539a757b38",
+    "app/oxs/ext/demag.cc": "381eb3c0d39d95c831c2ef54b14dae4efe5a59c8715f398b685b60631469a193",
+    "app/oxs/ext/rungekuttaevolve.cc": "89c0e8fa0766e3c548e5b734ec00e672fa93ea9b1330d8b8b7a7bb1cb5b6d2e1",
+    "app/oxs/linux-x86_64/oxs": "0686bbca91117f59ffbe49ebfd23fc07725690f7aec28877aa2713a4c87bca56"
+  }
+}

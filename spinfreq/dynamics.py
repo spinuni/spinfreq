@@ -137,15 +137,21 @@ def cell_spectrum(times_s,magnetization,component=2,discard_s=0,window='hann',ba
     return frequencies,amplitude,power
 
 
-def space_time_spectrum(times_s,scalar_trace,dx_m,discard_s=0,time_window='hann',space_window='hann',batch_rows=1):
+def space_time_spectrum(times_s,scalar_trace,dx_m,discard_s=0,time_window='hann',space_window='hann',batch_rows=1,
+                        temporal_sign=1):
     """f–kx power of scalar (time,y,x) data, averaged over y after transforms.
 
     Spatial angular wavevectors are in rad/m. Temporal frequencies are Hz.
     Power is one-sided amplitude squared, not a spectral density. Opposite-phase
     transverse rows are retained. Rows are transformed in bounded batches.
+    temporal_sign=+1 selects exp(+i omega t); -1 selects exp(-i omega t),
+    both at positive returned f and spatial phase exp(+i k x). Conjugating
+    the temporal coefficients gives exact signed-bin pairing for even/odd nt.
     """
     times=np.asarray(times_s,dtype=float)
     trace=np.asarray(scalar_trace)
+    if temporal_sign not in (-1,1):
+        raise ValueError('temporal_sign must be +1 or -1')
     if trace.ndim!=3 or trace.shape[0]!=len(times) or len(times)<3:
         raise ValueError('Require scalar trace of shape (time,y,x) and >=3 sample times')
     if not np.isfinite(dx_m) or dx_m<=0 or batch_rows<1:
@@ -172,6 +178,7 @@ def space_time_spectrum(times_s,scalar_trace,dx_m,discard_s=0,time_window='hann'
         temporal=np.fft.rfft(block*wt[:,None,None],axis=0)*2/wt.sum()
         temporal[0]*=.5
         if nt%2==0: temporal[-1]*=.5
+        if temporal_sign==-1: temporal=temporal.conj()
         transformed=np.fft.fftshift(np.fft.fft(temporal*wx[None,None,:],axis=-1),axes=-1)/wx.sum()
         power+=np.sum(abs(transformed)**2,axis=1)/ny
     return wavevectors,frequencies,power

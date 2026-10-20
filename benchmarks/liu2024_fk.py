@@ -18,6 +18,8 @@ def main():
     parser.add_argument('--discard-ns',type=float,default=0)
     parser.add_argument('--time-window',choices=['hann','rectangular'],default='hann')
     parser.add_argument('--space-window',choices=['hann','rectangular'],default='hann')
+    parser.add_argument('--temporal-sign',type=int,choices=[-1,1],default=1,
+                        help='Select exp(+i omega t) (+1) or exp(-i omega t) (-1), at positive returned f')
     parser.add_argument('--output',type=Path,default=Path('results/liu2024_fk'))
     args=parser.parse_args()
     metadata=json.loads(args.summary.read_text())
@@ -28,7 +30,8 @@ def main():
     dt=metadata['sample_ps']*1e-12
     times=np.arange(len(trace))*dt
     q,f,power=space_time_spectrum(times,trace[...,components.index(args.component)],metadata['cell_nm']*1e-9,
-                                 discard_s=args.discard_ns*1e-9,time_window=args.time_window,space_window=args.space_window)
+                                 discard_s=args.discard_ns*1e-9,time_window=args.time_window,space_window=args.space_window,
+                                 temporal_sign=args.temporal_sign)
     args.output.mkdir(parents=True,exist_ok=True)
     np.savez_compressed(args.output/'space_time_fft.npz',k_rad_m=q,frequency_Hz=f,power=power)
     visible=f<=55e9
@@ -41,6 +44,7 @@ def main():
     savefig(fig,args.output,'fk')
     (args.output/'summary.json').write_text(json.dumps(dict(source_trajectory=str(args.trajectory),source_summary=str(args.summary),
         component=args.component,time_window=args.time_window,space_window=args.space_window,discard_ns=args.discard_ns,
+        temporal_sign=args.temporal_sign,
         frequency_bin_Hz=float(f[1]-f[0]),wavevector_bin_rad_m=float(q[1]-q[0]),full_paper_validation_passed=False),indent=2))
 
 if __name__=='__main__':main()

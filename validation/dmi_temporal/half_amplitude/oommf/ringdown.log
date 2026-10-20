@@ -1,0 +1,3 @@
+[21:02:57] Start: "/workspace/spinfreq/results/dmi_oommf_half_amplitude/ringdown.mif"
+Options: -exitondone 1 -kill archive -logfile /workspace/spinfreq/results/dmi_oommf_half_amplitude/ringdown.errors -threads 2
+[21:05:13] Boxsi run end

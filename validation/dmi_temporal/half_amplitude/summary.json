@@ -1,0 +1,171 @@
+{
+  "configuration": {
+    "nx": 64,
+    "ny": 100,
+    "dx_m": 2e-09,
+    "dy_m": 2e-09,
+    "thickness_m": 1e-09,
+    "period_m": 1.28e-07,
+    "width_m": 2e-07,
+    "harmonics": [
+      1,
+      2
+    ],
+    "duration_ns": 4.0,
+    "sample_ps": 1.0,
+    "amplitude": 5e-05,
+    "observed_y_row": 49,
+    "material": {
+      "Ms": 860000.0,
+      "A": 1.3e-11,
+      "D": -0.003,
+      "K": 0,
+      "alpha": 0.01,
+      "gamma": 175866212116.54434
+    },
+    "field_T": [
+      0,
+      0.4,
+      0
+    ],
+    "oommf_D_J_m2": 0.003,
+    "oommf_D_class": "Oxs_DMI_Cnv_z",
+    "spinfreq_boundary": "bond",
+    "images": 1024,
+    "oommf_gamma_convention": "gamma_G 2.21e5 m/(A s)"
+  },
+  "reference_type": "Independently executed nonlinear CPU OOMMF, periodic x, open y",
+  "samples": 4000,
+  "first_time_s": 1.0000000000000002e-12,
+  "last_time_s": 3.9999999999999754e-09,
+  "frequency_bin_GHz": 0.24999999999999994,
+  "static_max_component_difference": 9.382284777426086e-07,
+  "spinfreq_torque_T": 2.4376842427596214e-13,
+  "harmonics": [
+    {
+      "harmonic": 1,
+      "k_rad_nm": 0.04908738521234051,
+      "relative_complex_trace_L2_error": 0.0004787255636137041,
+      "max_complex_error_over_peak": 0.00017557120553210375,
+      "coefficient_reconstruction_residual": 3.3404313290380384e-15,
+      "max_growth_rate_per_s": -1066796089.9582434,
+      "poles": [
+        {
+          "physical_k_rad_nm": 0.04908738521234051,
+          "frequency_GHz": 33.68930129064788,
+          "pole_FWHM_GHz": 0.7675104529882443,
+          "absolute_eigen_residual_per_s": 0.005141477094565142
+        },
+        {
+          "physical_k_rad_nm": -0.04908738521234051,
+          "frequency_GHz": 14.748543085255708,
+          "pole_FWHM_GHz": 0.3395717419759214,
+          "absolute_eigen_residual_per_s": 0.004537144974253164
+        }
+      ]
+    },
+    {
+      "harmonic": 2,
+      "k_rad_nm": 0.09817477042468102,
+      "relative_complex_trace_L2_error": 0.0005741291637191638,
+      "max_complex_error_over_peak": 0.0001853931496841773,
+      "coefficient_reconstruction_residual": 3.1475084778770136e-15,
+      "max_growth_rate_per_s": -849849206.8972427,
+      "poles": [
+        {
+          "physical_k_rad_nm": 0.09817477042468102,
+          "frequency_GHz": 51.02455787600709,
+          "pole_FWHM_GHz": 1.103568808981547,
+          "absolute_eigen_residual_per_s": 0.0036444366559534556
+        },
+        {
+          "physical_k_rad_nm": -0.09817477042468102,
+          "frequency_GHz": 12.484080170992929,
+          "pole_FWHM_GHz": 0.2705154043208461,
+          "absolute_eigen_residual_per_s": 0.004065402302982961
+        }
+      ]
+    }
+  ],
+  "FFT_peaks": [
+    {
+      "k_rad_m": -49087385.21234051,
+      "correct_peak_GHz": 14.749999999999996,
+      "legacy_peak_GHz": 14.499999999999996,
+      "frequency_domain_FFT_peak_GHz": 14.749999999999996
+    },
+    {
+      "k_rad_m": 49087385.21234051,
+      "correct_peak_GHz": 33.74999999999999,
+      "legacy_peak_GHz": 33.49999999999999,
+      "frequency_domain_FFT_peak_GHz": 33.74999999999999
+    },
+    {
+      "k_rad_m": -98174770.42468102,
+      "correct_peak_GHz": 12.499999999999996,
+      "legacy_peak_GHz": 12.249999999999996,
+      "frequency_domain_FFT_peak_GHz": 12.499999999999996
+    },
+    {
+      "k_rad_m": 98174770.42468102,
+      "correct_peak_GHz": 50.999999999999986,
+      "legacy_peak_GHz": 50.749999999999986,
+      "frequency_domain_FFT_peak_GHz": 50.999999999999986
+    }
+  ],
+  "parity_audit": [
+    {
+      "samples": 4000,
+      "true_frequency_GHz": 12.5,
+      "bin_GHz": 0.24999999999999997,
+      "k_rad_m": 147262155.63702154,
+      "correct_peak_GHz": 12.499999999999998,
+      "legacy_peak_GHz": 12.249999999999998,
+      "legacy_error_GHz": -0.2500000000000018
+    },
+    {
+      "samples": 4001,
+      "true_frequency_GHz": 12.496875781054737,
+      "bin_GHz": 0.24993751562109473,
+      "k_rad_m": 147262155.63702154,
+      "correct_peak_GHz": 12.496875781054737,
+      "legacy_peak_GHz": 12.496875781054737,
+      "legacy_error_GHz": 0.0
+    }
+  ],
+  "raw_reference_sha256": {
+    "configuration.json": "dd7d7b32a7efe28d4b54e3643329a6bce40fe2225b34c515f896cdfbeda2b1a9",
+    "equilibrium.mif": "17c35042ffddb9773dfcf9eff25bccdc4bbe6f26e50323e9447d9bca24c6113b",
+    "ringdown.mif": "1873f89a7d47374c4d810ec634dced85239e7c0c0b4b6cec5ca211c7bc50c2b1",
+    "equilibrium.odt": "e517ad993c21f7b988580726c8eee4909f351ab82c4d28d24ae3ed4f1aa09a54",
+    "ringdown.odt": "9e7e5d1a0997d401c95ef3a0e0ef36e09ddb5433cfbaa1063e0a33b3db071ae1",
+    "initial.ovf": "71063f74eedefcfe76bf14e537e5493a62815b0bef24cab1cd4ef58a1c553dc3",
+    "equilibrium-Oxs_MinDriver-Spin-00-0000113.omf": "86851e617e1ddcdd7ebee7ca866b02223b872a062cf7e10952449de4e05835a1",
+    "execution.json": "66c137011d4d68d6d6221eaffba8135ddce2291c0e464fc6790d5944e3bd607b",
+    "runtime.json": "b0a463a02c1942749917c6e6de0cbd1964a1ff3381dfd768ee6bc09d792df7d3",
+    "equilibrium.log": "e7fabad779b54005d623daaa69f70ee4544924ac2c7089f2ab6d4a2c9db1f6cc",
+    "ringdown.log": "a435b3917d875a1492330a9479e3e4c9dcb5d3e1c6c4e84ed0724e10a44f3960"
+  },
+  "gates": {
+    "complete_four_ns_run": true,
+    "static_profile_error_below_1e_5": true,
+    "complex_trace_errors_below_1_percent": true,
+    "FFT_peak_discrepancy_within_one_bin": true
+  },
+  "paper_finite_pulse_reproduction": false,
+  "full_P4_release_gate_closed": false,
+  "limitations": [
+    "Two signed wavevector pairs in a periodic 128 nm strip, not a continuous dispersion map.",
+    "Small initial perturbation and free ringdown, not the finite 2000 nm, 40 mT localized pulse.",
+    "Modern Oxs_DMI_Cnv_z bond-boundary operator, not proof of the exact historical solver version.",
+    "The even-FFT row-reversal bias is proven; historical MuMax snapshot parity is not known.",
+    "Published OOMMF/Fidimag fitted-band discrepancies are only partly explained by this audit."
+  ],
+  "all_executed_gates_passed": true,
+  "analysis_environment": {
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41"
+  }
+}

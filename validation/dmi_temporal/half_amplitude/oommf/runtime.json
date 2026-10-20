@@ -1,0 +1,11 @@
+{
+  "tclsh": "/tmp/spinfreq-tcl/bin/tclsh8.6",
+  "oommf_tcl": "/tmp/spinfreq-oommf-source/oommf/oommf.tcl",
+  "env": {
+    "OOMMF_TCL_CONFIG": "/tmp/spinfreq-tcl/lib/tclConfig.sh",
+    "OOMMF_TCL_INCLUDE_DIR": "/tmp/spinfreq-tcl/include"
+  },
+  "oommf_repository": "https://github.com/fangohr/oommf",
+  "oommf_commit": "8880fff5446eeab030a18881b474814f1ea60687",
+  "tcl_commit": "cbf86d62348d6b052e1961b4df995960fb21545f"
+}
