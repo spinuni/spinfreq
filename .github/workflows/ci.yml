@@ -88,6 +88,30 @@ jobs:
           name: dmi-temporal-comparison
           path: results/temporal-ci/
 
+  skyrmion-reference:
+    runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - name: Verify and analyze independent skyrmion references at two fields
+        run: |
+          for case_name in field_0mT field_50mT; do
+            python benchmarks/skyrmion_temporal.py restore --reference validation/skyrmion_temporal/$case_name --workdir results/oommf-$case_name
+            python benchmarks/skyrmion_temporal.py analyze --workdir results/oommf-$case_name --output results/skyrmion-ci/$case_name --check
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: skyrmion-comparison
+          path: results/skyrmion-ci/
+
   distribution:
     runs-on: ubuntu-latest
     env:

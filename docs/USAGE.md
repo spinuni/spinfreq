@@ -357,6 +357,18 @@ The analyzer requires numbered `m*.ovf` fields and actual uniform timestamps. Sp
 
 ## 12. Validation and troubleshooting
 
+For an independent noncollinear check, use the [two-field OOMMF skyrmion workflow](../validation/skyrmion_temporal/README.md). It includes native-reference restoration, new CPU runs, complete spatial reconstruction and complex mode extraction:
+
+```bash
+python benchmarks/skyrmion_temporal.py restore \
+  --reference validation/skyrmion_temporal/field_0mT --workdir results/skyrmion-reference
+python benchmarks/skyrmion_temporal.py analyze --workdir results/skyrmion-reference \
+  --output results/skyrmion-comparison --check
+```
+
+Use a fresh directory for restoration or a new external run. A complete scalar table alone is insufficient: this benchmark also requires all spatial snapshots and their actual timestamps. New runs use one OOMMF CPU thread and `checkpoint_interval -1`; value 0 requests a checkpoint every step and caused output contention in the initial experiments. Run OOMMF jobs sequentially with its shared archive service. `--cells` changes the mesh at fixed 40 nm width; it does not resize the sample. The reported matched-grid accuracy does not qualify that coarse grid for continuum results.
+
+
 Run the analytical suite with `python benchmarks/validate.py` and the matched Fig. 1 suite with `python benchmarks/liu2024.py`. The latter uses the paper's constants explicitly; importing the generic `Material()` defaults does not select them. Fig. 2 is a separate comparison whose summary currently records partial agreement and failed range checks. Frequency-comb/standing-wave validation remains separate from linear bands.
 
 - **Relaxation fails:** inspect the residual, iteration limit and state. Try supported initial states and adequate resolution; do not override equilibrium tolerance just to force a spectrum.

@@ -1,0 +1,125 @@
+{
+  "results": [
+    {
+      "field_T": 0.0,
+      "cells": 20,
+      "cell_nm": 2.0,
+      "frequencies_GHz": [
+        1.8393771939915773,
+        16.29669858459314,
+        37.96897858107856
+      ],
+      "torque_T": 3.2508348467056156e-10,
+      "converged": true,
+      "max_growth_rate_per_s": -134554267.89116573,
+      "seconds": 0.9612840369809419
+    },
+    {
+      "field_T": 0.0,
+      "cells": 30,
+      "cell_nm": 1.3333333333333333,
+      "frequencies_GHz": [
+        1.8821200049905744,
+        16.92398114992968,
+        38.280554724591646
+      ],
+      "torque_T": 2.2278179716554947e-10,
+      "converged": true,
+      "max_growth_rate_per_s": -138367052.74311304,
+      "seconds": 4.1169201800075825
+    },
+    {
+      "field_T": 0.0,
+      "cells": 40,
+      "cell_nm": 1.0,
+      "frequencies_GHz": [
+        1.895865140877698,
+        17.113072092540186,
+        38.415951849584424
+      ],
+      "torque_T": 1.2923745146537942e-11,
+      "converged": true,
+      "max_growth_rate_per_s": -139602011.77770782,
+      "seconds": 15.374193210998783
+    },
+    {
+      "field_T": 0.05,
+      "cells": 20,
+      "cell_nm": 2.0,
+      "frequencies_GHz": [
+        1.7242096133176554,
+        17.213787552539458,
+        39.69409252398188
+      ],
+      "torque_T": 3.008802430583514e-10,
+      "converged": true,
+      "max_growth_rate_per_s": -124073036.43086839,
+      "seconds": 0.8275060839951038
+    },
+    {
+      "field_T": 0.05,
+      "cells": 30,
+      "cell_nm": 1.3333333333333333,
+      "frequencies_GHz": [
+        1.783992704123723,
+        18.201337793434107,
+        40.0255131166699
+      ],
+      "torque_T": 1.9807921537886787e-10,
+      "converged": true,
+      "max_growth_rate_per_s": -129170592.24911118,
+      "seconds": 3.6297361759934574
+    },
+    {
+      "field_T": 0.05,
+      "cells": 40,
+      "cell_nm": 1.0,
+      "frequencies_GHz": [
+        1.8017092693789214,
+        18.47820563770085,
+        40.16753561152226
+      ],
+      "torque_T": 5.006719503872494e-11,
+      "converged": true,
+      "max_growth_rate_per_s": -130702273.20511818,
+      "seconds": 15.04179132101126
+    }
+  ],
+  "refinements": [
+    {
+      "field_T": 0.0,
+      "pair_changes_percent": [
+        [
+          2.2709928636676535,
+          3.706471661599231,
+          0.8139279740189576
+        ],
+        [
+          0.7250059928186836,
+          1.1049503069231692,
+          0.35245026733404794
+        ]
+      ],
+      "finest_pair_change_below_1_percent": false
+    },
+    {
+      "field_T": 0.05,
+      "pair_changes_percent": [
+        [
+          3.351083817096223,
+          5.425701407788253,
+          0.8280233453146879
+        ],
+        [
+          0.98331987054191,
+          1.4983481063867599,
+          0.3535753256707741
+        ]
+      ],
+      "finest_pair_change_below_1_percent": false
+    }
+  ],
+  "project_finest_pair_threshold_percent": 1.0,
+  "continuum_error_bound": false,
+  "external_fine_mesh_run_executed": false
+}

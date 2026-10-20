@@ -44,7 +44,7 @@ Specify Oxs_DMI_Cnv_z {atlas :atlas default_D 3e-3 D {film film 3e-3}}
 Specify Oxs_FixedZeeman [subst {field {0 [expr {.4/$mu0}] 0}}]
 '''
     static=common.replace('@BASENAME@','equilibrium')+'''Specify Oxs_CGEvolve:evolver {}
-Specify Oxs_MinDriver {evolver :evolver mesh :mesh Ms 860e3 m0 {0 1 0} stopping_mxHxm 0.001 checkpoint_interval 0}
+Specify Oxs_MinDriver {evolver :evolver mesh :mesh Ms 860e3 m0 {0 1 0} stopping_mxHxm 0.001 checkpoint_interval -1}
 Destination archive mmArchive
 Schedule DataTable archive Stage 1
 Schedule Oxs_MinDriver::Spin archive Stage 1
@@ -67,7 +67,7 @@ proc Weight {j trig x y z} {
     dynamic+='''Specify Oxs_TimeDriver {
  evolver :evolver mesh :mesh Ms 860e3
  m0 {Oxs_FileVectorField {atlas :atlas file initial.ovf norm 1}}
- stopping_time 1e-12 stage_count @STAGES@ checkpoint_interval 0
+ stopping_time 1e-12 stage_count @STAGES@ checkpoint_interval -1
 '''.replace('@STAGES@',str(round(duration_ns*1000)))+'\n'.join(outputs)+'''\n}
 Destination archive mmArchive
 Schedule DataTable archive Stage 1

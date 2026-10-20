@@ -188,6 +188,17 @@ checks and archived-reference reanalysis pass. The fresh numerical environment
 also passes the full-amplitude temporal comparison. Hosted CI status is not
 inferred from these local results.
 
+## Checkpoint configuration update
+
+The subsequent skyrmion benchmark corrected generated MIFs to use
+`checkpoint_interval -1`, OOMMF's documented value for disabling checkpoints.
+The original DMI references archived here retain their actual inputs, including
+the old value 0, which requested a checkpoint every step. Their archived static
+field and scalar tables parse completely and remain hash-verified; they are not
+rewritten. The original 189 s timing includes that unnecessary checkpoint I/O.
+The corrected setting prevents the asynchronous checkpoint/output contention
+encountered when exporting many spatial snapshots in the new benchmark.
+
 ## Remaining scope
 
 The finite 2000 nm strip with its localized 40 mT pulse, a continuous signed-k

@@ -18,9 +18,10 @@ Sources were checked against the authors' repositories, simulator source and
 input files on 2026-10-15, with the DMI reference extended on 2026-10-20. Publisher/arXiv hosts were inaccessible from this
 environment; the linked primary repositories provided the reproducible inputs
 and, for Baker and Cortés-Ortuño, reference data. Solver attribution below is
-limited to what those sources establish. Two new CPU OOMMF 4 ns simulations were executed on 2026-10-20;
-their [native inputs, traces and comparison](../validation/dmi_temporal/README.md)
-are archived. No new MuMax3 simulation was executed here.
+limited to what those sources establish. Two CPU OOMMF 4 ns DMI runs and two 8 ns skyrmion runs were executed on 2026-10-20;
+their [DMI reference](../validation/dmi_temporal/README.md) and
+[skyrmion reference](../validation/skyrmion_temporal/README.md) are archived.
+No new MuMax3 simulation was executed here.
 
 | Paper / primary source | Temporal solver or reference | What to compare | Fit to the current solver |
 | --- | --- | --- | --- |
@@ -86,10 +87,10 @@ result without recording the scientific reason.
 | P2. Analytic baselines | Kittel orientations, exchange/dipolar dispersion, complex susceptibility including phase and positive absorption, damping | Existing analytic reports and tests pass. Extend field, damping and material sweeps before claiming a broad accuracy envelope. |
 | P3. Independent finite-film FMR | Visible frequencies within 1%; complex mode MAC >0.95; linewidth within 5% with a credible extraction method; final lateral refinement <0.5% | New Baker/OOMMF benchmark supplies the two visible low-mode comparisons. Exact z-resolved replication and wider parameter sweeps remain outside that result. |
 | P4. Interfacial DMI and propagation | Independent static canting/profile; chirality under `D -> -D`; signed `f(k)` versus temporal data; nonreciprocity slope within 2% after mesh convergence | Published MuMax3/OOMMF/Fidimag 1D profiles, D reversal, continuum refinement and analytical signed dispersion pass. MuMax strip fit summaries agree within 0.12%; the tested finest low-band mesh change is 0.4565%. Two executed CPU OOMMF ringdowns match full complex traces within 0.058% at two wavevector magnitudes, with all four signed-k peaks matching. A proven even-N FFT row-reversal bias explains part of the old offset. Full finite-strip curves, wider convergence and the remaining historical OOMMF/Fidimag band differences are open: **P4 is not fully closed**. |
-| P5. Noncollinear dynamics | At least one skyrmion case with independent equilibrium/profile and complex mode fields, plus two fields or sizes; frequencies within 2% after refinement; no material fitting | Liu's three isolated frequencies are partial evidence. Independent mode/profile data and a second parameter point are still needed. Full agreement with Liu Fig. 2 is not a universal release gate. |
+| P5. Noncollinear dynamics | At least one skyrmion case with independent equilibrium/profile and complex mode fields, plus two fields or sizes; frequencies within 2% after refinement; no material fitting | New independent CPU OOMMF skyrmions at 0 and 50 mT validate profiles, full spatial traces (error <0.0086%) and six complex mode fields (MAC >0.998); fitted frequencies agree within 0.019%. The matched 2 nm grid is not continuum-qualified. The 1 to 0.8 nm linear refinement changes poles by <0.648%; independent fine-grid dynamics remain open. Full agreement with Liu Fig. 2 is not a universal release gate. |
 | P6. Driven response and the linear regime | External small-drive complex response/decay; peak positions and phase; halving drive halves δm and quarters power; repeat near two resonances | Analytic macrospin checks and external OOMMF complex ringdown/initial-amplitude halving pass (power ratio 1/4). External multi-mode forced-response/phase sweeps remain open. Compare like excitation and like observable. |
 | P7. Stability and band completeness | Physical static residual; absolute and relative eigen residuals; growth-rate error bounds near zero; targeted-mode count/shift convergence and branch overlap tracking | Root refinement and Bloch residual checks exist. Neutral-mode certification, automatic tracking and completeness checks are open. Do not present a targeted subset as a proven band gap. |
-| P8. Supported envelope | Fixed-size mesh refinement; finite-size/image convergence; reference z refinement at representative thicknesses; measured time/RAM | Some individual convergence studies exist. There is no general validated thickness/grid/parameter envelope yet. |
+| P8. Supported envelope | Fixed-size mesh refinement; finite-size/image convergence; reference z refinement at representative thicknesses; measured time/RAM | Individual convergence studies exist, including a two-field noncollinear 2 to 0.8 nm study. Coarse-grid frequency shifts reach several percent; the finest pair passes its 1% target. Fine-grid external dynamics and a general thickness/grid/parameter envelope remain open. |
 
 For finite-time comparisons, choose the observation duration before measuring
 error: `Δf = 1/T`. Account for window broadening, transient removal, excitation
@@ -168,6 +169,16 @@ The even/odd FFT branch regression now protects signed-wavevector extraction.
 See the [report](../validation/dmi_temporal/README.md) for the reduced periodic
 geometry and the remaining full-strip and forced-response requirements.
 
+The two-field skyrmion update adds full spatial OOMMF snapshots, independent
+pole fits, complex vector mode maps, failed coarse-mesh and passing fine-pair
+studies. All **68 tests** pass locally. Native scalar/spatial reference archives
+are included in the sdist; the new CI job verifies their hashes and recomputes
+the comparisons. New OOMMF MIFs correctly disable checkpointing with -1;
+0 requested per-step checkpoints and led to rejected corrupt spatial outputs
+in exploratory runs. The accepted references contain complete readable fields.
+See the [report](../validation/skyrmion_temporal/README.md) for numerical results,
+reproduction commands and remaining fine-grid qualification.
+
 Do not make a particular cloud provider a physics dependency. First define the
 worker's compute budget and result-storage requirements, then choose hosting.
 The browser should request a validated configuration and inspect results; the
@@ -177,8 +188,8 @@ package should own the physics.
 
 1. Retain the FMR, DMI static/analytical and archived OOMMF temporal regressions.
    Extend the two-q temporal comparison to the finite-strip pulse and resolve the remaining
-   OOMMF/Fidimag band differences. Obtain an independently generated skyrmion
-   equilibrium and mode/response dataset at a second parameter point.
+   OOMMF/Fidimag band differences. Retain the new independent two-field skyrmion
+   profile/mode data and repeat external dynamics on the qualified fine mesh.
 2. Add shared configuration, diagnostics and mode tracking; qualify a finite
    range of thicknesses, mesh sizes and drive amplitudes. Keep larger and
    unsupported requests outside the first public presets.
