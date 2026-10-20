@@ -44,6 +44,25 @@ jobs:
           name: fmr-comparison
           path: results/fmr-ci/
 
+  dmi-static-reference:
+    runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - run: python benchmarks/dmi_standard_problem.py --fetch-reference --skip-dispersion --check --output results/dmi-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dmi-static-comparison
+          path: results/dmi-ci/
+
   distribution:
     runs-on: ubuntu-latest
     env:

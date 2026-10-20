@@ -52,6 +52,8 @@ Magnetization is a **unit vector**, stored as `(ny, nx, 3)`. The last axis is `(
 
 Specify `dy` explicitly for rectangular cells; otherwise it equals `dx`. Physical dimensions are `nx*dx` and `ny*dy`. The field API uses tesla, not A/m or oersted. For `H` in A/m, use `B=mu0*H` for the applied field. DMI is interfacial, not bulk chiral DMI. Positive `K` favors the z axis.
 
+Cell counts are positive integers, including 1 and 2. Sampled-field derivative diagnostics return zero along singleton axes; open-axis MuMax DMI ghost boundaries are retained. A nonzero Bloch phase still produces exchange and DMI across a one-cell period. A two-cell confined diagnostic uses first-order differences. A one-cell axis represents uniform magnetization within that cell and still needs the intended boundary conditions. See the [DMI standard report](../validation/dmi_standard_problem/README.md#1-single-cell-axes-and-boundary-conditions) for the transverse-periodic wire example and the resulting difference from an open wire.
+
 ## 3. Choose a geometry
 
 | Class | Boundary conditions | Spatial operators | Intended workflow |
@@ -63,6 +65,8 @@ Specify `dy` explicitly for rectangular cells; otherwise it equals `dx`. Physica
 `ConfinedFilm(dmi_boundary='mumax')` uses the MuMax3 default natural DMI ghost-spin extrapolation. In MuMax language this corresponds to `OpenBC=false` with `SetPBC(0,0,0)`. `OpenBC` controls its DMI edge prescription; it is not the periodic-boundary switch. `dmi_boundary='bond'` exposes the simpler bond-energy boundary and will change edge-dependent frequencies.
 
 `BlochChain(images=32)` retains images from −32 to +32 along x. Test `images=64` before quoting small frequency differences. The Newell evaluation uses cell-volume averages near a source and stable Gauss quadrature at large separations. All three classes include exchange, interfacial DMI, uniaxial anisotropy, Zeeman and demagnetization. `demag=False` is intended for controlled analytical tests, not for silently approximating the paper.
+
+Image convergence depends on physical extent `images*nx*dx`, not only the image count. A single-cell 2 nm x period needs many more images than a 40 nm skyrmion period. The DMI strip benchmark tests 512 versus 1024 images at 2 nm. For propagation with `exp(i k x-i omega t)`, select negative-imaginary eigenvalues and report `-Im(lambda)/(2*pi)`; the API's `frequencies_Hz` property continues to use `Im(lambda)/(2*pi)`. Both branches are retained. State the phase convention before comparing a nonreciprocal dispersion.
 
 No class resolves z-dependent modes, multilayers, thermal noise, spin-transfer torque or nonrectangular meshes. The periodic `Film` demag approximation is not the same discretization as the MuMax-compatible confined model.
 

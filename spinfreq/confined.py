@@ -131,7 +131,10 @@ class ConfinedFilm(Film):
 
     def derivative(self,m,axis):
         dimension,spacing = (1,self.dx) if axis=='x' else (0,self.dy)
-        return np.gradient(m,spacing,axis=dimension,edge_order=2)
+        count=m.shape[dimension]
+        if count==1:
+            return np.zeros_like(m)
+        return np.gradient(m,spacing,axis=dimension,edge_order=min(2,count-1))
 
     def linearize(self,m,equilibrium_tolerance_T=1e-4):
         # Full 40×40 reference fits comfortably in memory; inherited cap is periodic-only.

@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from spinfreq.confined import ConfinedFilm
 from spinfreq import Material
 from spinfreq.model import MU0
@@ -49,10 +50,11 @@ def test_matrix_free_matches_dense_response():
     np.testing.assert_allclose(film.response_iterative(m,[10e9]),film.response(m,[10e9]),rtol=1e-6,atol=1e-12)
 
 
-def test_mumax_dmi_ghost_stencil_matches_boundary_correction():
+@pytest.mark.parametrize('nx,ny',[(4,3),(5,1),(1,4),(1,1)])
+def test_mumax_dmi_ghost_stencil_matches_boundary_correction(nx,ny):
     # Independently implement the four neighbor terms in cuda/dmi.cu.
     p=Material(K=0)
-    film=ConfinedFilm(nx=4,ny=3,demag=False,material=p,field_T=(0,0,0))
+    film=ConfinedFilm(nx=nx,ny=ny,demag=False,material=p,field_T=(0,0,0))
     m=np.random.default_rng(11).normal(size=film.shape)
     expected=np.zeros_like(m)
     for y in range(film.ny):

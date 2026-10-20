@@ -1,0 +1,401 @@
+{
+  "paper_DOI": "10.1088/1367-2630/aaea1c",
+  "reference_repository": "https://github.com/fangohr/paper-supplement-standard-problem-dmi",
+  "reference_commit": "1d9390c06c13cda29b0eb2f38f7e132be05e97f4",
+  "reference_sha256": {
+    "notebooks/data/results_1d/result_1d_x-mx_interfacial_ODE.txt": "fc0d3fa49a8f57fc04a4468bf821808a127a06aba241bb465fcd0b26c05281f9",
+    "notebooks/data/results_1d/result_1d_x-mz_interfacial_ODE.txt": "1c2efeb1f3e5d4093ebfb5f2786c7c3d54efac17f10a3b72faa9d5d7ad4b83e4",
+    "notebooks/data/results_1d/result_1d_x-mx_interfacial_fidimag.txt": "76ac9903508376164da4b5151804fc8692b41646cab55d99b767d2c5defc8eb3",
+    "notebooks/data/results_1d/result_1d_x-mz_interfacial_fidimag.txt": "121d6e7c064abc5a1796a18878037a0fc58ac355c4c35305fc8f81267fc59c88",
+    "notebooks/data/results_1d/result_1d_x-mx_interfacial_oommf.txt": "eae8e4baf76ec17a127d129e20dc75b46f61594ee438f8fd644fb9a2f3d36f3d",
+    "notebooks/data/results_1d/result_1d_x-mz_interfacial_oommf.txt": "0c99580467a153fa69c0611963badd061ee29953489cf0278f8aa293ba8315ce",
+    "notebooks/data/results_1d/result_1d_x-mx_interfacial_mumax3.txt": "fc3c387128e58943db9821454a6eed0bb93170749ca94de6511c35b78872b63a",
+    "notebooks/data/results_1d/result_1d_x-mz_interfacial_mumax3.txt": "527fee1d2b9810b8bdf66104c8f202c4ef83131e1a91dc67fe0e2dabededa6fd",
+    "sims/MUMAX3/1D/one_dim_inter.ovf": "93732e2f37cdfb7bb0ad6b635690ddb831a9fac7fc60997ddb526ef21dfdfb1d",
+    "notebooks/spin_waves_dmi.ipynb": "cd2fafd80c6511eea21a5069138e888c7386123418766c061ad46ec030f40fe6"
+  },
+  "static": {
+    "material": {
+      "Ms": 860000.0,
+      "A": 1.3e-11,
+      "D": -0.003,
+      "K": 400000.0,
+      "alpha": 0.01,
+      "gamma": 175866212116.54434
+    },
+    "geometry_nm": [
+      100,
+      1,
+      1
+    ],
+    "demag": false,
+    "model": "Reference x-wire rotated onto model y; nx=1, x periodic, y open; m_ref=(m_model_y,-m_model_x,m_model_z)",
+    "meshes": [
+      {
+        "cells": 100,
+        "cell_nm": 1.0,
+        "torque_T": 1.2804053295054074e-09,
+        "max_component_error_to_continuum": 0.0013124736544123383,
+        "energy_J": -4.223304607077041e-20,
+        "max_growth_rate_per_s": -1631718604.2208204,
+        "lowest_three_frequencies_GHz": [
+          25.725438429790906,
+          26.243298366511638,
+          28.720477175824577
+        ],
+        "published_profile_errors": {
+          "mumax3": {
+            "mx_max": 4.800668864934909e-06,
+            "mz_max": 3.5441700285687716e-06
+          },
+          "oommf": {
+            "mx_max": 3.0770779813060756e-09,
+            "mz_max": 1.8407833035638532e-09
+          },
+          "fidimag": {
+            "mx_max": 1.2895366601206604e-06,
+            "mz_max": 9.359112566054151e-07
+          }
+        },
+        "D_reversal_mirror_error": 0.0
+      },
+      {
+        "cells": 200,
+        "cell_nm": 0.5,
+        "torque_T": 1.382953088852057e-09,
+        "max_component_error_to_continuum": 0.0003477205442681264,
+        "energy_J": -4.2143563461657637e-20,
+        "max_growth_rate_per_s": -1628527212.2247179,
+        "lowest_three_frequencies_GHz": [
+          25.673851345281314,
+          26.163941627753967,
+          28.667379269818408
+        ]
+      },
+      {
+        "cells": 400,
+        "cell_nm": 0.25,
+        "torque_T": 2.2482202766127557e-09,
+        "max_component_error_to_continuum": 8.915925980845785e-05,
+        "energy_J": -4.209961803268004e-20,
+        "max_growth_rate_per_s": -1626948166.6454682,
+        "lowest_three_frequencies_GHz": [
+          25.649419337546007,
+          26.126968375853362,
+          28.64328742922294
+        ]
+      }
+    ],
+    "continuum_BVP_max_residual": 9.694686559144063e-10,
+    "continuum_vs_published_ODE_max_errors": {
+      "mx": 3.6221829863292143e-07,
+      "mz": 2.3919981828601777e-07
+    },
+    "literal_open_y_MuMax_max_component_error": 1.0811878700667243e-06,
+    "open_y_vs_periodic_y_max_component_difference": 0.18463689946681056,
+    "open_single_cell_transverse_ghost_effective_K_J_m3": 346153.8461538461,
+    "source_D_conventions": {
+      "spinfreq_J_m2": -0.003,
+      "mumax_J_m2": -0.003,
+      "notebook_oommf_J_m2": 0.003,
+      "fidimag_J_m2": 0.003
+    },
+    "gates": {
+      "published_profiles_below_1e_4": true,
+      "open_y_MuMax_profile_below_1e_4": true,
+      "D_reversal_below_1e_7": true,
+      "continuum_error_below_5e_4_and_refines": true
+    }
+  },
+  "analytic": {
+    "material": {
+      "Ms": 860000.0,
+      "A": 1.3e-11,
+      "D": -0.003,
+      "K": 0,
+      "alpha": 0,
+      "gamma": 175866212116.54434
+    },
+    "max_frequency_relative_error": 1.7763568394002505e-15,
+    "inferred_D_J_m2": -0.002999999999999999,
+    "relative_D_error": 3.3306690738754696e-16,
+    "max_subspace_residual": 3.38733206025355e-15,
+    "passed": true,
+    "note": "Analytical identity for uniform-through-thickness periodic film, not external strip data"
+  },
+  "dispersion": {
+    "geometry": "Infinite x-periodic, open-y 200 nm strip, 1 nm thickness; compare its interior bands with a finite 2000 nm reference",
+    "reference_metrics_source": "Saved stdout in the pinned author notebook; raw spectra absent from the source repository",
+    "frequency_convention": "m = Re[u exp(i k x + lambda t)], compare f=-Im(lambda)/(2*pi)>0 to exp(i k x-i omega t)",
+    "observable": "Pole residue for uniform-y Bx drive, mx at the negative-y central row; inverse right eigenbasis, divided by pole decay",
+    "reported_notebook_metrics": {
+      "MuMax3": {
+        "k_min_rad_nm": -0.103066,
+        "f_min_GHz": 12.62453,
+        "quadratic_inferred_D_mJ_m2": 2.6205
+      },
+      "OOMMF": {
+        "k_min_rad_nm": -0.102949,
+        "f_min_GHz": 12.16152,
+        "quadratic_inferred_D_mJ_m2": 2.664
+      },
+      "Fidimag": {
+        "k_min_rad_nm": -0.103008,
+        "f_min_GHz": 12.149453,
+        "quadratic_inferred_D_mJ_m2": 2.67
+      }
+    },
+    "meshes": [
+      {
+        "cell_nm": 4.0,
+        "nx": 1,
+        "ny": 50,
+        "images": 256,
+        "boundary": "mumax",
+        "torque_T": 2.9533667211883985e-16,
+        "max_growth_rate_per_s": -881150122.2887003,
+        "max_eigen_relative_residual": 1.2225993301843023e-15,
+        "quadratic_k_min_rad_nm": -0.0978595498414276,
+        "quadratic_f_min_GHz": 13.08945523776178,
+        "quadratic_inferred_abs_D_mJ_m2": 2.5896186610137404,
+        "quadratic_coefficients": [
+          861.2647890291267,
+          168.5659690973249,
+          21.337350164985885
+        ],
+        "sampled_minimum_GHz": 12.953219177194905,
+        "sampled_minimum_k_rad_nm": -0.09738937226128358,
+        "signed_pairs": [
+          {
+            "k_rad_nm": 0.02,
+            "minus_frequency_GHz": 18.254321959132763,
+            "plus_frequency_GHz": 26.04337347637061,
+            "delta_f_GHz": 7.789051517237848,
+            "inferred_D_J_m2": -0.0029915102776454515,
+            "relative_D_error": 0.0028299074515162337
+          },
+          {
+            "k_rad_nm": 0.04,
+            "minus_frequency_GHz": 15.80474556580021,
+            "plus_frequency_GHz": 31.333482992973032,
+            "delta_f_GHz": 15.528737427172821,
+            "inferred_D_J_m2": -0.002982030450654839,
+            "relative_D_error": 0.005989849781720347
+          },
+          {
+            "k_rad_nm": 0.06,
+            "minus_frequency_GHz": 14.1253009895972,
+            "plus_frequency_GHz": 37.29128611577731,
+            "delta_f_GHz": 23.16598512618011,
+            "inferred_D_J_m2": -0.00296575616185444,
+            "relative_D_error": 0.011414612715186734
+          }
+        ],
+        "elapsed_s": 6.05213030098821
+      },
+      {
+        "cell_nm": 2.0,
+        "nx": 1,
+        "ny": 100,
+        "images": 512,
+        "boundary": "mumax",
+        "torque_T": 2.4468311075480704e-13,
+        "max_growth_rate_per_s": -852302996.8803097,
+        "max_eigen_relative_residual": 1.0697460956065478e-15,
+        "quadratic_k_min_rad_nm": -0.1030196489859829,
+        "quadratic_f_min_GHz": 12.610876590594367,
+        "quadratic_inferred_abs_D_mJ_m2": 2.61758152641347,
+        "quadratic_coefficients": [
+          826.9595010528568,
+          170.38615504817773,
+          21.38743753316163
+        ],
+        "sampled_minimum_GHz": 12.577952888396231,
+        "sampled_minimum_k_rad_nm": -0.10053096491487339,
+        "signed_pairs": [
+          {
+            "k_rad_nm": 0.02,
+            "minus_frequency_GHz": 18.219098936270093,
+            "plus_frequency_GHz": 26.005101998860155,
+            "delta_f_GHz": 7.786003062590062,
+            "inferred_D_J_m2": -0.0029903394696992455,
+            "relative_D_error": 0.0032201767669182146
+          },
+          {
+            "k_rad_nm": 0.04,
+            "minus_frequency_GHz": 15.738925482601248,
+            "plus_frequency_GHz": 31.29663041807932,
+            "delta_f_GHz": 15.557704935478073,
+            "inferred_D_J_m2": -0.0029875931689537978,
+            "relative_D_error": 0.004135610348734109
+          },
+          {
+            "k_rad_nm": 0.06,
+            "minus_frequency_GHz": 13.995117399594944,
+            "plus_frequency_GHz": 37.2920837313714,
+            "delta_f_GHz": 23.296966331776453,
+            "inferred_D_J_m2": -0.0029825246400982364,
+            "relative_D_error": 0.005825119967254544
+          }
+        ],
+        "elapsed_s": 14.259917038987624
+      },
+      {
+        "cell_nm": 1.0,
+        "nx": 1,
+        "ny": 200,
+        "images": 1024,
+        "boundary": "mumax",
+        "torque_T": 4.553288495924257e-10,
+        "max_growth_rate_per_s": -843404496.2265551,
+        "max_eigen_relative_residual": 1.0039148968666215e-15,
+        "quadratic_k_min_rad_nm": -0.10445729492775152,
+        "quadratic_f_min_GHz": 12.472574888451067,
+        "quadratic_inferred_abs_D_mJ_m2": 2.62121320689578,
+        "quadratic_coefficients": [
+          816.7096038331789,
+          170.62255191585893,
+          21.383960001851303
+        ],
+        "sampled_minimum_GHz": 12.461870093153111,
+        "sampled_minimum_k_rad_nm": -0.10367255756846318,
+        "signed_pairs": [
+          {
+            "k_rad_nm": 0.02,
+            "minus_frequency_GHz": 18.199654247769626,
+            "plus_frequency_GHz": 25.980431145375324,
+            "delta_f_GHz": 7.780776897605698,
+            "inferred_D_J_m2": -0.002988332277138149,
+            "relative_D_error": 0.003889240953950379
+          },
+          {
+            "k_rad_nm": 0.04,
+            "minus_frequency_GHz": 15.71118778918317,
+            "plus_frequency_GHz": 31.265727751311083,
+            "delta_f_GHz": 15.554539962127913,
+            "inferred_D_J_m2": -0.002986985389541598,
+            "relative_D_error": 0.004338203486134007
+          },
+          {
+            "k_rad_nm": 0.06,
+            "minus_frequency_GHz": 13.95022366366109,
+            "plus_frequency_GHz": 37.26129873029249,
+            "delta_f_GHz": 23.311075066631396,
+            "inferred_D_J_m2": -0.0029843308688039926,
+            "relative_D_error": 0.005223043732002441
+          }
+        ],
+        "elapsed_s": 47.08255512500182
+      },
+      {
+        "cell_nm": 2.0,
+        "nx": 1,
+        "ny": 100,
+        "images": 512,
+        "boundary": "bond",
+        "torque_T": 2.452889714559634e-13,
+        "max_growth_rate_per_s": -843797071.011225,
+        "max_eigen_relative_residual": 1.0540341416086966e-15,
+        "quadratic_k_min_rad_nm": -0.10288344515172568,
+        "quadratic_f_min_GHz": 12.51166119756192,
+        "quadratic_inferred_abs_D_mJ_m2": 2.614460717952584,
+        "quadratic_coefficients": [
+          827.0670373962748,
+          170.18301235751977,
+          21.26616850638209
+        ],
+        "sampled_minimum_GHz": 12.477328714167918,
+        "sampled_minimum_k_rad_nm": -0.10053096491487339,
+        "signed_pairs": [
+          {
+            "k_rad_nm": 0.02,
+            "minus_frequency_GHz": 18.106552263212308,
+            "plus_frequency_GHz": 25.845695276691895,
+            "delta_f_GHz": 7.7391430134795876,
+            "inferred_D_J_m2": -0.002972342115565084,
+            "relative_D_error": 0.009219294811638634
+          },
+          {
+            "k_rad_nm": 0.04,
+            "minus_frequency_GHz": 15.628928753853353,
+            "plus_frequency_GHz": 31.080064050272085,
+            "delta_f_GHz": 15.451135296418732,
+            "inferred_D_J_m2": -0.0029671282785993405,
+            "relative_D_error": 0.010957240466886509
+          },
+          {
+            "k_rad_nm": 0.06,
+            "minus_frequency_GHz": 13.888041532408998,
+            "plus_frequency_GHz": 37.00425898811511,
+            "delta_f_GHz": 23.116217455706114,
+            "inferred_D_J_m2": -0.002959384804255552,
+            "relative_D_error": 0.013538398581482647
+          }
+        ],
+        "elapsed_s": 14.025713184993947
+      }
+    ],
+    "nominal_MuMax_summary_relative_errors": {
+      "k_min": 0.00044972167365675553,
+      "f_min": 0.0010814984324669652,
+      "quadratic_inferred_D": 0.001113708676409031
+    },
+    "max_2nm_to_1nm_relative_frequency_change_near_minimum": 0.0161100289028121,
+    "image_convergence": [
+      {
+        "k_rad_nm": -0.1,
+        "images_1024_frequency_GHz": 12.578497477503268,
+        "images_512_frequency_GHz": 12.578852461715522,
+        "relative_change": 2.8220715151516806e-05
+      },
+      {
+        "k_rad_nm": 0.0,
+        "images_1024_frequency_GHz": 21.509592197064517,
+        "images_512_frequency_GHz": 21.510528131695494,
+        "relative_change": 4.351053703777197e-05
+      },
+      {
+        "k_rad_nm": 0.1,
+        "images_1024_frequency_GHz": 51.19124629916182,
+        "images_512_frequency_GHz": 51.1916011640925,
+        "relative_change": 6.9320928163252304e-06
+      }
+    ],
+    "gates": {
+      "nominal_MuMax_summary_errors_below_2_percent": true,
+      "low_k_signed_D_error_below_2_percent": true,
+      "near_minimum_refinement_below_half_percent": true,
+      "image_refinement_below_tenth_percent": true
+    },
+    "full_temporal_dispersion_validated": false,
+    "limitations": [
+      "Printed summary metrics do not substitute for raw f-k FFT curves or mode maps.",
+      "The finite strip ends, pulse protocol, amplitude and transient spectra are not reproduced.",
+      "The bond variant is exploratory; it is not certified as the authors' OOMMF implementation.",
+      "The quadratic fitted D is an analysis-dependent apparent value, not a fitted material constant.",
+      "Refinement gate covers only the low band around the minimum, not the entire sampled k range."
+    ],
+    "extra_low_band_refinement": {
+      "cell_nm": 0.5,
+      "nx": 1,
+      "ny": 400,
+      "images": 2048,
+      "torque_T": 5.161138242122287e-10,
+      "k_interval_rad_nm": [
+        -0.13823007675795088,
+        -0.06283185307179587
+      ],
+      "samples": 25,
+      "max_1nm_to_half_nm_relative_frequency_change": 0.004564647577913861,
+      "max_eigen_relative_residual": 8.864881033638229e-16,
+      "elapsed_s": 74.86731908199727
+    }
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1"
+  },
+  "all_executed_gates_passed": true,
+  "full_P4_release_gate_closed": false
+}

@@ -1,5 +1,6 @@
 """SI micromagnetics, periodic xy boundaries, uniform magnetization through z."""
 from dataclasses import dataclass
+from operator import index
 import numpy as np
 from scipy.optimize import minimize
 from scipy.linalg import eig, solve
@@ -46,10 +47,13 @@ class Spectrum:
 class Film:
     def __init__(self, nx=12, ny=12, dx=4e-9, dy=None, thickness=1e-9,
                  material=None, field_T=(0, 0, 0.1), demag=True):
-        self.nx, self.ny = int(nx), int(ny)
+        try:
+            self.nx, self.ny = index(nx), index(ny)
+        except TypeError as error:
+            raise ValueError("Cell counts must be integers") from error
         self.dx, self.dy, self.thickness = float(dx), float(dx if dy is None else dy), float(thickness)
-        if min(self.nx, self.ny) < 3 or not np.all(np.isfinite([self.dx, self.dy, self.thickness])) or min(self.dx, self.dy, self.thickness) <= 0:
-            raise ValueError("Require at least 3 cells per axis and positive finite dimensions")
+        if min(self.nx, self.ny) < 1 or not np.all(np.isfinite([self.dx, self.dy, self.thickness])) or min(self.dx, self.dy, self.thickness) <= 0:
+            raise ValueError("Require positive cell counts and positive finite dimensions")
         self.material = material or Material()
         self.field_T = np.asarray(field_T, dtype=float)
         if self.field_T.shape != (3,) or not np.all(np.isfinite(self.field_T)):
