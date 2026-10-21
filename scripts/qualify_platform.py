@@ -72,10 +72,10 @@ def main():
                 report['phases'][name] = 'timeout'
                 return False
     with tempfile.TemporaryDirectory(prefix='spinfreq-qualification-') as cwd:
-        probe_code = '''import os,subprocess,sys
+        probe_code = '''import os,subprocess,sys,sysconfig
 from pathlib import Path
 for name in ('spinfreq','spinfreq-web','spinfreq-verify-evidence'):
- path=Path(sys.executable).parent/(name+('.exe' if os.name=='nt' else ''))
+ path=Path(sysconfig.get_path('scripts'))/(name+('.exe' if os.name=='nt' else ''))
  subprocess.run([str(path),'--help'],check=True,timeout=20)
 '''
         passed = run('entrypoints', [sys.executable, '-c', probe_code], cwd, 75)
