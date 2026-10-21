@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinFreq Validation: thin-film frequency-domain micromagnetics.">
+<title>Validation · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
+<body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="manual.html">Manual</a><a href="theory.html">Theory</a><a href="api.html">API</a><a href="downloads.html">Downloads</a><a href="validation.html" aria-current="page">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
+<div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
+<ul>
+<li><a href="#evidence-families">Evidence families</a></li>
+<li><a href="#what-the-first-candidate-supports">What the first candidate supports</a></li>
+<li><a href="#remaining-boundaries">Remaining boundaries</a></li>
+</ul>
+</div>
+</aside>
+<article id="content"><h1 id="validation-and-supported-scope">Validation and supported scope</h1>
+<p>Validation belongs to specific physical models, meshes and observables. Passing one skyrmion example does not qualify every material or geometry. SpinFreq retains input files, reference attribution, plots and numerical comparisons in its <a href="https://github.com/spinuni/spinfreq/tree/main/validation">evidence index</a>.</p>
+<h2 id="evidence-families">Evidence families</h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>What is tested</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Analytical</td>
+<td>Uniform FMR, susceptibility, exchange dispersion, damping and operators</td>
+<td><a href="https://github.com/spinuni/spinfreq/tree/main/validation/analytical">Analytical baseline</a></td>
+</tr>
+<tr>
+<td>Baker FMR standard</td>
+<td>Independent OOMMF poles, linewidths and spatial mode overlaps</td>
+<td><a href="https://github.com/spinuni/spinfreq/tree/main/validation/fmr_standard_problem">FMR standard</a></td>
+</tr>
+<tr>
+<td>Cortés-Ortuño DMI</td>
+<td>Static profiles, signed-k dispersion and independent OOMMF ringdowns</td>
+<td><a href="https://github.com/spinuni/spinfreq/tree/main/validation/dmi_standard_problem">DMI standard</a>, <a href="https://github.com/spinuni/spinfreq/tree/main/validation/dmi_temporal">temporal comparison</a></td>
+</tr>
+<tr>
+<td>Confined skyrmions</td>
+<td>Two bias fields, complex spatial modes and mesh refinement</td>
+<td><a href="https://github.com/spinuni/spinfreq/tree/main/validation/skyrmion_fine">Fine-grid comparison</a></td>
+</tr>
+<tr>
+<td>Driven response</td>
+<td>Multiple tones near resonances, phase, startup and amplitude scaling</td>
+<td><a href="https://github.com/spinuni/spinfreq/tree/main/validation/driven_response">Driven comparison</a></td>
+</tr>
+<tr>
+<td>Liu 2024</td>
+<td>Single-skyrmion modes and exploratory collective-excitation conditions</td>
+<td><a href="https://github.com/spinuni/spinfreq/tree/main/validation/liu2024">Paper comparison and open disagreements</a></td>
+</tr>
+</tbody>
+</table>
+<p>Each report states the tested configuration, tolerances, reference source and remaining differences. Liu is one comparison family; matching its isolated-skyrmion modes does not establish nonlinear comb reproduction or agreement for every collective band.</p>
+<h2 id="what-the-first-candidate-supports">What the first candidate supports</h2>
+<p>Deterministic, single-layer micromagnetics with exchange, interfacial DMI, perpendicular anisotropy, static fields and demagnetization. Reproducible small dense jobs expose stable linear eigenmodes and weak harmonic response. Advanced Python workflows add Bloch bands, iterative response and nonlinear integration with their own assumptions.</p>
+<h2 id="remaining-boundaries">Remaining boundaries</h2>
+<p>General thickness-dependent modes, multilayers, temperature and current torques are outside the implemented models. Nonlinear frequency-comb validation remains open. Parameter and thickness envelopes are not generally qualified. Native Windows worker qualification requires actual Windows evidence; Linux tests do not establish it. Hosted authentication and multi-user operation remain deployment work.</p>
+<p>For a new result, perform mesh and solver convergence, check stationarity and stability, compare drive/observation symmetry, and retain phase conventions and complete provenance. See <a href="theory.html">Theory</a>, the <a href="manual.html#diagnose-and-refine">manual</a>, and the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/science/VALIDATION_AND_RELEASE.md">full assessment</a>.</p></article></div>
+<footer>SpinFreq · MIT licensed · <a href="https://github.com/spinuni/spinfreq">Source and issues</a> · Documentation ships with the application.</footer>
+</main></body></html>

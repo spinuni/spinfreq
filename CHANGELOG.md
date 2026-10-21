@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased — product website and handbook
+
+- Original SpinFreq navigation for Manual, Theory, API, Downloads, Validation
+  and About, linked from the homepage and simulation workbench.
+- Detailed installation/first-run manual, SI configuration and artifacts,
+  equations and numerical conventions, Python/CLI/HTTP API contracts and
+  evidence grouped by physical model.
+- Local documentation and preset downloads work without a computation worker
+  or internet access. `/docs` uses a self-contained reference compatible with
+  the content security policy; `/openapi.json` remains available.
+- Canonical Markdown renders to packaged HTML; CI checks consistency and
+  exports a static product website. Source install and experimental platform
+  status are explicit; no unpublished binary or stable release is advertised.
+
 ## 0.1.0rc2 — experimental native Windows computation
 
 - Installed-wheel platform evidence collector and standalone verifier, with

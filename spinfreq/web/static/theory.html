@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinFreq Theory: thin-film frequency-domain micromagnetics.">
+<title>Theory · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
+<body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="manual.html">Manual</a><a href="theory.html" aria-current="page">Theory</a><a href="api.html">API</a><a href="downloads.html">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
+<div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
+<ul>
+<li><a href="#energy-and-units">Energy and units</a></li>
+<li><a href="#spatial-discretization">Spatial discretization</a></li>
+<li><a href="#llg-and-equilibrium">LLG and equilibrium</a></li>
+<li><a href="#tangent-space-eigenproblem">Tangent-space eigenproblem</a></li>
+<li><a href="#harmonic-response-and-absorption">Harmonic response and absorption</a></li>
+<li><a href="#cost-and-physical-limits">Cost and physical limits</a></li>
+<li><a href="#scientific-foundations-and-traceability">Scientific foundations and traceability</a></li>
+</ul>
+</div>
+</aside>
+<article id="content"><h1 id="theory-and-numerical-methods">Theory and numerical methods</h1>
+<p>SpinFreq linearizes the Landau–Lifshitz–Gilbert equation around a numerically relaxed magnetic texture. It solves eigenmodes and harmonic response directly in frequency space. This avoids a time-series Fourier transform for linear spectra; it still requires a sufficiently resolved spatial model and an accurate equilibrium.</p>
+<h2 id="energy-and-units">Energy and units</h2>
+<p>Write <strong>m = M/Ms</strong>, with unit norm in each cell. A and D denote exchange and interfacial DMI; K is the perpendicular uniaxial anisotropy. In SI units the energy is</p>
+<pre><code class="language-text">E = ∫ [ A |∇m|² + D (mz ∇·m − m·∇mz)
+        − K mz² − Ms Bext·m − (Ms/2) Bdemag[m]·m ] dV.
+Beff = −(1/Ms) δE/δm.
+</code></pre>
+<p>The functional derivative is an energy-density derivative; discrete cell derivatives include the cell volume. Fields are <strong>B in tesla</strong>, not H in A/m. Do not insert a second μ0 into Zeeman or LLG. The demagnetizing field already includes μ0. Positive K favors out-of-plane magnetization. The D sign and the definition above fix chirality; match conventions when importing parameters.</p>
+<h2 id="spatial-discretization">Spatial discretization</h2>
+<p><code>Film</code> uses periodic Fourier derivatives in x/y. Its uniform-through-thickness magnetostatic tensor has <code>Nzz = (1 − exp(−|k|t))/(|k|t)</code> and an in-plane longitudinal component <code>1 − Nzz</code>; at k = 0, <code>Nzz = 1</code>. Odd Nyquist derivatives vanish; mixed Nyquist terms are symmetrized to maintain a real self-adjoint field. This is a periodic film, not an isolated rectangle.</p>
+<p><code>ConfinedFilm</code> uses nearest-neighbor exchange and interfacial DMI, with Newell cell-averaged magnetostatic tensors and nonperiodic convolution. The <code>bond</code> boundary follows the truncated bond energy. The <code>mumax</code> option adds the corresponding DMI edge-ghost treatment. These choices can alter edge textures and modes; report them explicitly. <code>BlochChain</code> applies phase factors to translated cells and sums a finite number of magnetic images; test image convergence independently.</p>
+<p>Every cell spans the full thickness. Thickness changes the averaged demagnetizing kernel and volume, but does not introduce z-dependent magnetization, thickness standing waves, multilayers or a general 3D solver.</p>
+<h2 id="llg-and-equilibrium">LLG and equilibrium</h2>
+<p>With positive gyromagnetic magnitude γ and Gilbert damping α:</p>
+<pre><code class="language-text">dm/dt = −γ/(1+α²) [ m × Beff + α m × (m × Beff) ].
+</code></pre>
+<p>Energy minimization uses normalized spins and a projected analytical gradient. Optional equilibrium refinement improves stationarity. The maximum transverse field <code>|m × Beff|</code>, in tesla, is the torque diagnostic. A locally minimized texture is not proof of the global ground state. Tight torque alone is not proof of dynamic stability.</p>
+<h2 id="tangent-space-eigenproblem">Tangent-space eigenproblem</h2>
+<p>At equilibrium m0, choose two orthonormal vectors per cell forming a basis Q perpendicular to m0. To first order, <code>δm = Q u</code>; longitudinal changes are second order. Differentiating the full LLG, including the equilibrium-field terms, yields</p>
+<pre><code class="language-text">du/dt = J u + F b(t),      J = Qᵀ [d(LLG)/dm at m0] Q.
+J vn = λn vn,             δmn(t) ∝ Q vn exp(λn t).
+</code></pre>
+<p>There are 2N coordinates for N cells. For a positive-imaginary eigenvalue, <code>fn = Im(λn)/(2π)</code> and decay rate <code>κn = −Re(λn)</code>. Stable modes decay; positive real parts imply growth. A well-isolated weakly damped pole has power-linewidth approximately <code>κn/π</code> in Hz, but overlapping or asymmetric driven peaks need a full response fit.</p>
+<p>Damped operators can be nonnormal. <code>ModalResponse</code> uses the inverse right-eigenvector matrix, not a conjugate transpose, to obtain modal weights. It verifies force reconstruction and shifted-system residuals. Poor conditioning and modes near zero require special care; the job runner reports a conservative numerical sign margin, not a rigorous stability certificate.</p>
+<h2 id="harmonic-response-and-absorption">Harmonic response and absorption</h2>
+<p>Use <code>Bac(t) = Re[b exp(+iωt)]</code>, with ω = 2πf. Then</p>
+<pre><code class="language-text">(iω I − J) uω = F b,
+δmω = Q uω,
+Pabs = −(Ms Vcell ω/2) Im Σcells [ b* · δmω ].
+</code></pre>
+<p>The power is in watts, summed over cells. Response is dimensionless δm; divide by drive to form a B-based susceptibility in T⁻¹. Convert carefully when comparing H-based susceptibility. Arbitrary complex spatial drives are available in the low-level Python API; JSON jobs currently accept a real uniform three-component drive.</p>
+<p>A mode can exist without a visible absorption peak if its overlap with the drive or observation is small. Uniform drive in a periodic texture probes lattice wavevector zero. Complex phases depend on drive convention and time origin. To compare with <code>exp(−iωt)</code>, conjugate the corresponding real-system response consistently.</p>
+<h2 id="cost-and-physical-limits">Cost and physical limits</h2>
+<p>Full dense eigenanalysis stores a 2N × 2N matrix and scales approximately as N³ in work and N² in matrix memory. Reusing an eigenbasis accelerates repeated sweeps but does not remove dense storage or conditioning limits. Library assembly limits are 1024 periodic cells and 4096 confined/Bloch cells; the web cap is 400. Specialized confined iterative response and targeted Bloch modes exist in Python and have separate convergence requirements.</p>
+<p>The linear solver does not generate nonlinear harmonics, a nonlinear frequency comb, thermal noise, current-driven torque or switching. A linear sum of tones and its startup transient are still linear. The separate nonlinear time integrator is a research workflow and does not establish validation of these omitted mechanisms.</p>
+<h2 id="scientific-foundations-and-traceability">Scientific foundations and traceability</h2>
+<p>The implementation follows standard LLG dynamics and Newell cell-averaged magnetostatics, rather than wrapping a temporal solver. Relevant foundations include Gilbert, IEEE Transactions on Magnetics <strong>40</strong>, 3443–3449 (2004), and Newell, Williams &amp; Dunlop, Journal of Geophysical Research <strong>98</strong>, 9551–9555 (1993). MuMax3 is described by Vansteenkiste et al., AIP Advances <strong>4</strong>, 107133 (2014), DOI <a href="https://doi.org/10.1063/1.4899186">10.1063/1.4899186</a>; it is an independent reference, not a SpinFreq dependency.</p>
+<p>See the <a href="validation.html">validation evidence</a> for analytical tests and independent OOMMF/MuMax3 comparisons. The <a href="https://github.com/spinuni/spinfreq/blob/main/docs/reference/PHYSICS.md">implementation reference</a> links benchmark-specific details and unresolved disagreements. Reference data retain their original attribution and licenses.</p></article></div>
+<footer>SpinFreq · MIT licensed · <a href="https://github.com/spinuni/spinfreq">Source and issues</a> · Documentation ships with the application.</footer>
+</main></body></html>

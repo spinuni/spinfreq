@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinFreq Manual: thin-film frequency-domain micromagnetics.">
+<title>Manual · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
+<body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="manual.html" aria-current="page">Manual</a><a href="theory.html">Theory</a><a href="api.html">API</a><a href="downloads.html">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
+<div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
+<ul>
+<li><a href="#install-and-launch">Install and launch</a></li>
+<li><a href="#your-first-simulation">Your first simulation</a></li>
+<li><a href="#choose-the-physical-model">Choose the physical model</a></li>
+<li><a href="#configuration-and-units">Configuration and units</a></li>
+<li><a href="#read-the-results">Read the results</a></li>
+<li><a href="#diagnose-and-refine">Diagnose and refine</a></li>
+</ul>
+</div>
+</aside>
+<article id="content"><h1 id="user-manual">User manual</h1>
+<p>SpinFreq computes thin-film equilibria, linear modes and weak-field spectra on a CPU. Start with a small FMR problem, then change geometry and material. A skyrmion seed alone does not establish a stable skyrmion.</p>
+<h2 id="install-and-launch">Install and launch</h2>
+<p>Use Python 3.11–3.13. Until a release is published, install from the <a href="https://github.com/spinuni/spinfreq">source repository</a>. See <a href="downloads.html">Downloads</a> for platform-specific commands and release status.</p>
+<pre><code class="language-bash">git clone https://github.com/spinuni/spinfreq.git
+cd spinfreq
+python -m venv .venv
+# Linux / WSL2 / macOS:
+.venv/bin/python -m pip install -e '.[web]'
+.venv/bin/spinfreq-web
+</code></pre>
+<p>On Windows PowerShell, replace the last two commands with:</p>
+<pre><code class="language-powershell">.\.venv\Scripts\python.exe -m pip install -e '.[web]'
+.\.venv\Scripts\spinfreq-web.exe
+</code></pre>
+<p>Open <strong>http://127.0.0.1:8000</strong>. The browser is the interface; Python uses the CPU and RAM of the machine running the server. Linux/WSL2 enables computation automatically. Windows defaults to preview; <code>--mode compute</code> opts into experimental native Windows workers. Native Windows qualification remains pending. macOS offers preview only for the protected web queue. Stop the server with Ctrl+C.</p>
+<h2 id="your-first-simulation">Your first simulation</h2>
+<ol>
+<li>Open the <a href="workbench">workbench</a> and choose <strong>prism-fmr</strong>. This single-cell rectangular prism is a fast susceptibility example, not a resolved skyrmion.</li>
+<li>Keep the preset geometry and material. Set 21 frequency points for a quick sweep, or retain 101 for more detail.</li>
+<li>Run the simulation. The queue progresses through relaxation, eigenmodes and frequency response. Preview installations can validate and export the configuration instead.</li>
+<li>Check the job status and numerical diagnostics before interpreting plots. Download <code>results.zip</code> and retain it with your notes.</li>
+<li>Compare absorption maxima with positive-frequency poles in <code>modes.csv</code>. A sparse sweep can miss a narrow resonance; mode frequency and the highest sampled point need not coincide.</li>
+</ol>
+<p>The same configuration works without a browser:</p>
+<pre><code class="language-bash">spinfreq --preset prism-fmr --write-config prism.json
+spinfreq --config prism.json --output results/my-first-prism
+</code></pre>
+<p>Use a new output directory for every shared-API job. Existing files cause refusal rather than mixing runs. CLI calculations run directly; the web worker resource limits do not apply to direct CLI or Python calls.</p>
+<h2 id="choose-the-physical-model">Choose the physical model</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Geometry and operators</th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Film</code> / <code>periodic</code></td>
+<td>Periodic x/y, spectral derivatives, thickness-averaged film demagnetization</td>
+<td>Repeating textures and uniform-film FMR</td>
+</tr>
+<tr>
+<td><code>ConfinedFilm</code> / <code>confined</code></td>
+<td>Finite rectangle, finite differences, cell-averaged Newell demagnetization</td>
+<td>Edge effects, prisms and confined skyrmions</td>
+</tr>
+<tr>
+<td><code>BlochChain</code></td>
+<td>Periodic chain with Bloch phase and finite transverse width</td>
+<td>Wavevector-resolved collective modes through Python</td>
+</tr>
+</tbody>
+</table>
+<p>All models assume uniform magnetization through thickness. The reproducible JSON/web workflow exposes the first two models. Bloch, nonlinear time integration and specialized matrix-free studies use the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/USAGE.md">advanced guide</a>.</p>
+<h2 id="configuration-and-units">Configuration and units</h2>
+<p>JSON uses SI units, whereas labelled web fields can use nm and GHz. Exported JSON always uses metres, hertz and tesla. Unknown keys, duplicate JSON keys, unsupported schema versions and nonfinite values are rejected.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schema_version</code></td>
+<td>Integer <code>1</code>; configuration format, independent of package version</td>
+</tr>
+<tr>
+<td><code>model</code>, <code>nx</code>, <code>ny</code></td>
+<td><code>periodic</code> or <code>confined</code>, positive cell counts</td>
+</tr>
+<tr>
+<td><code>dx_m</code>, <code>dy_m</code>, <code>thickness_m</code></td>
+<td>Cell spacing and uniform film thickness in m</td>
+</tr>
+<tr>
+<td><code>material.Ms</code>, <code>.A</code>, <code>.D</code>, <code>.K</code></td>
+<td>A/m, J/m, J/m² and J/m³; signed interfacial DMI and uniaxial anisotropy</td>
+</tr>
+<tr>
+<td><code>material.alpha</code>, <code>.gamma</code></td>
+<td>Dimensionless Gilbert damping; positive gyromagnetic magnitude in rad/(s T)</td>
+</tr>
+<tr>
+<td><code>field_T</code>, <code>drive_T</code></td>
+<td>Three Cartesian components in T; static bias and real harmonic drive</td>
+</tr>
+<tr>
+<td><code>seed</code>, <code>seed_radius_m</code>, <code>seed_wall_m</code></td>
+<td><code>uniform</code> or <code>skyrmion</code> and seed dimensions</td>
+</tr>
+<tr>
+<td><code>dmi_boundary</code></td>
+<td><code>bond</code> or <code>mumax</code> for confined films; periodic requires <code>bond</code></td>
+</tr>
+<tr>
+<td><code>fmin_Hz</code>, <code>fmax_Hz</code>, <code>points</code></td>
+<td>Inclusive linear frequency sweep; at least two samples</td>
+</tr>
+<tr>
+<td><code>torque_tolerance_T</code>, <code>maxiter</code></td>
+<td>Stationarity target and initial relaxation iteration budget</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>mumax</code> boundary option is a physical boundary discretization, not a MuMax3 dependency. It differs from the <code>bond</code> default in reproducible presets; always report the selected boundary. Python <code>ConfinedFilm</code> defaults to <code>mumax</code>, so set it explicitly when comparing with a JSON job.</p>
+<p>Download complete validated <a href="downloads.html#example-inputs">example inputs</a> rather than guessing omitted defaults. For a skyrmion, start from <code>confined-skyrmion</code>: its 2 nm grid is a matched comparison example and needs refinement for continuum accuracy.</p>
+<h2 id="read-the-results">Read the results</h2>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configuration.json</code>, <code>summary.json</code></td>
+<td>Full input, versions, source hashes, torque, stability margin, residuals and response amplitude</td>
+</tr>
+<tr>
+<td><code>equilibrium.npy</code>, <code>equilibrium.ovf</code></td>
+<td>Unit-vector field; NumPy shape <code>(ny, nx, 3)</code>; OVF interchange</td>
+</tr>
+<tr>
+<td><code>modes.csv</code>, <code>modes.npz</code></td>
+<td>Complex eigenvalues and spatial eigenvectors; both conjugate branches</td>
+</tr>
+<tr>
+<td><code>response.csv</code>, <code>response.npz</code></td>
+<td>Driven sweep and complex magnetization response</td>
+</tr>
+<tr>
+<td><code>spectrum.png</code>, <code>equilibrium.png</code>, <code>mode.png</code></td>
+<td>Plot previews, not substitutes for numerical data</td>
+</tr>
+<tr>
+<td><code>manifest.json</code>, <code>results.zip</code></td>
+<td>Artifact hashes and portable run bundle</td>
+</tr>
+</tbody>
+</table>
+<p>The harmonic convention is <code>exp(+i 2π f t)</code>; negative eigenvalue real parts indicate decay. Mode normalization is arbitrary; driven response has physical dimensionless amplitude. See <a href="theory.html">Theory</a> before comparing phases or linewidths with other solvers.</p>
+<h2 id="diagnose-and-refine">Diagnose and refine</h2>
+<p>Failed relaxation: inspect the saved equilibrium and torque; improve the seed or increase relaxation effort before computing spectra. Uncertain/unstable eigenvalues: inspect neutral modes and equilibrium accuracy; do not reinterpret a rejected spectrum as a resonance. Excess response amplitude: decrease the drive; the shared job runner rejects maximum vector amplitude above 0.05. Resource failure: reduce cell count or sweep points and inspect the job error. Cancellation stops the worker; cancel a running job before deleting it.</p>
+<p>The default web queue allows 400 cells, 201 frequencies and 3000 relaxation iterations; it runs one worker at a time with at most four pending/running and sixteen retained jobs. Workers have a 120 s wall-time budget, 60 s CPU budget and 2 GiB memory limit. Memory accounting differs between Linux and Windows. These are resource bounds, not physical accuracy guarantees.</p>
+<p>For a research result, refine cell size at fixed dimensions, verify that equilibrium topology persists, tighten static and linear residuals, and refine the frequency sampling relative to damping. Compare spatial modes as well as frequencies. Test supercell size for periodic textures and magnetic-image convergence for Bloch calculations. Halving a weak drive should halve response and quarter absorbed power. Record the full configuration, package/source version, convergence changes and independent reference. Consult <a href="validation.html">Validation</a> for the evidence and remaining limits.</p></article></div>
+<footer>SpinFreq · MIT licensed · <a href="https://github.com/spinuni/spinfreq">Source and issues</a> · Documentation ships with the application.</footer>
+</main></body></html>

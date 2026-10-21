@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinFreq Downloads: thin-film frequency-domain micromagnetics.">
+<title>Downloads · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
+<body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="manual.html">Manual</a><a href="theory.html">Theory</a><a href="api.html">API</a><a href="downloads.html" aria-current="page">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
+<div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
+<ul>
+<li><a href="#get-the-source">Get the source</a></li>
+<li><a href="#install-the-package-or-application">Install the package or application</a></li>
+<li><a href="#example-inputs">Example inputs</a></li>
+<li><a href="#build-distributions-and-an-offline-website">Build distributions and an offline website</a></li>
+</ul>
+</div>
+</aside>
+<article id="content"><h1 id="downloads-and-installation">Downloads and installation</h1>
+<p>Current source candidate: <strong>0.1.0rc2</strong>, Python 3.11–3.13, MIT license. A stable 0.1.0 release, PyPI package and native application installers have <strong>not</strong> been published. Source installation is the available distribution route. No GPU or MuMax3 installation is required for the CPU solver.</p>
+<h2 id="get-the-source">Get the source</h2>
+<p><a href="https://github.com/spinuni/spinfreq/archive/refs/heads/main.zip">Download the main-branch source ZIP</a> or clone with Git:</p>
+<pre><code class="language-bash">git clone https://github.com/spinuni/spinfreq.git
+cd spinfreq
+git rev-parse HEAD
+</code></pre>
+<p>The ZIP and branch are moving development snapshots, not immutable release artifacts. Save the revision for reproducibility. Review the <a href="https://github.com/spinuni/spinfreq/blob/main/CHANGELOG.md">changelog</a> and <a href="https://github.com/spinuni/spinfreq/blob/main/LICENSE">license</a>.</p>
+<h2 id="install-the-package-or-application">Install the package or application</h2>
+<p>Create a virtual environment with <code>python -m venv .venv</code>. On Linux/WSL2/macOS use:</p>
+<pre><code class="language-bash">.venv/bin/python -m pip install -e '.[web]'
+.venv/bin/spinfreq-web
+</code></pre>
+<p>On Windows PowerShell use:</p>
+<pre><code class="language-powershell">.\.venv\Scripts\python.exe -m pip install -e '.[web]'
+.\.venv\Scripts\spinfreq-web.exe
+</code></pre>
+<p>For only the numerical Python package and CLI, omit <code>[web]</code>. Install <code>.[test]</code> for physics tests, or <code>.[test,web,web-test]</code> for HTTP/browser checks. The <a href="manual.html">manual</a> walks through a first simulation.</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Documentation and web preview</th>
+<th>Protected web computation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux / WSL2</td>
+<td>Available</td>
+<td>Enabled by default</td>
+</tr>
+<tr>
+<td>Native Windows</td>
+<td>Available</td>
+<td>Experimental <code>--mode compute</code>; native qualification pending</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>Available; local execution not yet verified here</td>
+<td>Not implemented</td>
+</tr>
+</tbody>
+</table>
+<p>Direct Python/CLI computations do not use the protected web supervisor. Platform availability of dependencies and memory remain relevant. Preview can export inputs for a Linux/WSL2 machine.</p>
+<h2 id="example-inputs">Example inputs</h2>
+<p>These files use the same schema as the application and can be downloaded without a running simulation worker:</p>
+<ul>
+<li><a href="downloads/prism-fmr.json">prism-fmr.json</a>: fast single-cell susceptibility.</li>
+<li><a href="downloads/periodic-fmr.json">periodic-fmr.json</a>: periodic uniform-film FMR.</li>
+<li><a href="downloads/confined-skyrmion.json">confined-skyrmion.json</a>: coarse 2 nm matched-reference example; refine before quoting continuum frequencies.</li>
+</ul>
+<h2 id="build-distributions-and-an-offline-website">Build distributions and an offline website</h2>
+<p>From a source checkout:</p>
+<pre><code class="language-bash">python -m pip install build '.[docs]'
+python -m build
+python scripts/build_site.py --export results/site
+</code></pre>
+<p><code>dist/</code> receives a wheel and source archive. These locally built files are not signed or published release assets. The site export contains the homepage, handbook, assets and example inputs; it can be hosted on a static server or browsed offline. It contains no simulation backend. Its simulator link opens a separately launched local service.</p>
+<p>Before publishing: review native Windows evidence, supported-platform checks and scientific scope, then publish immutable artifacts with versioned provenance. See the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/releases/RELEASE_PLAN.md">release plan</a>. Public hosting and release publication remain separate from installing this local application.</p></article></div>
+<footer>SpinFreq · MIT licensed · <a href="https://github.com/spinuni/spinfreq">Source and issues</a> · Documentation ships with the application.</footer>
+</main></body></html>

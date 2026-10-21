@@ -208,10 +208,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -e '.[test,web,web-test]'
+      - run: python -m pip install -e '.[test,web,web-test,docs]'
+      - name: Verify handbook sources and export the product website
+        run: python scripts/build_site.py --check --export results/product-site
+      - run: python -m pytest -q tests/test_handbook.py
       - run: python -m pytest -q tests/test_jobs.py tests/test_web.py tests/test_portable_web.py
       - run: python scripts/validate_presets.py --output results/release-presets
       - run: python -m playwright install --with-deps chromium
+      - name: Browse the exported documentation without a simulation backend
+        run: python scripts/site_smoke.py results/product-site
       - name: Real browser through worker to exported results
         run: |
           spinfreq-web --data-dir results/web-browser --port 8000 > results/web-server.log 2>&1 &
@@ -229,6 +234,7 @@ jobs:
         with:
           name: application-checks
           path: |
+            results/product-site/
             results/release-presets/summary.json
             results/release-presets/*.log
             results/browser/

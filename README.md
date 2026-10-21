@@ -10,6 +10,7 @@ interface. Current candidate: **0.1.0rc2**, MIT licensed.
 
 | Goal | Read next |
 | --- | --- |
+| Browse the complete handbook | Run `spinfreq-web`: Manual · Theory · API · Downloads · Validation |
 | Install and launch on Windows, Linux or macOS | [Quick start](docs/getting-started/README.md) |
 | Use the browser interface | [Web guide](docs/guides/WEB.md) |
 | Run a reproducible example | [Example configurations](examples/README.md) |
@@ -61,3 +62,8 @@ tests/         Physics, configuration and lifecycle regressions
 `results/`, `build/` and `dist/` contain ignored local runs and build outputs.
 Start from the [documentation map](docs/README.md) for the complete reading order.
 Package publication and public web hosting remain separate release milestones.
+
+The [website and handbook sources](docs/handbook/README.md) can also be exported
+as a self-contained static site with `python scripts/build_site.py --export results/site`
+after installing `.[docs]`. This export documents the simulator; computations
+use the separately running local application.

@@ -16,6 +16,7 @@ DMI, noncollinear dynamics and driven response.
 | M3. Bounded example scope | Three examples checked against analytic FMR or independent OOMMF poles; record actual CPU/RSS/time; reject oversized web requests | Implemented; measured report under `validation/release_candidate/` |
 | M4. Local web lifecycle | Separate worker; bounded queue/storage/resources; progress/cancel/delete; process isolation; restart recovery; browser-to-download check | Linux qualified locally; Windows experimental opt-in, native CI review pending |
 | M5. Distribution and CI | Wheel/sdist with code, static assets, examples and tests; installed CLI/web outside source; Python 3.11–3.13 jobs, archived reference regressions | Local checks plus CI configuration; hosted results must be observed |
+| M5a. Product website and handbook | Original homepage; offline manual, theory, Python/HTTP API, downloads and validation pages; preset downloads; deterministic rendering; static export and browser checks | Implemented and locally tested; public hosting pending |
 | M6. Publish package release | Review candidate evidence; green hosted CI; reproducible release artifacts and tag; configure PyPI trusted publishing if PyPI delivery is wanted | Pending |
 | M7. Public hosted application | Select host; authentication/TLS/access and retention policy; load/restart tests and quotas measured there; deployment/runbook and service smoke check | Pending; current launcher binds loopback only |
 
@@ -26,7 +27,9 @@ deployment is created by the candidate checks.
 ## Candidate acceptance procedure
 
 ```bash
-python -m pip install -e '.[test,web,web-test]' build
+python -m pip install -e '.[test,web,web-test,docs]' build
+python scripts/build_site.py --check --export results/site-check
+python scripts/site_smoke.py results/site-check
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m pytest -q
 python scripts/validate_presets.py --output results/preset-check
 spinfreq-web --data-dir results/web-check --port 8000

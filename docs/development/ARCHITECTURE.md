@@ -10,6 +10,7 @@
 | `spinfreq/web/`, `worker.py` | Browser/API, queue supervisor and bounded platform subprocess |
 | `spinfreq/runtime/` | Linux rlimits/process groups and experimental Windows Job Objects |
 | `examples/` | Checked-in runnable configurations |
+| `docs/handbook/`, `scripts/build_site.py` | Canonical product documentation and deterministic rendering/export |
 | `scripts/` | Application/preset/browser release checks |
 | `benchmarks/` | Independent scientific comparisons and reference acquisition |
 | `validation/` | Accepted evidence, provenance, CSVs, plots and native reference archives |
@@ -36,7 +37,13 @@ flowchart LR
 ```
 
 The root HTTP route serves a project landing page; `/workbench` serves the
-configuration/simulation interface. `/api/capabilities` selects compute on Linux
+configuration/simulation interface. `/manual.html`, `/theory.html`, `/api.html`,
+`/downloads.html`, `/validation.html` and `/about.html` serve packaged handbook
+pages without network dependencies or worker initialization. `/docs` redirects
+to the local API reference; `/openapi.json` retains the machine-readable route
+description. Preset attachments are generated from the shared configuration
+registry. Static exports contain documentation and presets, without a backend.
+`/api/capabilities` selects compute on Linux
 and preview on other platforms by default. Windows `--mode compute` is an
 explicit experimental opt-in. Preview validates/exports configurations without
 initializing the queue; native APIs are loaded only by the selected runtime.

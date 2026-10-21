@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinFreq API: thin-film frequency-domain micromagnetics.">
+<title>API · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
+<body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="manual.html">Manual</a><a href="theory.html">Theory</a><a href="api.html" aria-current="page">API</a><a href="downloads.html">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
+<div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
+<ul>
+<li><a href="#reproducible-python-jobs">Reproducible Python jobs</a></li>
+<li><a href="#core-numerical-objects">Core numerical objects</a></li>
+<li><a href="#minimal-low-level-example">Minimal low-level example</a></li>
+<li><a href="#cli">CLI</a></li>
+<li><a href="#local-http-api">Local HTTP API</a></li>
+</ul>
+</div>
+</aside>
+<article id="content"><h1 id="api-reference">API reference</h1>
+<p>The CPU Python library, CLI and local HTTP workbench share the same <code>JobConfig</code> and <code>run_job</code> workflow. Version <strong>0.1.0rc2</strong> is a pre-release: record the exact revision and <code>schema_version</code>, and review changes before upgrading. Advanced Python APIs can change before 1.0.</p>
+<h2 id="reproducible-python-jobs">Reproducible Python jobs</h2>
+<pre><code class="language-python">from spinfreq import JobConfig, run_job
+
+config = JobConfig.load(&quot;prism-fmr.json&quot;)
+summary = run_job(config, &quot;results/prism-api&quot;)
+print(summary[&quot;status&quot;], summary[&quot;stability&quot;])
+</code></pre>
+<p>Download <a href="downloads/prism-fmr.json">prism-fmr.json</a> first. The output directory must be empty. <code>JobConfig.from_dict(data)</code> validates a Python dictionary; <code>config.to_dict()</code> exports it. Defaults follow schema version 1. Invalid configuration raises <code>ValueError</code>; an occupied directory raises <code>FileExistsError</code>; numerical rejection raises <code>spinfreq.jobs.NumericalFailure</code> and saves a failure summary when the numerical stage has started. These direct calls do not run inside the protected web worker.</p>
+<h2 id="core-numerical-objects">Core numerical objects</h2>
+<table>
+<thead>
+<tr>
+<th>Public object or method</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Material(Ms, A, D, K, alpha, gamma)</code></td>
+<td>SI material parameters; keyword arguments recommended</td>
+</tr>
+<tr>
+<td><code>Film(nx, ny, dx, dy, thickness, material, field_T)</code></td>
+<td>Periodic film; <code>dy=None</code> uses dx</td>
+</tr>
+<tr>
+<td><code>ConfinedFilm(..., dmi_boundary="mumax")</code></td>
+<td>Finite rectangle; choose boundary explicitly for comparisons</td>
+</tr>
+<tr>
+<td><code>film.relax(initial, maxiter=2000, tolerance_T=1e-5)</code></td>
+<td>Returns <code>Relaxation</code>: <code>m</code>, <code>converged</code>, <code>torque_T</code>, <code>energy_J</code>, <code>iterations</code>, <code>message</code></td>
+</tr>
+<tr>
+<td><code>refine_equilibrium(film, m, ...)</code></td>
+<td>Refine a nearly stationary texture; inspect convergence before spectra</td>
+</tr>
+<tr>
+<td><code>film.modes(m, equilibrium_tolerance_T=1e-4)</code></td>
+<td>Returns <code>Spectrum</code> containing eigenvalues and spatial <code>modes</code>; <code>frequencies_Hz</code> includes signed branches</td>
+</tr>
+<tr>
+<td><code>film.response(m, frequencies_Hz, drive_T=..., equilibrium_tolerance_T=...)</code></td>
+<td>Complex field array <code>(nf, ny, nx, 3)</code></td>
+</tr>
+<tr>
+<td><code>film.absorbed_power(frequencies_Hz, response, drive_T)</code></td>
+<td>Total watts at each frequency</td>
+</tr>
+<tr>
+<td><code>ModalResponse(film, equilibrium, equilibrium_tolerance_T=1e-6)</code></td>
+<td>Snapshot dense eigenbasis; rebuild after changing material, geometry, field or equilibrium</td>
+</tr>
+<tr>
+<td><code>prepared.response(frequencies_Hz, drive_T=...)</code></td>
+<td>Reuses the basis and checks true residuals</td>
+</tr>
+<tr>
+<td><code>BlochChain.bloch_modes(m, k_rad_m, count=12, target_Hz=15e9, tolerance=1e-9)</code></td>
+<td>Targeted chain modes; wavevector is angular, in rad/m</td>
+</tr>
+</tbody>
+</table>
+<p>Arrays of unit magnetization have shape <code>(ny, nx, 3)</code>, with x/y/z in the last axis. Low-level spectral calls enforce equilibrium checks, but do not provide all <code>run_job</code> stability and amplitude gates. See <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/USAGE.md">advanced examples</a> for matrix-free response, OVF, nonlinear dynamics and Bloch workflows.</p>
+<h2 id="minimal-low-level-example">Minimal low-level example</h2>
+<pre><code class="language-python">import numpy as np
+from spinfreq import Film, Material, ModalResponse
+
+film = Film(nx=2, ny=2, dx=4e-9, thickness=1e-9,
+            material=Material(D=0), field_T=(0, 0, 0.1))
+m = np.zeros(film.shape)
+m[..., 2] = 1
+prepared = ModalResponse(film, m)
+f = np.linspace(1e9, 60e9, 21)
+drive = (1e-6, 0, 0)
+delta_m = prepared.response(f, drive)
+power_W = film.absorbed_power(f, delta_m, drive)
+</code></pre>
+<h2 id="cli">CLI</h2>
+<pre><code class="language-bash">spinfreq --help
+spinfreq --preset periodic-fmr --write-config film.json
+spinfreq --config film.json --output results/film
+spinfreq-web --help
+spinfreq-web --mode landing --port 8000
+</code></pre>
+<p><code>--preset</code> and <code>--config</code> select the shared reproducible runner. Legacy geometry flags remain available for exploratory periodic-film runs; their overwrite behavior differs. Prefer the shared configuration workflow for recorded studies.</p>
+<h2 id="local-http-api">Local HTTP API</h2>
+<p>Base URL: <code>http://127.0.0.1:8000</code>. JSON requests require <code>Content-Type: application/json</code>. This is a local, single-user service; it does not provide public authentication or multi-user isolation. Cross-origin requests and untrusted hosts are rejected. Preview mode offers docs, presets and input validation without starting workers.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/capabilities</code></td>
+<td>Platform, simulation availability and experimental status</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/presets</code></td>
+<td>Complete preset configurations</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/config/validate</code></td>
+<td>Normalize a schema-valid configuration; does not guarantee web resource bounds or physical validity</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/jobs</code></td>
+<td>Retained records; empty in preview</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/jobs</code></td>
+<td>Apply web bounds and enqueue; 202 with an <code>id</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/jobs/{id}</code></td>
+<td>Job status and available progress stage</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/jobs/{id}/cancel</code></td>
+<td>Cancel queued/running work</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/jobs/{id}</code></td>
+<td>Delete an inactive job and its data; 204</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/jobs/{id}/artifacts/{name}</code></td>
+<td>Allowlisted result download; spectra require success</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/openapi.json</code></td>
+<td>Route-level OpenAPI description; configuration fields are documented in the manual, not inferred by this schema</td>
+</tr>
+</tbody>
+</table>
+<p><code>/docs</code> opens this self-contained reference; it does not depend on a CDN. The standard OpenAPI JSON remains available to client generators.</p>
+<pre><code class="language-python">import json
+from urllib.request import Request, urlopen
+
+base = &quot;http://127.0.0.1:8000&quot;
+with urlopen(base + &quot;/api/presets&quot;) as response:
+    config = json.load(response)[&quot;prism-fmr&quot;]
+request = Request(base + &quot;/api/jobs&quot;, data=json.dumps(config).encode(),
+                  headers={&quot;Content-Type&quot;: &quot;application/json&quot;}, method=&quot;POST&quot;)
+with urlopen(request) as response:
+    job = json.load(response)
+print(job[&quot;id&quot;])  # Poll GET /api/jobs/{id}; download only after success.
+</code></pre>
+<p>Statuses: <code>queued</code>, <code>running</code>, <code>succeeded</code>, <code>failed</code>, <code>cancelled</code>, <code>interrupted</code>. A 202 response means accepted, not completed. A server restart marks incomplete work interrupted. Download <code>summary.json</code> for diagnostics and <code>results.zip</code> for a successful bundle.</p>
+<p>Errors include 413 (input over 16 KiB), 415 (wrong content type), 422 (invalid input/resource bounds), 429 (queue/storage capacity), 503 (computation disabled), 404 (unknown job or unavailable artifact) and 409 (deletion conflict). Clients should inspect <code>detail</code> and avoid blindly retrying numerical failures. The API is local and currently has no job-expiration scheduler; delete completed records when finished.</p></article></div>
+<footer>SpinFreq · MIT licensed · <a href="https://github.com/spinuni/spinfreq">Source and issues</a> · Documentation ships with the application.</footer>
+</main></body></html>

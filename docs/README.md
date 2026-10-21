@@ -1,5 +1,10 @@
 # Documentation map
 
+The application now ships an offline handbook: launch `spinfreq-web` and use
+Manual, Theory, API, Downloads and Validation in the navigation. Its canonical
+sources are in [handbook/](handbook/README.md). This is the primary user-facing
+reading path; the levels below retain detailed research and development references.
+
 Read from level 1 downward. Scientific reports and development notes are kept
 separate from installation and daily use.
 

@@ -43,6 +43,23 @@ def main():
         assert page.locator('.hero-logo').element_handle().get_property('naturalWidth').json_value() > 0
         expect(page.locator('#launch')).not_to_have_text('Explore the workbench')
         page.screenshot(path=str(args.output/'landing.png'), full_page=True)
+        # The installed handbook must render without external scripts and remain
+        # usable on a phone before entering the numerical workbench.
+        for name in ('manual', 'theory', 'api', 'downloads', 'validation', 'about'):
+            page.goto(args.url+'/'+name+'.html')
+            expect(page.locator('article h1')).to_be_visible()
+            page.set_viewport_size({'width':390, 'height':844})
+            assert page.locator('html').evaluate('(el) => el.scrollWidth') <= 390, name
+            if name == 'manual':
+                page.screenshot(path=str(args.output/'manual-mobile.png'), full_page=True)
+            page.set_viewport_size({'width':1280, 'height':1000})
+        page.goto(args.url+'/downloads.html')
+        with page.expect_download() as event:
+            page.locator('article a[href="downloads/prism-fmr.json"]').click()
+        event.value.save_as(args.output/'preset-download.json')
+        assert json.loads((args.output/'preset-download.json').read_text())['model'] == 'confined'
+        page.goto(args.url)
+        expect(page.locator('#launch')).not_to_have_text('Explore the workbench')
         page.click('#launch')
         page.locator('#preset option[value="prism-fmr"]').wait_for(state='attached')
         page.select_option('#preset', 'prism-fmr')

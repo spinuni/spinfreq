@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from ..config import JobConfig, presets
@@ -28,7 +28,8 @@ def create_app(directory="results/web", *, mode="auto", **manager_options):
             if app.state.jobs is not None:
                 app.state.jobs.close()
 
-    app = FastAPI(title="SpinFreq local research workbench", lifespan=lifespan)
+    app = FastAPI(title="SpinFreq local research workbench", lifespan=lifespan,
+                  docs_url=None, redoc_url=None)
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "testserver"])
 
     @app.middleware("http")
@@ -54,8 +55,28 @@ def create_app(directory="results/web", *, mode="auto", **manager_options):
             raise HTTPException(404, "Unknown job") from None
 
     @app.get("/")
+    @app.get("/index.html", include_in_schema=False)
     def index():
         return FileResponse(Path(__file__).with_name("static")/"landing.html")
+
+    @app.get("/docs", include_in_schema=False)
+    @app.get("/redoc", include_in_schema=False)
+    def api_documentation():
+        return RedirectResponse("/api.html")
+
+    @app.get("/downloads/{name}.json", include_in_schema=False)
+    def download_preset(name: str):
+        available = presets()
+        if name not in available:
+            raise HTTPException(404, "Unknown preset")
+        return JSONResponse(available[name].to_dict(), headers={
+            "Content-Disposition": f'attachment; filename="{name}.json"'})
+
+    @app.get("/{page}.html", include_in_schema=False)
+    def handbook(page: str):
+        if page not in ("manual", "theory", "api", "downloads", "validation", "about"):
+            raise HTTPException(404)
+        return FileResponse(Path(__file__).with_name("static")/f"{page}.html")
 
     @app.get("/workbench")
     def workbench():
