@@ -164,7 +164,7 @@ jobs:
           name: driven-response-comparison
           path: results/driven-ci/
 
-  portable-preview:
+  platform-workers:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -175,7 +175,31 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -e '.[test,web]' httpx
-      - run: python -m pytest -q tests/test_portable_web.py
+      - run: python -m pytest -q tests/test_portable_web.py tests/test_runtime.py tests/test_web.py tests/test_jobs.py
+      - if: runner.os == 'Windows'
+        run: python -m pip install -e '.[web,web-test]'
+      - if: runner.os == 'Windows'
+        run: python -m playwright install chromium
+      - name: Native Windows browser through Job Object worker to exported results
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path results | Out-Null
+          $SPINFREQ_SERVER = Start-Process -FilePath (Get-Command python).Source -ArgumentList '-u','-m','spinfreq.web.app','--mode','compute','--port','8002','--data-dir','results/native-windows-web' -RedirectStandardOutput results/native-windows-server.log -RedirectStandardError results/native-windows-errors.log -PassThru
+          try {
+            python scripts/browser_smoke.py --url http://127.0.0.1:8002 --output results/native-windows-browser
+            if ($LASTEXITCODE -ne 0) { throw 'Native Windows browser qualification failed' }
+          } finally {
+            Stop-Process -Id $SPINFREQ_SERVER.Id -Force -ErrorAction SilentlyContinue
+          }
+      - uses: actions/upload-artifact@v4
+        if: always() && runner.os == 'Windows'
+        with:
+          name: native-windows-qualification
+          path: |
+            results/native-windows-browser/
+            results/native-windows-server.log
+            results/native-windows-errors.log
 
   application:
     runs-on: ubuntu-latest

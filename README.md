@@ -4,7 +4,7 @@
 
 Frequency-domain micromagnetics for thin films: magnetic equilibria, linear
 resonances and weak-field response. A Python research package with a local web
-interface. Current candidate: **0.1.0rc1**, MIT licensed.
+interface. Current candidate: **0.1.0rc2**, MIT licensed.
 
 ## 1. Start here
 
@@ -23,8 +23,9 @@ spinfreq-web
 Open **http://127.0.0.1:8000**. On Linux/WSL2, the workbench can run bounded
 simulations using that machine's CPU and RAM. On native Windows/macOS, it opens
 as a landing page and configuration preview: explore presets, edit parameters,
-validate and download SI JSON. Native protected workers on those platforms remain
-pending. Use `--mode landing` to preview on any platform.
+validate and download SI JSON. Windows also offers experimental native computation with `--mode compute`,
+using Job Objects; native CI qualification remains pending. macOS workers are
+not implemented. Use `--mode landing` to preview on any platform.
 
 ## 2. Understand the science
 

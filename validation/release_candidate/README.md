@@ -77,3 +77,10 @@ The [preview report](preview/README.md) records browser validation without a Lin
 worker. Seven portable test cases verify capability selection, native-compatible
 imports, configuration validation/export and refusal to start simulation jobs in
 preview. Native Windows CI is configured; its hosted outcome is not claimed.
+
+## rc2 runtime continuation
+
+The rc1 application measurements above remain historical evidence. Candidate
+`0.1.0rc2` separates platform runtimes and adds experimental native Windows
+Job Objects. Its [runtime ledger](windows/README.md) records Linux regression
+and browser evidence and the still-open native Windows qualification gate.

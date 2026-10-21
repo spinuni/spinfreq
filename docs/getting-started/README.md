@@ -14,7 +14,7 @@ py -m venv .venv
 ```
 
 Open **http://127.0.0.1:8000**. Explore the project, open the workbench, select an
-example, edit parameters and export its validated SI JSON. Simulation buttons
+example, edit parameters and export its validated SI JSON. By default, simulation buttons
 are disabled on native Windows. No Linux worker or job directory is initialized.
 The native-Windows import/HTTP regression is configured in CI; this workspace
 runs Linux, so a local Windows execution is not claimed.
@@ -22,7 +22,16 @@ runs Linux, so a local Windows execution is not claimed.
 To run the protected web simulation queue on a Windows computer, install WSL2
 with a Linux distribution and follow the Linux instructions inside that
 Linux environment. The calculations then use that computer's resources through
-WSL2. Native Windows worker support is a separate milestone.
+WSL2. Alternatively, 64-bit native Windows has an experimental opt-in:
+
+```powershell
+.\.venv\Scripts\spinfreq-web.exe --mode compute
+```
+
+This uses Windows Job Objects for memory/CPU limits and process-tree cleanup.
+It is not enabled automatically: native lifecycle/resource CI must pass before
+Windows becomes a qualified compute platform. See the
+[Windows backend and qualification guide](../development/WINDOWS.md).
 
 ## Linux / WSL2 · shell
 
@@ -46,7 +55,7 @@ not been verified in this workspace.
 ```bash
 spinfreq-web --mode auto      # Linux computes; Windows/macOS preview
 spinfreq-web --mode landing   # Preview only on every platform
-spinfreq-web --mode compute   # Explicit Linux/WSL2 requirement
+spinfreq-web --mode compute   # Linux or experimental native Windows
 ```
 
 After exporting `spinfreq-config.json`, use it on a Linux compute installation:

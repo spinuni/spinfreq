@@ -61,5 +61,6 @@ $('delete').onclick=async()=>{try{clearTimeout(timer);await api('/api/jobs/'+sel
   const support=await api('/api/capabilities');simulationEnabled=support.simulation_enabled;
   $('run').disabled=!simulationEnabled;$('run-json').disabled=!simulationEnabled;
   if(!simulationEnabled){$('preview-notice').hidden=false;$('preview-notice').textContent=support.message;$('status').textContent='Preview mode: choose a preset, edit its configuration and export JSON. No simulations run here.';}
+  else if(support.experimental){$('preview-notice').hidden=false;$('preview-notice').textContent=support.message;}
   presets=await api('/api/presets');for(const name of Object.keys(presets)){const option=document.createElement('option');option.value=name;option.textContent=name;$('preset').append(option);}loadPreset();if(simulationEnabled)await refreshList();
 }catch(error){$('error').textContent=error.message;}})();

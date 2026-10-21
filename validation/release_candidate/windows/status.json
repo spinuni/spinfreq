@@ -1,0 +1,23 @@
+{
+  "candidate": "0.1.0rc2",
+  "local_execution_platform": "linux",
+  "local_tests_passed": 110,
+  "native_windows_tests_skipped_locally": 5,
+  "native_windows_execution_verified": false,
+  "native_windows_ci_outcome": "not observed; GitHub API inaccessible",
+  "windows_default_mode": "landing",
+  "windows_explicit_compute_mode": "experimental Job Object backend",
+  "automatic_windows_compute_qualified": false,
+  "required_native_gates": [
+    "memory limit",
+    "user CPU limit",
+    "startup assignment failure",
+    "descendant cancellation and completion cleanup",
+    "queue and ownership",
+    "timeout and disk",
+    "owner crash and restart",
+    "journal failure cleanup",
+    "analytic numerical output",
+    "Chromium UI to exported results"
+  ]
+}

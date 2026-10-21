@@ -25,7 +25,7 @@ def wait_for(predicate, timeout=25):
 
 
 def test_browser_api_to_real_worker_download_and_isolation(tmp_path):
-    with TestClient(create_app(tmp_path)) as client:
+    with TestClient(create_app(tmp_path, mode='compute')) as client:
         configs = client.get('/api/presets').json()
         ids = []
         for preset in ('prism-fmr', 'periodic-fmr'):
@@ -41,6 +41,7 @@ def test_browser_api_to_real_worker_download_and_isolation(tmp_path):
                 pytest.fail(str(record)+'\n'+(tmp_path/identifier/'worker.log').read_text())
             summary = client.get(url+'/artifacts/summary.json').json()
             assert summary['stability'] == 'stable' and summary['max_delta_m'] < .05
+            assert summary['worker_runtime'] == record['runtime']
             assert client.get(url+'/artifacts/results.zip').content.startswith(b'PK')
             assert client.get(url+'/artifacts/worker.log').status_code == 404
         assert client.get('/api/jobs/'+ids[0]+'/artifacts/configuration.json').json() != client.get('/api/jobs/'+ids[1]+'/artifacts/configuration.json').json()
@@ -51,7 +52,7 @@ def test_browser_api_to_real_worker_download_and_isolation(tmp_path):
 
 
 def test_malformed_oversized_and_cross_origin_requests(tmp_path):
-    with TestClient(create_app(tmp_path)) as client:
+    with TestClient(create_app(tmp_path, mode='compute')) as client:
         config = presets()['prism-fmr'].to_dict()
         assert client.post('/api/jobs', json={**config, 'nx': 100000}).status_code == 422
         assert client.post('/api/jobs', content='x'*17000, headers={'Content-Type':'application/json'}).status_code == 413
@@ -91,6 +92,39 @@ def test_restart_marks_incomplete_work_interrupted(tmp_path):
     manager = JobManager(tmp_path)
     try:
         assert manager.get(directory.name)['status'] == 'interrupted'
+        assert manager._active is None
+    finally:
+        manager.close()
+
+
+def test_corrupt_journal_releases_storage_lease(tmp_path):
+    directory = tmp_path/('a'*32); directory.mkdir()
+    (directory/'status.json').write_text('broken JSON')
+    with pytest.raises(ValueError):
+        JobManager(tmp_path)
+    (directory/'status.json').unlink()
+    manager = JobManager(tmp_path)
+    manager.close()
+
+
+def test_status_publication_failure_terminates_new_worker(tmp_path, monkeypatch):
+    manager = JobManager(tmp_path)
+    processes = []
+    original_start, original_save = manager.runtime.start, manager._save
+    def start(*args):
+        process = original_start(*args)
+        processes.append(process)
+        return process
+    def save(record):
+        if record['status'] == 'running':
+            raise OSError('simulated journal write failure')
+        return original_save(record)
+    monkeypatch.setattr(manager.runtime, 'start', start)
+    monkeypatch.setattr(manager, '_save', save)
+    try:
+        identifier = manager.submit(presets()['prism-fmr'])['id']
+        wait_for(lambda: manager.get(identifier)['status'] == 'failed')
+        assert processes and processes[0].poll() is not None
         assert manager._active is None
     finally:
         manager.close()
@@ -149,6 +183,9 @@ time.sleep(50)
             worker = json.loads(handshake.read_text())
             owner.kill(); owner.wait(timeout=5)
             def no_live_worker():
+                if sys.platform == 'win32':
+                    from spinfreq.runtime.windows import is_process_running
+                    return not is_process_running(worker['pid'])
                 path = Path('/proc')/str(worker['pid'])/'stat'
                 return not path.exists() or path.read_text().split(') ')[1].startswith('Z')
             wait_for(no_live_worker, timeout=5)

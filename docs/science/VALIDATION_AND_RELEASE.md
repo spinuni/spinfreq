@@ -145,7 +145,7 @@ their respective updates, not the current suite total.
 | D4. Web computation lifecycle | Background worker, bounded queue, measured RAM/CPU/time/disk limits, progress, cancellation, timeout recovery; heavy jobs do not execute inside an HTTP request | Implemented for local Linux: one bounded subprocess, queue/storage caps, progress/cancel/delete, CPU/address-space/file/wall/disk controls, exclusive supervisor and restart recovery. Host-specific public-service budgets remain open. |
 | D5. Web reproducibility and results | Three vetted presets; editable SI-labelled parameters; plots of equilibrium/modes/response; download config, JSON, CSV and array/OVF outputs | Implemented: three checked presets, editable SI-labelled inputs/full JSON, plots and config/JSON/CSV/NPZ/OVF/ZIP exports. Edited inputs are explicitly research configurations; matched coarse-grid scope is visible. |
 | D6. Web service tests | Browser-to-worker-to-download smoke test; malformed/oversized-job rejection; isolation of job inputs/results; simultaneous jobs, cancellation and restart tests | Local real-worker tests cover queue capacity, isolation, cancellation, timeout, malformed/oversized jobs and restart recovery. Real Chromium submits through the UI, verifies plots and downloads results. Public load/access-control checks remain open. |
-| D7. Release provenance | Owner-selected license; citation metadata; supported-model statement; versioned example results; tag/changelog; dependency/environment record and release artifacts | Owner selected MIT; LICENSE, CITATION.cff, changelog and candidate version `0.1.0rc1` added. Tag, package publication and public hosted application remain pending; a GitHub push is not those deliverables. |
+| D7. Release provenance | Owner-selected license; citation metadata; supported-model statement; versioned example results; tag/changelog; dependency/environment record and release artifacts | Owner selected MIT; LICENSE, CITATION.cff, changelog and candidate version `0.1.0rc2` added. Tag, package publication and public hosted application remain pending; a GitHub push is not those deliverables. |
 
 Local delivery checks passed on Python 3.12.14: 42 tests in the development
 environment (NumPy 2.4.4, SciPy 1.17.1, Matplotlib 3.10.8); 42 tests from the
@@ -222,3 +222,11 @@ after qualifying thickness/mesh/drive changes; keep matrix-free scaling,
 neutral-mode certification and branch tracking as separate improvements. Full
 nonlinear combs, thermal/current-driven problems and 3D thickness modes become
 release blockers only if included in the advertised supported scope.
+
+## Native Windows candidate continuation
+
+`0.1.0rc2` adds an explicitly experimental Windows Job Object runtime while
+retaining automatic preview on Windows and normal Linux computation. Platform
+resource/lifecycle qualification is tracked in the
+[Windows report](../../validation/release_candidate/windows/README.md); no new
+physics or thickness envelope is inferred from this platform implementation.

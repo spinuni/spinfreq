@@ -77,6 +77,9 @@ def main():
             summary = json.loads(archive.read('summary.json'))
         assert config['nx'] == 1 and config['points'] == 21
         assert summary['status'] == 'succeeded' and summary['stability'] == 'stable'
+        server_platform = page.request.get(args.url+'/api/capabilities').json()['platform']
+        expected_runtime = 'windows-job-object-experimental' if server_platform == 'win32' else 'linux-rlimit'
+        assert summary['worker_runtime'] == expected_runtime
         assert not errors, errors
         page.screenshot(path=str(args.output/'desktop.png'), full_page=True)
         page.set_viewport_size({'width':390, 'height':844})
@@ -84,7 +87,9 @@ def main():
         page.screenshot(path=str(args.output/'mobile.png'), full_page=True)
         report = {'browser':'Chromium', 'ui_worker_download_passed':True, 'images_loaded':3,
                   'javascript_errors':errors, 'mobile_horizontal_overflow':False,
-                  'configuration_sha256':summary['configuration_sha256']}
+                  'configuration_sha256':summary['configuration_sha256'],
+                  'server_platform':server_platform,
+                  'worker_runtime':summary.get('worker_runtime', 'unrecorded')}
         (args.output/'summary.json').write_text(json.dumps(report, indent=2)+'\n')
         browser.close()
 

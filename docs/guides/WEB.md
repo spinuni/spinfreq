@@ -25,16 +25,19 @@ directory. The homepage and configuration editor work; simulation controls are
 disabled and job submissions return HTTP 503 with an explanation. Presets and
 SI configuration validation/export remain available. Linux/WSL2 auto-selects
 computation. Force a preview on Linux with `spinfreq-web --mode landing`; use
-`--mode compute` to require a Linux worker explicitly.
+`--mode compute` to require a Linux worker or opt into the experimental native
+Windows backend explicitly.
 
 **Export field configuration** applies the labelled fields before downloading.
 **Export JSON configuration** validates and downloads exactly the advanced JSON
 editor contents. Files can be used later with `spinfreq --config ...` on a compute
 installation. For PowerShell commands, see [quick start](../getting-started/README.md).
-Native Windows workers are not implemented; native Windows preview tests are
-configured in CI, while local evidence was obtained on Linux.
+Native Windows workers use Job Objects in `--mode compute`. Automatic startup
+remains preview-only until native resource/lifecycle qualification is observed.
+Local evidence was obtained on Linux; see the
+[Windows guide](../development/WINDOWS.md) for the exact controls and pending gate.
 
-## Linux/WSL2 simulation workbench
+## Simulation workbench
 
 The JSON configuration, physical calculation and exports are the same as
 `spinfreq --config ...` and `spinfreq.run_job(...)`. For example:
@@ -59,9 +62,9 @@ continuum stability or of finding the ground state.
 | Running + queued jobs | 4 total |
 | Retained job records | 16; delete terminal jobs to free slots |
 | Mesh / frequency samples | 400 cells / 201 frequencies |
-| Worker wall / CPU time | 120 s / 60 s CPU, hard CPU kill at 61 s |
-| Worker virtual address space | 2 GiB |
-| Individual worker file | 32 MiB |
+| Worker wall / CPU time | 120 s wall; Linux: 60 s user+kernel CPU (61 s hard); Windows: 60 s aggregate job user CPU |
+| Worker memory | Linux: 2 GiB virtual address space; Windows: 2 GiB committed memory, both per process and job |
+| Individual worker file | 32 MiB; Linux hard rlimit plus monitoring; Windows periodic supervisor check |
 | Per-job disk | 96 MiB, checked by supervisor every 0.1 s |
 | Configuration HTTP body | 16 KiB, including streamed requests |
 
@@ -71,13 +74,15 @@ only configuration values, not paths, code, subprocess commands or filenames.
 Completed-job deletion is explicit. Data are local and not uploaded elsewhere.
 Only one server can own a data directory. Keep the default single server process;
 multiple Uvicorn workers are not supported. A server crash kills its worker on
-Linux; incomplete status records become `interrupted` at restart.
+Linux and, with Job Objects, on native Windows; incomplete status records become
+`interrupted` at restart. Windows hard memory/user-CPU controls apply before the
+worker imports the simulator. If job assignment fails, it never starts computing.
 
 ## Verify and troubleshoot
 
 ```bash
 python -m pip install -e '.[test,web,web-test]'
-python -m pytest -q tests/test_jobs.py tests/test_web.py tests/test_portable_web.py
+python -m pytest -q tests/test_jobs.py tests/test_web.py tests/test_portable_web.py tests/test_runtime.py
 python -m playwright install chromium
 python scripts/browser_smoke.py --url http://127.0.0.1:8000
 ```

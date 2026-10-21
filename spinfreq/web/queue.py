@@ -2,8 +2,6 @@
 import json
 import os
 from pathlib import Path
-import signal
-import subprocess
 import sys
 import threading
 import time
@@ -11,6 +9,7 @@ import uuid
 
 from ..config import validate_web_config
 from ..jobs import write_json
+from ..runtime import backend
 
 
 class QueueFull(RuntimeError):
@@ -19,17 +18,10 @@ class QueueFull(RuntimeError):
 
 class JobManager:
     def __init__(self, directory, *, timeout_s=120, max_pending=4, max_retained=16):
-        if not sys.platform.startswith("linux"):
-            raise RuntimeError("The bounded web worker currently requires Linux")
-        import fcntl
+        self.runtime = backend()
         self.directory = Path(directory).resolve()
         self.directory.mkdir(parents=True, exist_ok=True, mode=0o700)
-        self._lease = (self.directory/".lock").open("a")
-        try:
-            fcntl.flock(self._lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError:
-            self._lease.close()
-            raise RuntimeError("Data directory already has a supervisor; use one server process") from None
+        self._lease = self.runtime.acquire(self.directory/".lock")
         self.timeout_s = timeout_s
         self.max_pending = max_pending
         self.max_retained = max_retained
@@ -37,12 +29,16 @@ class JobManager:
         self._records = {}
         self._active = None
         self._stopped = threading.Event()
-        for path in self.directory.glob("*/status.json"):
-            record = json.loads(path.read_text())
-            if record["status"] in ("queued", "running"):
-                record.update(status="interrupted", error="Server stopped before job completion", finished=time.time())
-                write_json(path, record)
-            self._records[record["id"]] = record
+        try:
+            for path in self.directory.glob("*/status.json"):
+                record = json.loads(path.read_text())
+                if record["status"] in ("queued", "running"):
+                    record.update(status="interrupted", error="Server stopped before job completion", finished=time.time())
+                    write_json(path, record)
+                self._records[record["id"]] = record
+        except BaseException:
+            self._lease.close()
+            raise
         self._thread = threading.Thread(target=self._supervise, name="spinfreq-supervisor", daemon=True)
         self._thread.start()
 
@@ -59,7 +55,7 @@ class JobManager:
             directory = self.directory/identifier
             directory.mkdir(mode=0o700)
             write_json(directory/"request.json", config.to_dict())
-            record = {"id": identifier, "status": "queued", "created": time.time()}
+            record = {"id": identifier, "status": "queued", "created": time.time(), "runtime": self.runtime.name}
             self._save(record)
             self._records[identifier] = record
             return dict(record)
@@ -98,14 +94,8 @@ class JobManager:
             shutil.rmtree(self.directory/identifier)
             del self._records[identifier]
 
-    @staticmethod
-    def _terminate(process):
-        if process.poll() is None:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-        process.wait()
+    def _terminate(self, process):
+        self.runtime.terminate(process)
 
     def _tick(self):
         with self._lock:
@@ -113,13 +103,22 @@ class JobManager:
                 identifier, process, started, log = self._active
                 directory = self.directory/identifier
                 record = self._records[identifier]
-                size = sum(p.stat().st_size for p in directory.rglob("*") if p.is_file())
-                if record["status"] == "running" and (time.monotonic()-started > self.timeout_s or size > 96*1024**2):
+                sizes = []
+                for path in directory.rglob('*'):
+                    try:
+                        if path.is_file():
+                            sizes.append(path.stat().st_size)
+                    except FileNotFoundError:
+                        # Plot/font caches can atomically rename temporary files.
+                        continue
+                if record["status"] == "running" and (time.monotonic()-started > self.timeout_s
+                        or sum(sizes) > 96*1024**2 or max(sizes, default=0) > 32*1024**2):
                     self._terminate(process)
-                    record.update(status="failed", error="Wall-time or 96 MiB job disk limit exceeded", finished=time.time())
+                    record.update(status="failed", error="Wall-time, file or disk limit exceeded (32 MiB/file, 96 MiB/job)", finished=time.time())
                     self._save(record)
                 if process.poll() is None:
                     return
+                self.runtime.release(process)
                 log.close()
                 if record["status"] == "running":
                     path = directory/"results"/"summary.json"
@@ -136,20 +135,23 @@ class JobManager:
                     continue
                 directory = self.directory/identifier
                 environment = dict(os.environ, OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", MKL_NUM_THREADS="1",
-                                   MPLBACKEND="Agg", MPLCONFIGDIR=str(directory/"mpl-cache"))
+                                   MPLBACKEND="Agg", MPLCONFIGDIR=str(directory/"mpl-cache"),
+                                   SPINFREQ_WORKER_RUNTIME=self.runtime.name)
                 log = (directory/"worker.log").open("wb")
                 try:
-                    process = subprocess.Popen([sys.executable, "-m", "spinfreq.worker", str(directory),
-                                                "--parent", str(os.getpid()), "--timeout", str(self.timeout_s)],
-                                               stdout=log, stderr=subprocess.STDOUT, env=environment, start_new_session=True)
-                except OSError as error:
+                    process = self.runtime.start([sys.executable, "-m", "spinfreq.worker", str(directory),
+                                                  "--parent", str(os.getpid()), "--timeout", str(self.timeout_s)],
+                                                 log, environment)
+                except (OSError, RuntimeError) as error:
                     log.close()
                     record.update(status="failed", error=f"Worker could not start: {error}", finished=time.time())
                     self._save(record)
                     continue
+                # Own the process before any fallible status publication, so a
+                # disk/journal error cannot leave an untracked native worker.
+                self._active = (identifier, process, time.monotonic(), log)
                 record.update(status="running", started=time.time())
                 self._save(record)
-                self._active = (identifier, process, time.monotonic(), log)
                 break
 
     def _supervise(self):

@@ -157,3 +157,7 @@ def main():
     except ValueError as error:
         parser.error(str(error))
     uvicorn.run(app, host="127.0.0.1", port=args.port, workers=1)
+
+
+if __name__ == '__main__':
+    main()

@@ -23,7 +23,7 @@ separate from installation and daily use.
 
 ## Level 4 · Develop and publish
 
-- [Architecture](development/ARCHITECTURE.md) and [contributing](../CONTRIBUTING.md).
+- [Architecture](development/ARCHITECTURE.md), [Windows backend](development/WINDOWS.md) and [contributing](../CONTRIBUTING.md).
 - [Release plan](releases/RELEASE_PLAN.md) and [changelog](../CHANGELOG.md).
 - [Branding](branding/README.md): provisional SpinFreq logo.
 

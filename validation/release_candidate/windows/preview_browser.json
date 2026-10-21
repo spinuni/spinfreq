@@ -1,0 +1,9 @@
+{
+  "browser": "Chromium",
+  "browser_version": "154.0.8037.57",
+  "mode": "landing",
+  "configuration_export_passed": true,
+  "simulation_disabled": true,
+  "javascript_errors": [],
+  "mobile_horizontal_overflow": false
+}

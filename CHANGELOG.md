@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.0rc2 — experimental native Windows computation
+
+- Explicit `--mode compute` on Windows uses Job Objects with gated worker
+  startup, committed-memory/user-CPU limits and process-tree termination on
+  cancellation, server death and normal parent completion.
+- Runtime backends separate Linux process groups/rlimits from Windows APIs;
+  storage ownership uses a native exclusive lease on each platform.
+- Supervisor monitors both per-file and total disk limits on every platform.
+- Native Windows lifecycle, resource-limit and descendant-process checks are
+  added to CI. Local Linux verification does not qualify the Windows backend;
+  Windows automatic startup remains preview-only until native evidence passes.
+
 ## 0.1.0rc1 — release candidate
 
 - Hierarchical documentation and grouped analytical baseline, with updated links.

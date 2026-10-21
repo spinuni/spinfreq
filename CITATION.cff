@@ -4,7 +4,7 @@ type: software
 title: "SpinFreq: frequency-domain micromagnetics for thin films"
 authors:
   - name: "SpinFreq contributors"
-version: 0.1.0rc1
+version: 0.1.0rc2
 license: MIT
 repository-code: "https://github.com/spinuni/spinfreq"
 url: "https://github.com/spinuni/spinfreq"

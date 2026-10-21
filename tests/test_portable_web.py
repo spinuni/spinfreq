@@ -16,8 +16,14 @@ def test_auto_platform_capabilities(platform, enabled):
 
 
 def test_explicit_compute_rejects_unsupported_platform():
-    with pytest.raises(ValueError, match='WSL2'):
-        capabilities('compute', 'win32')
+    with pytest.raises(ValueError, match='landing'):
+        capabilities('compute', 'darwin')
+
+
+def test_windows_compute_requires_explicit_experimental_opt_in():
+    assert not capabilities('auto', 'win32')['simulation_enabled']
+    support = capabilities('compute', 'win32')
+    assert support['simulation_enabled'] and support['experimental']
 
 
 @pytest.mark.parametrize('platform', ['linux','win32','darwin'])

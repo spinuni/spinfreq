@@ -7,7 +7,8 @@
 | `spinfreq/config.py` | Strict versioned SI configuration, presets and web computation bounds |
 | `spinfreq/jobs.py` | Shared reproducible job, diagnostics, plots and exports |
 | `spinfreq/cli.py` | CLI adapter; no independent physics implementation |
-| `spinfreq/web/`, `worker.py` | Browser/API, queue supervisor and bounded Linux subprocess |
+| `spinfreq/web/`, `worker.py` | Browser/API, queue supervisor and bounded platform subprocess |
+| `spinfreq/runtime/` | Linux rlimits/process groups and experimental Windows Job Objects |
 | `examples/` | Checked-in runnable configurations |
 | `scripts/` | Application/preset/browser release checks |
 | `benchmarks/` | Independent scientific comparisons and reference acquisition |
@@ -26,7 +27,7 @@ flowchart LR
   CLI[CLI + SI JSON] --> Runner
   Browser[Browser] --> API[Local HTTP API]
   API --> Queue[Bounded serial queue]
-  Queue --> Worker[Linux subprocess]
+  Queue --> Worker[Bounded subprocess]
   Worker --> Runner
   Runner --> Physics[Existing physics operators]
   Physics --> Checks[Static + eigen + response checks]
@@ -36,13 +37,17 @@ flowchart LR
 
 The root HTTP route serves a project landing page; `/workbench` serves the
 configuration/simulation interface. `/api/capabilities` selects compute on Linux
-and preview on other platforms. Preview validates/exports configurations without
-initializing the queue; `fcntl` is imported only inside Linux supervisor startup.
+and preview on other platforms by default. Windows `--mode compute` is an
+explicit experimental opt-in. Preview validates/exports configurations without
+initializing the queue; native APIs are loaded only by the selected runtime.
 
 The HTTP process never performs dense eigenanalysis. One supervisor owns a data
 directory and starts one worker at a time. Worker memory/CPU/file limits, a wall
 alarm and supervisor disk checks bound computation. Linux parent-death handling
-terminates a worker when its server dies. Startup marks unfinished records
+terminates a worker when its server dies. Windows owns a non-inheritable Job
+Object handle with kill-on-close, memory/user-CPU limits and a stdin startup gate
+that opens only after assignment. Normal completion closes the job and removes
+any remaining descendants. See [Windows qualification](WINDOWS.md). Startup marks unfinished records
 `interrupted`; it does not silently rerun them. The lifecycle is
 `queued -> running -> succeeded/failed/cancelled`; restart can produce `interrupted`.
 

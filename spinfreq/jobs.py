@@ -34,7 +34,16 @@ def write_json(path, data):
     path = Path(path)
     temporary = path.with_suffix(path.suffix+".tmp")
     temporary.write_text(json.dumps(data, indent=2, allow_nan=False)+"\n")
-    temporary.replace(path)
+    for attempt in range(10):
+        try:
+            temporary.replace(path)
+            break
+        except PermissionError as error:
+            # Windows readers/antivirus can briefly hold a destination without
+            # FILE_SHARE_DELETE. Preserve atomic publication; never truncate it.
+            if getattr(error, 'winerror', None) not in (5, 32, 33) or attempt == 9:
+                raise
+            time.sleep(.02)
 
 
 def run_job(config: JobConfig, output, progress=None):
@@ -61,6 +70,7 @@ def run_job(config: JobConfig, output, progress=None):
     }
     summary["thread_environment"] = {key: os.environ.get(key) for key in
                                      ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")}
+    summary['worker_runtime'] = os.environ.get('SPINFREQ_WORKER_RUNTIME', 'direct-python')
     for name, preset in presets().items():
         if config == preset:
             summary["preset"] = name
