@@ -1,0 +1,62 @@
+{
+  "configuration": {
+    "nx": 20,
+    "ny": 20,
+    "dx_m": 2e-09,
+    "dy_m": 2e-09,
+    "thickness_m": 1e-09,
+    "width_m": 4e-08,
+    "material": {
+      "Ms": 580000.0,
+      "A": 1.5e-11,
+      "D": 0.003,
+      "K": 600000.0,
+      "alpha": 0.01,
+      "gamma": 175950000000.0
+    },
+    "field_T": [
+      0,
+      0,
+      0.0
+    ],
+    "dmi_boundary": "bond",
+    "oommf_D_J_m2": -0.003,
+    "amplitude_T": 1e-06,
+    "duration_ns": 8.0,
+    "ramp_ns": 2.0,
+    "steady_start_ns": 4.0,
+    "frequencies_GHz": [
+      15.8,
+      16.3,
+      16.8,
+      37.2,
+      38.0,
+      38.8
+    ],
+    "axes": [
+      2,
+      2,
+      2,
+      0,
+      0,
+      0
+    ],
+    "sample_ps": 2.0,
+    "reference_equilibrium_sha256": "f3bbe1a90799e5945ed5ce81931f01ab1eb5fe53d13adc88a502c37d0e969099",
+    "OOMMF_absolute_step_error_deg": 1e-07,
+    "OOMMF_relative_step_error": -1.0,
+    "source_configuration_sha256": "0920aac9c645ba9992d78b788111117a0e1a5df95eb58edf4af8a3a5be1ce516"
+  },
+  "raw_reference_sha256": {
+    "configuration.json": "820b0ef654daaff56edd797fc407b1206c235dce737f49c0eddec6f555872929",
+    "driven.errors": "7d018f366c4f4ecf162b2c46526395187838643b86341515cb8027d962d1583f",
+    "driven.log": "e13711680d96c256a615259afa990b9bd20631568f5a56bf7de2c740825c320c",
+    "driven.mif": "9c4144fcacf57b71c3a151faced72bd840f74da4adb96526a89716c68b419196",
+    "driven.odt": "5079971db431dc7ec6dd6c4cf38283b5430d9e17d90e2d8b099e69672f7331e6",
+    "equilibrium.ovf": "f3bbe1a90799e5945ed5ce81931f01ab1eb5fe53d13adc88a502c37d0e969099",
+    "execution.json": "693c7ceb9a4928e1bc649f2070e563fe7b9d50e35891a4812072a98cfd4afe44",
+    "runtime.json": "971e8b3d607f3aeae1cd840208926b5a698a9e1432c8cfebc0e65373a4da0605",
+    "source_configuration.json": "0920aac9c645ba9992d78b788111117a0e1a5df95eb58edf4af8a3a5be1ce516"
+  },
+  "reference_archive_sha256": "9d3a069a656bca067b0db22faed9cb781b297792472aef91c4a551dcf95797dc"
+}

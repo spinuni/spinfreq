@@ -87,10 +87,10 @@ result without recording the scientific reason.
 | P2. Analytic baselines | Kittel orientations, exchange/dipolar dispersion, complex susceptibility including phase and positive absorption, damping | Existing analytic reports and tests pass. Extend field, damping and material sweeps before claiming a broad accuracy envelope. |
 | P3. Independent finite-film FMR | Visible frequencies within 1%; complex mode MAC >0.95; linewidth within 5% with a credible extraction method; final lateral refinement <0.5% | New Baker/OOMMF benchmark supplies the two visible low-mode comparisons. Exact z-resolved replication and wider parameter sweeps remain outside that result. |
 | P4. Interfacial DMI and propagation | Independent static canting/profile; chirality under `D -> -D`; signed `f(k)` versus temporal data; nonreciprocity slope within 2% after mesh convergence | Published MuMax3/OOMMF/Fidimag 1D profiles, D reversal, continuum refinement and analytical signed dispersion pass. MuMax strip fit summaries agree within 0.12%; the tested finest low-band mesh change is 0.4565%. Two executed CPU OOMMF ringdowns match full complex traces within 0.058% at two wavevector magnitudes, with all four signed-k peaks matching. A proven even-N FFT row-reversal bias explains part of the old offset. Full finite-strip curves, wider convergence and the remaining historical OOMMF/Fidimag band differences are open: **P4 is not fully closed**. |
-| P5. Noncollinear dynamics | At least one skyrmion case with independent equilibrium/profile and complex mode fields, plus two fields or sizes; frequencies within 2% after refinement; no material fitting | New independent CPU OOMMF skyrmions at 0 and 50 mT validate profiles, full spatial traces (error <0.0086%) and six complex mode fields (MAC >0.998); fitted frequencies agree within 0.019%. The matched 2 nm grid is not continuum-qualified. The 1 to 0.8 nm linear refinement changes poles by <0.648%; independent fine-grid dynamics remain open. Full agreement with Liu Fig. 2 is not a universal release gate. |
-| P6. Driven response and the linear regime | External small-drive complex response/decay; peak positions and phase; halving drive halves δm and quarters power; repeat near two resonances | Analytic macrospin checks and external OOMMF complex ringdown/initial-amplitude halving pass (power ratio 1/4). External multi-mode forced-response/phase sweeps remain open. Compare like excitation and like observable. |
+| P5. Noncollinear dynamics | At least one skyrmion case with independent equilibrium/profile and complex mode fields, plus two fields or sizes; frequencies within 2% after refinement; no material fitting | New independent CPU OOMMF skyrmions at 0 and 50 mT validate profiles, full spatial traces (error <0.0086%) and six complex mode fields (MAC >0.998); fitted frequencies agree within 0.019%. The subsequent independent 1 nm runs at both fields pass, with spatial errors <0.0096%, MAC >0.997 and fitted frequency errors <0.008%. Joint qualification matches them to the 1 to 0.8 nm refinement (<0.648% change). This supplies the stated P5 evidence for this square-film model; general thickness/parameter envelopes remain open. Full agreement with Liu Fig. 2 is not a universal release gate. |
+| P6. Driven response and the linear regime | External small-drive complex response/decay; peak positions and phase; halving drive halves δm and quarters power; repeat near two resonances | Analytic macrospin checks and external OOMMF complex ringdown/initial-amplitude halving pass (power ratio 1/4). Independent 2 nm multitone OOMMF drives now test six frequencies near two resonances, with complex errors <0.14%, phase errors <0.008 degrees, startup trace error <0.0048% and field-halving/power-quartering checks. Tighter angular-error and explicit timestep-refinement reruns test numerical convergence. Fine-grid driven sweeps and a wider amplitude/parameter envelope remain open. Compare like excitation and like observable. |
 | P7. Stability and band completeness | Physical static residual; absolute and relative eigen residuals; growth-rate error bounds near zero; targeted-mode count/shift convergence and branch overlap tracking | Root refinement and Bloch residual checks exist. Neutral-mode certification, automatic tracking and completeness checks are open. Do not present a targeted subset as a proven band gap. |
-| P8. Supported envelope | Fixed-size mesh refinement; finite-size/image convergence; reference z refinement at representative thicknesses; measured time/RAM | Individual convergence studies exist, including a two-field noncollinear 2 to 0.8 nm study. Coarse-grid frequency shifts reach several percent; the finest pair passes its 1% target. Fine-grid external dynamics and a general thickness/grid/parameter envelope remain open. |
+| P8. Supported envelope | Fixed-size mesh refinement; finite-size/image convergence; reference z refinement at representative thicknesses; measured time/RAM | Individual convergence studies exist, including a two-field noncollinear 2 to 0.8 nm study. Coarse-grid frequency shifts reach several percent; the finest pair passes its 1% target. The 1 nm independent dynamics now pass at both fields. A general thickness/grid/parameter envelope remains open. |
 
 For finite-time comparisons, choose the observation duration before measuring
 error: `Δf = 1/T`. Account for window broadening, transient removal, excitation
@@ -109,7 +109,7 @@ matrix exponential on an elliptical damped system.
 | Limitation found in the code | Consequence | Recommended improvement / verification |
 | --- | --- | --- |
 | Full modes, direct response and Bloch shift-invert assemble dense matrices | `O(N²)` storage and `O(N³)` factorization; targeted Bloch extraction still pays for dense LU | Add matrix-free targeted modes and a tested preconditioned inner solve. Use FFT demag action plus an exchange/local-field preconditioner; validate residuals and agreement with small dense cases before claiming speedups. |
-| Direct response refactorizes a shifted matrix at every frequency; GMRES has no preconditioner | Fine resonant sweeps are expensive, and iterative convergence can deteriorate around narrow poles | Reuse a Schur/modal representation for repeated dense sweeps; consider rational Krylov and continuation with preconditioning for large systems. Retain true-residual checks. |
+| Direct response refactorizes a shifted matrix at every frequency; GMRES has no preconditioner | Fine resonant sweeps are expensive, and iterative convergence can deteriorate around narrow poles | `ModalResponse` now reuses the full eigenbasis and an inverse factorization, with true-residual checks. A measured 201-point small-system sweep uses 8.07× less CPU including preparation. Large-system preconditioned/rational Krylov methods remain open. |
 | Single magnetization value through z in every class | No perpendicular standing spin waves, surface asymmetry, multilayer hybridization or 3D textures | Establish thickness validity against z-refined OOMMF/MuMax3 first. Add multilayer/z cells only if needed; do not label 10 nm universally safe because two FMR modes agree. |
 | Periodic `Film` uses spectral operators/continuum film demag; confined/Bloch use FD/cell-averaged Newell demag | Same grid and constants are not necessarily the same discrete problem | Compare discrete operators when matching a solver and continuum limits when matching physics. Include FD dispersion and boundary settings in run metadata. |
 | Only homogeneous material, easy-z anisotropy, interfacial DMI and rectangular occupied meshes | Disk/vortex, patterned antidot, bulk-DMI and heterogeneous-interface papers cannot be copied faithfully | Prioritize occupancy masks with correct exchange/DMI edge treatment for disk benchmarks. Later add arbitrary anisotropy axes and material regions. Reject unsupported inputs clearly. |
@@ -179,6 +179,26 @@ in exploratory runs. The accepted references contain complete readable fields.
 See the [report](../validation/skyrmion_temporal/README.md) for numerical results,
 reproduction commands and remaining fine-grid qualification.
 
+The fine-grid continuation executes 1 nm ringdowns at both fields and supplies
+joint qualification against the 1 to 0.8 nm study. Separate multitone OOMMF
+runs test weak-field amplitude, phase, startup and halving around two resonances.
+Their settings and numerical-control study are documented in the
+[fine-grid](../validation/skyrmion_fine/README.md) and
+[driven-response](../validation/driven_response/README.md) reports.
+`ModalResponse` adds a reusable full-basis API, exact raised-cosine transients,
+and true residual checks; analytic elliptical susceptibility and independent
+linear time integration test its phase and nonnormal-basis treatment.
+
+The current continuation passes **73 tests** in both the development environment
+and a fresh wheel installation tested from the unpacked source distribution.
+Wheel/sdist builds, installed CLI execution outside the checkout and `pip check`
+also pass. Fine-grid and driven native references have been restored, hash-checked
+and reanalyzed in the fresh environment. The explicit timestep cap increases
+OOMMF steps from 62,761 to 164,001; complex phasors change by less than 1e−9
+relative. The angular-error-only check is reported separately because it does
+not substantially refine the accepted timesteps. These are local checks;
+Python 3.11/3.13 and hosted CI outcomes remain to be observed.
+
 Do not make a particular cloud provider a physics dependency. First define the
 worker's compute budget and result-storage requirements, then choose hosting.
 The browser should request a validated configuration and inspect results; the
@@ -189,7 +209,8 @@ package should own the physics.
 1. Retain the FMR, DMI static/analytical and archived OOMMF temporal regressions.
    Extend the two-q temporal comparison to the finite-strip pulse and resolve the remaining
    OOMMF/Fidimag band differences. Retain the new independent two-field skyrmion
-   profile/mode data and repeat external dynamics on the qualified fine mesh.
+   profile/mode data and their new qualified 1 nm external dynamics. Extend
+   thickness/parameter qualification before expanding supported presets.
 2. Add shared configuration, diagnostics and mode tracking; qualify a finite
    range of thicknesses, mesh sizes and drive amplitudes. Keep larger and
    unsupported requests outside the first public presets.

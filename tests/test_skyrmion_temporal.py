@@ -51,3 +51,16 @@ def test_archive_restore_checks_integrity_before_writing(tmp_path,monkeypatch):
     archive=reference/'oommf_reference.tar.gz';content=bytearray(archive.read_bytes());content[-10]^=1;archive.write_bytes(content)
     with pytest.raises(ValueError,match='hash mismatch'):module.restore_reference(reference,tmp_path/'corrupted')
     assert not (tmp_path/'corrupted').exists()
+
+
+def test_mesh_qualification_cannot_accept_only_coarse_dynamics(tmp_path,monkeypatch):
+    module=benchmark(monkeypatch)
+    root=tmp_path/'cases';(root/'field_0mT').mkdir(parents=True)
+    config=dict(nx=20,ny=20,dx_m=2e-9,dy_m=2e-9,thickness_m=1e-9,field_T=[0,0,0],
+        dmi_boundary='bond',material=dict(Ms=580e3,A=15e-12,D=.003,K=.6e6,alpha=.01,gamma=1.7595e11))
+    (root/'field_0mT/summary.json').write_text(json.dumps(dict(configuration=config)))
+    mesh=tmp_path/'mesh.json';mesh.write_text(json.dumps(dict(results=[
+        dict(field_T=0,cells=40,frequencies_GHz=[1.9,17.1,38.4]),
+        dict(field_T=0,cells=50,frequencies_GHz=[1.902,17.2,38.5])])))
+    with pytest.raises(ValueError,match='finest qualified pair'):
+        module.qualify_suite(root,mesh,tmp_path/'output')

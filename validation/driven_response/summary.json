@@ -1,0 +1,175 @@
+{
+  "configuration": {
+    "nx": 20,
+    "ny": 20,
+    "dx_m": 2e-09,
+    "dy_m": 2e-09,
+    "thickness_m": 1e-09,
+    "width_m": 4e-08,
+    "material": {
+      "Ms": 580000.0,
+      "A": 1.5e-11,
+      "D": 0.003,
+      "K": 600000.0,
+      "alpha": 0.01,
+      "gamma": 175950000000.0
+    },
+    "field_T": [
+      0,
+      0,
+      0.0
+    ],
+    "dmi_boundary": "bond",
+    "oommf_D_J_m2": -0.003,
+    "amplitude_T": 1e-06,
+    "duration_ns": 8.0,
+    "ramp_ns": 2.0,
+    "steady_start_ns": 4.0,
+    "frequencies_GHz": [
+      15.8,
+      16.3,
+      16.8,
+      37.2,
+      38.0,
+      38.8
+    ],
+    "axes": [
+      2,
+      2,
+      2,
+      0,
+      0,
+      0
+    ],
+    "sample_ps": 2.0,
+    "reference_equilibrium_sha256": "f3bbe1a90799e5945ed5ce81931f01ab1eb5fe53d13adc88a502c37d0e969099",
+    "OOMMF_absolute_step_error_deg": 1e-07,
+    "OOMMF_relative_step_error": -1.0,
+    "source_configuration_sha256": "0920aac9c645ba9992d78b788111117a0e1a5df95eb58edf4af8a3a5be1ce516"
+  },
+  "analysis_environment": {
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1"
+  },
+  "static_max_component_difference": 1.1968587232402683e-10,
+  "relative_full_transient_L2_error": 4.798203671148678e-05,
+  "relative_half_transient_L2_error": 2.4900811625712427e-05,
+  "relative_time_trace_halving_error": 2.311379710202068e-05,
+  "demodulation": {
+    "design_condition_number": 1.4608993725935888,
+    "relative_residual": 0.0006366504247360709,
+    "samples": 2001
+  },
+  "half_demodulation": {
+    "design_condition_number": 1.4608993725935888,
+    "relative_residual": 0.0006359958075072419,
+    "samples": 2001
+  },
+  "tones": [
+    {
+      "frequency_GHz": 15.8,
+      "drive_axis": 2,
+      "relative_complex_vector_error": 0.0013164995724112825,
+      "driven_component_amplitude_error_percent": 0.13095660458023461,
+      "driven_component_phase_error_deg": 0.007727647625126074,
+      "finite_window_linear_bias": 0.0013170811763089782,
+      "relative_halving_error": 4.991145094444955e-07,
+      "response_squared_ratio": 0.24999982050036837,
+      "OOMMF_absorbed_power_W": 1.527475806840978e-19,
+      "linear_absorbed_power_W": 1.5299197263565553e-19,
+      "absorbed_power_ratio_half_over_full": 0.25000007372926014,
+      "shifted_system_relative_residual": 1.5599025925295367e-11
+    },
+    {
+      "frequency_GHz": 16.3,
+      "drive_axis": 2,
+      "relative_complex_vector_error": 0.0013530737848212585,
+      "driven_component_amplitude_error_percent": 0.13471329712068103,
+      "driven_component_phase_error_deg": 0.007259745640816787,
+      "finite_window_linear_bias": 0.0013528783430937468,
+      "relative_halving_error": 1.225348885032307e-07,
+      "response_squared_ratio": 0.2500000465493184,
+      "OOMMF_absorbed_power_W": 8.346465312756894e-19,
+      "linear_absorbed_power_W": 8.357724327690865e-19,
+      "absorbed_power_ratio_half_over_full": 0.25000002327450277,
+      "shifted_system_relative_residual": 3.522003980848847e-11
+    },
+    {
+      "frequency_GHz": 16.8,
+      "drive_axis": 2,
+      "relative_complex_vector_error": 0.0013904464750679956,
+      "driven_component_amplitude_error_percent": 0.13853616131080937,
+      "driven_component_phase_error_deg": 0.006799619868813146,
+      "finite_window_linear_bias": 0.001389447720918451,
+      "relative_halving_error": 5.827667940586712e-07,
+      "response_squared_ratio": 0.2500002694456767,
+      "OOMMF_absorbed_power_W": 1.6129451846134788e-19,
+      "linear_absorbed_power_W": 1.614795944593463e-19,
+      "absorbed_power_ratio_half_over_full": 0.2500001743534184,
+      "shifted_system_relative_residual": 1.5113381905157223e-11
+    },
+    {
+      "frequency_GHz": 37.2,
+      "drive_axis": 0,
+      "relative_complex_vector_error": 6.075627876172895e-05,
+      "driven_component_amplitude_error_percent": 0.004043029574773982,
+      "driven_component_phase_error_deg": -0.002384017574205598,
+      "finite_window_linear_bias": 6.098858528476017e-05,
+      "relative_halving_error": 1.9446801022016022e-07,
+      "response_squared_ratio": 0.2499999427431545,
+      "OOMMF_absorbed_power_W": 6.439766025511838e-19,
+      "linear_absorbed_power_W": 6.439525279034992e-19,
+      "absorbed_power_ratio_half_over_full": 0.2500000195090051,
+      "shifted_system_relative_residual": 6.04269569697576e-12
+    },
+    {
+      "frequency_GHz": 38.0,
+      "drive_axis": 0,
+      "relative_complex_vector_error": 6.482114074743478e-05,
+      "driven_component_amplitude_error_percent": 0.005397767148040966,
+      "driven_component_phase_error_deg": 0.0019699120106271804,
+      "finite_window_linear_bias": 6.489793220618551e-05,
+      "relative_halving_error": 9.194373466468647e-08,
+      "response_squared_ratio": 0.24999998802060336,
+      "OOMMF_absorbed_power_W": 2.820756660993575e-18,
+      "linear_absorbed_power_W": 2.8209036316961427e-18,
+      "absorbed_power_ratio_half_over_full": 0.24999999757373392,
+      "shifted_system_relative_residual": 1.2388681995276833e-11
+    },
+    {
+      "frequency_GHz": 38.8,
+      "drive_axis": 0,
+      "relative_complex_vector_error": 6.0469826650264564e-05,
+      "driven_component_amplitude_error_percent": 0.002015272073774277,
+      "driven_component_phase_error_deg": 0.003161963027409321,
+      "finite_window_linear_bias": 6.0357373972933375e-05,
+      "relative_halving_error": 9.64992166501408e-08,
+      "response_squared_ratio": 0.25000002219762835,
+      "OOMMF_absorbed_power_W": 6.215336418425499e-19,
+      "linear_absorbed_power_W": 6.214574462327869e-19,
+      "absorbed_power_ratio_half_over_full": 0.24999998289912911,
+      "shifted_system_relative_residual": 5.720813308912324e-12
+    }
+  ],
+  "reference_archive_sha256": {
+    "full": "9d3a069a656bca067b0db22faed9cb781b297792472aef91c4a551dcf95797dc",
+    "half": "99f7369ac83327ff461e48de2c15d3f233089c99fe7b9aad421a024767eafbec"
+  },
+  "gates": {
+    "six_complex_responses_within_2_percent": true,
+    "phase_errors_below_1_degree": true,
+    "full_and_half_transient_errors_below_2_percent": true,
+    "halving_errors_below_1_percent": true,
+    "squared_response_ratios_within_1_percent_of_quarter": true,
+    "absorption_ratios_within_1_percent_of_quarter": true,
+    "absorption_positive": true,
+    "centers_stronger_than_side_tones": true
+  },
+  "all_executed_gates_passed": true,
+  "limitations": [
+    "Mean magnetization response to six simultaneous weak tones; spatial forced-response fields are not measured here.",
+    "This matched discrete problem does not establish continuum mesh or thickness accuracy.",
+    "Small-signal susceptibility and startup transients; nonlinear frequency-comb generation is not validated."
+  ]
+}

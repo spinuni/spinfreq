@@ -1,0 +1,59 @@
+{
+  "material": {
+    "Ms": 580000.0,
+    "A": 1.5e-11,
+    "D": 0.003,
+    "K": 600000.0,
+    "alpha": 0.01,
+    "gamma": 175950000000.0
+  },
+  "cells": [
+    20,
+    20,
+    1
+  ],
+  "cell_nm": [
+    2,
+    2,
+    1
+  ],
+  "points": 201,
+  "frequency_GHz": [
+    1,
+    45
+  ],
+  "drive_T": [
+    0,
+    0,
+    1e-06
+  ],
+  "timings": {
+    "preparation": {
+      "cpu_s": 0.811459629,
+      "wall_s": 0.8117246069887187
+    },
+    "modal_queries": {
+      "cpu_s": 0.3233359440000001,
+      "wall_s": 0.3233348290086724
+    },
+    "direct_queries": {
+      "cpu_s": 9.163256965,
+      "wall_s": 9.181472866999684
+    }
+  },
+  "direct_over_prepared_total_CPU_ratio": 8.074808523244036,
+  "direct_over_reused_query_CPU_ratio": 28.33974117334755,
+  "relative_full_field_difference": 2.374179568696219e-12,
+  "max_true_residual": 3.243181159667528e-11,
+  "all_executed_gates_passed": true,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41"
+  },
+  "limitations": [
+    "One measured sweep on this cloud CPU with one BLAS thread; timings are not a general speed guarantee.",
+    "Both methods remain dense; all-mode preparation is not a matrix-free large-array solver."
+  ]
+}

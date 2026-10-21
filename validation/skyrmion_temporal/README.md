@@ -229,3 +229,9 @@ limits for the supported presets. Collective skyrmion bands and nonlinear
 frequency combs remain separate application validations. The shared job schema,
 web worker, interface and deployment checks remain delivery work. See the
 [release assessment](../../docs/VALIDATION_AND_RELEASE.md).
+
+
+The [subsequent fine-grid report](../skyrmion_fine/README.md) now supplies
+independent dynamics at 1 nm for both fields and a joint qualification against
+the 1 to 0.8 nm study. The original 2 nm records above retain their standalone
+scope and flags. General thickness and deployment qualification remain open.

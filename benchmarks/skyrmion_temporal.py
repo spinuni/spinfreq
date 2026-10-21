@@ -210,6 +210,49 @@ def mesh_refinement(output,cells=(20,30,40),fields=(0.,.05)):
     return summary
 
 
+def qualify_suite(reference,mesh_reference,output):
+    """Combine two executed fine-grid cases with the fixed-size mesh study.
+
+    This qualifies only the stated thin-film model and first three modes. It
+    does not qualify a thickness envelope, general stability or deployment.
+    """
+    reference=Path(reference);mesh_reference=Path(mesh_reference);output=Path(output)
+    study=json.loads(mesh_reference.read_text());records=[]
+    expected_material=dict(Ms=580e3,A=15e-12,D=.003,K=.6e6,alpha=.01,gamma=1.7595e11)
+    for name,field in [('field_0mT',0.),('field_50mT',.05)]:
+        path=reference/name/'summary.json';case=json.loads(path.read_text());config=case['configuration']
+        if config['material']!=expected_material or config['field_T']!=[0,0,field] or config['dmi_boundary']!='bond':
+            raise ValueError('Mesh qualification requires the identical specified material, field and boundary')
+        n=config['nx']
+        if config['ny']!=n or not np.allclose([n*config['dx_m'],n*config['dy_m'],config['thickness_m']],
+            [40e-9,40e-9,1e-9],rtol=1e-12,atol=0):raise ValueError('Mesh qualification geometry mismatch')
+        mesh=sorted([r for r in study['results'] if r['field_T']==field],key=lambda r:r['cells'])
+        if len(mesh)<2:raise ValueError('Need at least two fixed-size mesh points per field')
+        pair=mesh[-2:];changes=100*abs(np.array(pair[0]['frequencies_GHz'])/pair[1]['frequencies_GHz']-1)
+        matched=[r for r in pair if r['cells']==n]
+        if not matched:raise ValueError('Executed dynamics must use a mesh in the finest qualified pair')
+        frequencies=np.array([m['linear_frequency_GHz'] for m in case['modes']])
+        same_poles=np.max(abs(frequencies/np.array(matched[0]['frequencies_GHz'])-1))<1e-6
+        gates=dict(independent_case_passed=bool(case['all_executed_gates_passed']),
+            complete_at_least_four_ns=config['duration_ns']>=4,
+            full_trace_within_2_percent=case['relative_full_spatial_trace_L2_error']<.02,
+            frequencies_within_2_percent=max(m['frequency_difference_percent'] for m in case['modes'])<2,
+            complex_mode_MAC_above_0_95=min(m['complex_vector_MAC'] for m in case['modes'])>.95,
+            finest_pair_changes_below_1_percent=bool(max(changes)<1),same_linear_poles=bool(same_poles),
+            equilibria_converged_and_stable=bool(case['spinfreq_torque_T']<1e-8 and case['maximum_growth_rate_per_s']<0 and
+                all(r['converged'] and r['max_growth_rate_per_s']<0 for r in pair)))
+        records.append(dict(case=name,cells=n,cell_nm=config['dx_m']/1e-9,finest_pair_changes_percent=changes.tolist(),
+            gates=gates,passed=bool(all(gates.values())),case_summary_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+            native_reference_archive_sha256=case['reference_archive_sha256']))
+    summary=dict(scope='40 x 40 x 1 nm square, specified material, bond DMI, Bz=0/50 mT, first three modes',
+        results=records,mesh_reference_sha256=hashlib.sha256(mesh_reference.read_bytes()).hexdigest(),
+        P5_two_field_fine_mesh_evidence_passed=bool(all(r['passed'] for r in records)),
+        continuum_error_bound=False,general_thickness_envelope_qualified=False,full_simulator_release_qualified=False)
+    output.mkdir(parents=True,exist_ok=True)
+    (output/'qualification.json').write_text(json.dumps(summary,indent=2)+'\n')
+    return summary
+
+
 def analyze(directory,output):
     directory=Path(directory);output=Path(output);output.mkdir(parents=True,exist_ok=True)
     config=json.loads((directory/'configuration.json').read_text());table=read_odt(directory/'ringdown.odt')
@@ -339,10 +382,11 @@ def plot(output,config,m,external,times,actual,predicted,records):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=['prepare','run','analyze','restore','mesh'])
+    parser.add_argument('action',choices=['prepare','run','analyze','restore','mesh','qualify'])
     parser.add_argument('--workdir',type=Path,default=Path('results/skyrmion-temporal'))
     parser.add_argument('--output',type=Path,default=Path('validation/skyrmion_temporal/field_0mT'))
     parser.add_argument('--reference',type=Path,default=Path('validation/skyrmion_temporal/field_0mT'))
+    parser.add_argument('--mesh-reference',type=Path,default=Path('validation/skyrmion_temporal/mesh_fine/summary.json'))
     parser.add_argument('--runtime',type=Path)
     parser.add_argument('--field-mT',type=float,default=0.)
     parser.add_argument('--cells',type=int,default=20)
@@ -351,6 +395,10 @@ if __name__=='__main__':
     parser.add_argument('--amplitude',type=float,default=1e-4)
     parser.add_argument('--check',action='store_true')
     args=parser.parse_args()
+    if args.action=='qualify':
+        result=qualify_suite(args.reference,args.mesh_reference,args.output)
+        print(json.dumps(result,indent=2))
+        if args.check and not result['P5_two_field_fine_mesh_evidence_passed']:raise SystemExit('Fine-mesh qualification failed')
     if args.action=='mesh':
         result=mesh_refinement(args.output,args.mesh_cells)
         if args.check and not all(r['finest_pair_change_below_1_percent'] for r in result['refinements']):

@@ -12,3 +12,6 @@ __all__ += ["BlochChain"]
 from .equilibrium import refine_equilibrium
 
 __all__ += ["refine_equilibrium"]
+from .linear_response import ModalResponse
+
+__all__ += ["ModalResponse"]

@@ -3,6 +3,8 @@ __pycache__/
 .pytest_cache/
 results/
 .venv/
+build/
+dist/
 validation/*.npz
 validation/liu2024/*.npz
 validation/liu2024/fig2/*.npz

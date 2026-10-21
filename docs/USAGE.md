@@ -155,6 +155,47 @@ The drive convention is `B_ac(t)=Re[b exp(+i*2*pi*f*t)]`; solve `(i*omega*I-J)u=
 
 Check that `max(abs(delta_m))` is much less than one. The solver is linear and cannot generate harmonics or frequency-comb teeth. Positive damping avoids singular undamped resonances. A uniform drive can miss symmetry-forbidden modes; eigenfrequency lines need not coincide with every visible absorption peak.
 
+For repeated dense sweeps, prepare the full modal basis once:
+
+```python
+from spinfreq import ModalResponse, refine_equilibrium
+
+refined = refine_equilibrium(film, relaxed.m, tolerance_T=1e-8)
+if not refined.converged:
+    raise RuntimeError('Equilibrium refinement failed')
+prepared = ModalResponse(film, refined.m, equilibrium_tolerance_T=1e-6)
+delta_m = prepared.response(f, drive_T=drive)
+print(prepared.last_response_residuals.max())
+# The prepared operator can be reused for another drive and frequency grid.
+delta_m_x = prepared.response(f, drive_T=(1e-6,0,0))
+```
+
+`ModalResponse` snapshots the equilibrium, material and dense Jacobian. Rebuild
+it after changing the field, material, geometry or equilibrium. It factorizes
+the full right-eigenvector basis once and verifies the true residual of each
+shifted linear system. This supports nonnormal damped operators. It retains
+dense memory and full eigensolve costs; it is intended for many queries on a
+fixed small system. It cannot be constructed from a truncated Bloch spectrum.
+Inspect `prepared.values.real` for growing modes before interpreting a stable
+response; near-neutral stability remains subject to numerical error bounds.
+
+The same basis predicts the mean response while a smooth drive is switched on:
+
+```python
+times = np.linspace(0, 8e-9, 4001)
+mean_delta_m = prepared.ramped_mean_response(
+    times, frequencies_Hz=[16.3e9,38e9],
+    drives_T=[[0,0,1e-6],[1e-6,0,0]], ramp_s=2e-9)
+```
+
+This starts from zero perturbation. Each tone uses
+`Re[drive_j*exp(+i*2*pi*f_j*t)]`; complex vectors encode phase or polarization.
+The common envelope is `(1-cos(pi*t/ramp_s))/2` until `ramp_s`, then 1.
+Exact modal convolution includes the startup transient, with temporary arrays
+bounded by `batch_samples` (default 64). Output shape is `(samples,3)` and the
+magnetization is dimensionless. A late-time fit should be compared with the
+stationary response only after quantifying the remaining transient.
+
 For larger confined systems:
 
 ```python
@@ -367,6 +408,13 @@ python benchmarks/skyrmion_temporal.py analyze --workdir results/skyrmion-refere
 ```
 
 Use a fresh directory for restoration or a new external run. A complete scalar table alone is insufficient: this benchmark also requires all spatial snapshots and their actual timestamps. New runs use one OOMMF CPU thread and `checkpoint_interval -1`; value 0 requests a checkpoint every step and caused output contention in the initial experiments. Run OOMMF jobs sequentially with its shared archive service. `--cells` changes the mesh at fixed 40 nm width; it does not resize the sample. The reported matched-grid accuracy does not qualify that coarse grid for continuum results.
+
+The [1 nm continuation](../validation/skyrmion_fine/README.md) supplies two-field
+fine-grid qualification with `skyrmion_temporal.py qualify`. The separate
+[multitone drive workflow](../validation/driven_response/README.md) measures
+six known-frequency complex responses, drive halving and startup transients.
+It includes both angular-error and explicit timestep-refinement commands;
+the latter verifies that the integration step count actually increases.
 
 
 Run the analytical suite with `python benchmarks/validate.py` and the matched Fig. 1 suite with `python benchmarks/liu2024.py`. The latter uses the paper's constants explicitly; importing the generic `Material()` defaults does not select them. Fig. 2 is a separate comparison whose summary currently records partial agreement and failed range checks. Frequency-comb/standing-wave validation remains separate from linear bands.

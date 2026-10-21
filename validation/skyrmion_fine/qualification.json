@@ -1,0 +1,56 @@
+{
+  "scope": "40 x 40 x 1 nm square, specified material, bond DMI, Bz=0/50 mT, first three modes",
+  "results": [
+    {
+      "case": "field_0mT",
+      "cells": 40,
+      "cell_nm": 1.0,
+      "finest_pair_changes_percent": [
+        0.32469748014294364,
+        0.48960482158497687,
+        0.19599828627059335
+      ],
+      "gates": {
+        "independent_case_passed": true,
+        "complete_at_least_four_ns": true,
+        "full_trace_within_2_percent": true,
+        "frequencies_within_2_percent": true,
+        "complex_mode_MAC_above_0_95": true,
+        "finest_pair_changes_below_1_percent": true,
+        "same_linear_poles": true,
+        "equilibria_converged_and_stable": true
+      },
+      "passed": true,
+      "case_summary_sha256": "b14fe4859894e0d44b826be07f2dafc39d93bdbe2bbc532af60341e182603a54",
+      "native_reference_archive_sha256": "0e8c261e735ef285cbf54e4d2e424bf97ba7382adda2533bf6e86f77aa2a5959"
+    },
+    {
+      "case": "field_50mT",
+      "cells": 40,
+      "cell_nm": 1.0,
+      "finest_pair_changes_percent": [
+        0.4315420609959486,
+        0.6477944800665214,
+        0.19563722478384005
+      ],
+      "gates": {
+        "independent_case_passed": true,
+        "complete_at_least_four_ns": true,
+        "full_trace_within_2_percent": true,
+        "frequencies_within_2_percent": true,
+        "complex_mode_MAC_above_0_95": true,
+        "finest_pair_changes_below_1_percent": true,
+        "same_linear_poles": true,
+        "equilibria_converged_and_stable": true
+      },
+      "passed": true,
+      "case_summary_sha256": "ba9d98fad6d88c8bcd1e502e02a62458a1abb0c13f5145b795fe77f0da11e0d9",
+      "native_reference_archive_sha256": "0a01492051a0190b86551aeb6f77b05ed88d2f110fe8e3db5bc500b8521bb154"
+    }
+  ],
+  "mesh_reference_sha256": "321b654366df283eae4dc4639ab77291959ed7d525691ca37e815c51aacaf971",
+  "P5_two_field_fine_mesh_evidence_passed": true,
+  "continuum_error_bound": false,
+  "general_thickness_envelope_qualified": false,
+  "full_simulator_release_qualified": false
+}

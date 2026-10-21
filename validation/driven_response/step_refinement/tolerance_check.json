@@ -1,0 +1,20 @@
+{
+  "base_absolute_error_deg": 1e-07,
+  "tight_absolute_error_deg": 2e-08,
+  "base_integration_steps": 62761,
+  "tight_integration_steps": 164001,
+  "timestep_cap_s": 5e-14,
+  "time_step_refinement_demonstrated": true,
+  "relative_complex_response_differences": [
+    1.4364908826828974e-11,
+    1.1892666069754903e-11,
+    1.8196517988426896e-11,
+    4.594426860451657e-10,
+    9.654973233953017e-10,
+    4.9296322155732e-10
+  ],
+  "relative_full_trace_difference": 1.381269947160149e-09,
+  "criterion_percent": 0.5,
+  "all_executed_gates_passed": true,
+  "reference_archive_sha256": "b3bcc01d37a467a21f2c0ef4adccd699758b4f5b18d615a05cfb5fbec8e8ce96"
+}
