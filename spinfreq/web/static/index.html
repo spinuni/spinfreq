@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SpinFreq · Thin-film spectra</title><link rel="stylesheet" href="/static/style.css"><script defer src="/static/app.js"></script></head>
-<body><main><header><p class="eyebrow">SPINFREQ · RESEARCH WORKBENCH</p><h1>Thin-film spectra</h1>
+<body><main><nav class="topbar"><a class="brand" href="/">SpinFreq</a><a href="/">← Project overview</a></nav><header><p class="eyebrow">SPINFREQ · RESEARCH WORKBENCH</p><h1>Thin-film spectra</h1>
 <p>Explore equilibrium textures, eigenmodes and weak-field frequency response.</p></header>
 <aside>Single layer, uniform magnetization through thickness. Mesh convergence is required for quantitative predictions. Nonlinear combs and thickness modes are outside this workflow.</aside>
+<aside id="preview-notice" hidden></aside>
 <div class="layout"><section><h2>1. Configure</h2><label for="preset">Starting example</label><select id="preset"></select>
 <p id="scope"></p><div class="fields"><label>Cells x<input id="nx" type="number" min="1" step="1"></label><label>Cells y<input id="ny" type="number" min="1" step="1"></label>
 <label>Cell x (nm)<input id="dx" type="number" min="0.1" step="any"></label><label>Cell y (nm)<input id="dy" type="number" min="0.1" step="any"></label>
@@ -12,7 +13,7 @@
 <label>Frequency points<input id="points" type="number" min="2" max="201" step="1"></label><label>Drive x (µT)<input id="drive" type="number" step="any"></label></div>
 <details><summary>Full configuration · SI units</summary><p>Apply the fields above to update this JSON. Edit material, vector field, drive or seed here for a custom research configuration.</p><button id="apply" type="button">Apply fields to JSON</button><textarea id="config" rows="18" spellcheck="false" aria-label="Full SI configuration"></textarea></details>
 <p>Up to 400 cells and 201 frequencies per job. One calculation runs at a time; jobs stop after 120 seconds.</p>
-<button id="run">Run field configuration</button><button id="run-json" class="secondary">Run JSON configuration</button><p id="error" role="alert"></p></section>
+<button id="run" disabled>Run field configuration</button><button id="run-json" class="secondary" disabled>Run JSON configuration</button><button id="export-config" class="secondary">Export field configuration</button><button id="export-json" class="secondary">Export JSON configuration</button><p id="error" role="alert"></p></section>
 <section><h2>2. Inspect results</h2><div id="jobs"></div><p id="status" role="status">Choose an example to begin.</p>
 <button id="cancel" hidden>Cancel calculation</button><button id="delete" class="secondary" hidden>Delete saved job</button>
 <div id="results" hidden><p id="diagnostics"></p><nav><a id="zip">Download all results</a><a id="json">Summary JSON</a><a id="csv">Response CSV</a><a id="ovf">Equilibrium OVF</a></nav>

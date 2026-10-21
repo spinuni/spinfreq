@@ -11,12 +11,12 @@ downloaded source trees stay in ignored `results/`; they are not part of the whe
 
 | Evidence family | Source and reproducibility record |
 | --- | --- |
-| FMR standard | Baker et al.; author data URLs, pinned hashes, geometry and fit procedure in [report](../validation/fmr_standard_problem/README.md) |
-| DMI standard | Cortés-Ortuño et al.; published reference data and solver comparisons in [report](../validation/dmi_standard_problem/README.md) |
-| Independent DMI temporal | Executed CPU OOMMF references, source/executable and native-file hashes in [report](../validation/dmi_temporal/README.md) |
-| Independent skyrmion temporal | Executed OOMMF profiles and spatial snapshots in [coarse](../validation/skyrmion_temporal/README.md) and [fine](../validation/skyrmion_fine/README.md) reports |
-| Driven response | Executed OOMMF multitone runs, numerical controls and native hashes in [report](../validation/driven_response/README.md) |
-| Liu comparison | Literature figures/settings and remaining disagreements in [report](../validation/liu2024/README.md) |
+| FMR standard | Baker et al.; author data URLs, pinned hashes, geometry and fit procedure in [report](../../validation/fmr_standard_problem/README.md) |
+| DMI standard | Cortés-Ortuño et al.; published reference data and solver comparisons in [report](../../validation/dmi_standard_problem/README.md) |
+| Independent DMI temporal | Executed CPU OOMMF references, source/executable and native-file hashes in [report](../../validation/dmi_temporal/README.md) |
+| Independent skyrmion temporal | Executed OOMMF profiles and spatial snapshots in [coarse](../../validation/skyrmion_temporal/README.md) and [fine](../../validation/skyrmion_fine/README.md) reports |
+| Driven response | Executed OOMMF multitone runs, numerical controls and native hashes in [report](../../validation/driven_response/README.md) |
+| Liu comparison | Literature figures/settings and remaining disagreements in [report](../../validation/liu2024/README.md) |
 
 Native OOMMF archives contain the simulation inputs, outputs and provenance of
 our executed reference runs, not an OOMMF installation. Inspect each family’s

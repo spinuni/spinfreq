@@ -1,20 +1,32 @@
-# Documentation
+# Documentation map
 
-Start with [installation and use](USAGE.md). The package, command-line runner
-and local web application share the same SI JSON configuration.
+Read from level 1 downward. Scientific reports and development notes are kept
+separate from installation and daily use.
 
-| Need | Document |
-| --- | --- |
-| Python API and scientific workflows | [Usage guide](USAGE.md) |
-| Local browser application and operations | [Web guide](WEB.md) |
-| First-version milestones and blockers | [Release plan](RELEASE_PLAN.md) |
-| Repository structure and execution architecture | [Architecture](ARCHITECTURE.md) |
-| Scientific evidence, papers and limitations | [Validation and release assessment](VALIDATION_AND_RELEASE.md) |
-| Find accepted comparisons and raw data | [Validation index](../validation/README.md) |
-| Run or extend independent comparisons | [Benchmark index](../benchmarks/README.md) |
-| Example SI job configurations | [Examples](../examples/README.md) |
-| Attribution and upstream data terms | [Data provenance](DATA_PROVENANCE.md) |
-| Contribution workflow | [Contributor guide](../CONTRIBUTING.md) |
+## Level 1 · Start
 
-`0.1.0rc1` is the first bounded research release candidate. The local web
-application is implemented; a public hosted service is a separate release gate.
+- [Quick start](getting-started/README.md): Windows, Linux/WSL2 and macOS.
+- [Example configurations](../examples/README.md): three small reproducible inputs.
+
+## Level 2 · Use
+
+- [Web interface](guides/WEB.md): landing, configuration preview and Linux workers.
+- [Python and CLI guide](guides/USAGE.md): units, APIs, outputs and research workflows.
+
+## Level 3 · Understand and validate
+
+- [Physics and solvers](reference/PHYSICS.md).
+- [Validation index](../validation/README.md): accepted data, plots and provenance.
+- [Scientific assessment](science/VALIDATION_AND_RELEASE.md).
+- [Data attribution](science/DATA_PROVENANCE.md).
+- [Benchmark index](../benchmarks/README.md).
+
+## Level 4 · Develop and publish
+
+- [Architecture](development/ARCHITECTURE.md) and [contributing](../CONTRIBUTING.md).
+- [Release plan](releases/RELEASE_PLAN.md) and [changelog](../CHANGELOG.md).
+- [Branding](branding/README.md): provisional SpinFreq logo.
+
+This hierarchy changes navigation and file locations; numerical reference data
+and accepted scientific results are retained. `validation/analytical/` now groups
+the original analytical baseline that previously occupied the validation root.

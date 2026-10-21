@@ -164,6 +164,19 @@ jobs:
           name: driven-response-comparison
           path: results/driven-ci/
 
+  portable-preview:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test,web]' httpx
+      - run: python -m pytest -q tests/test_portable_web.py
+
   application:
     runs-on: ubuntu-latest
     env:
@@ -176,7 +189,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -e '.[test,web,web-test]'
-      - run: python -m pytest -q tests/test_jobs.py tests/test_web.py
+      - run: python -m pytest -q tests/test_jobs.py tests/test_web.py tests/test_portable_web.py
       - run: python scripts/validate_presets.py --output results/release-presets
       - run: python -m playwright install --with-deps chromium
       - name: Real browser through worker to exported results
@@ -185,6 +198,12 @@ jobs:
           SPINFREQ_WEB_PID=$!
           trap 'kill "$SPINFREQ_WEB_PID" 2>/dev/null || true' EXIT
           python scripts/browser_smoke.py --output results/browser
+      - name: Preview and configuration download without a worker
+        run: |
+          spinfreq-web --mode landing --port 8001 > results/preview-server.log 2>&1 &
+          SPINFREQ_PREVIEW_PID=$!
+          trap 'kill "$SPINFREQ_PREVIEW_PID" 2>/dev/null || true' EXIT
+          python scripts/browser_smoke.py --url http://127.0.0.1:8001 --landing --output results/preview-browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -193,6 +212,8 @@ jobs:
             results/release-presets/summary.json
             results/release-presets/*.log
             results/browser/
+            results/preview-browser/
+            results/preview-server.log
             results/web-server.log
 
   distribution:

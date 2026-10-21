@@ -31,7 +31,7 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 \
 python benchmarks/response_reuse.py --check --output results/response-reuse
 ```
 
-The public [usage guide](../../docs/USAGE.md#7-forced-response-in-frequency-space)
+The public [usage guide](../../docs/guides/USAGE.md#7-forced-response-in-frequency-space)
 shows repeated queries and exact linear transients under a raised-cosine drive
 ramp. Rebuild the prepared object when the physical model or equilibrium
 changes. Truncated mode sets are not accepted by this API.

@@ -3,7 +3,7 @@
 This report qualifies the small application examples and delivery path. It does
 not expand the physical thickness/mesh envelope established by the independent
 [scientific reports](../README.md). Package publication, a release tag and public
-hosting remain separate [milestones](../../docs/RELEASE_PLAN.md).
+hosting remain separate [milestones](../../docs/releases/RELEASE_PLAN.md).
 
 ## Examples and measured resources
 
@@ -37,7 +37,7 @@ and download/inspect `results.zip`. There are no JavaScript errors and no mobile
 horizontal overflow at 390 px. [Desktop](desktop.png) and [mobile](mobile.png)
 screenshots are retained. The downloaded config hash matches the measured job.
 
-The automated suite contains **98 passing tests** with web extras. New tests
+The automated suite contains **105 passing tests** with web extras. New tests
 exercise strict configuration parsing, analytical job frequencies, artifact
 hashes, failed-equilibrium/large-amplitude rejection, real worker isolation,
 queue/retention limits, cancellation, timeout, disk exhaustion, exclusive storage
@@ -67,3 +67,13 @@ python -m build
 Use fresh output directories. Runtime arrays and downloaded ZIPs are kept in
 ignored `results/`; accepted numerical measurements and screenshots are retained
 here. M6 publication and M7 public-service operations remain pending.
+
+## Hierarchy and platform-preview update
+
+The repository now uses a four-level documentation map and groups the original
+analytical data under `validation/analytical/`. Existing numerical data are
+retained byte-for-byte. The homepage includes the provisional SpinFreq logo.
+The [preview report](preview/README.md) records browser validation without a Linux
+worker. Seven portable test cases verify capability selection, native-compatible
+imports, configuration validation/export and refusal to start simulation jobs in
+preview. Native Windows CI is configured; its hosted outcome is not claimed.

@@ -2,6 +2,11 @@
 
 ## 0.1.0rc1 — release candidate
 
+- Hierarchical documentation and grouped analytical baseline, with updated links.
+- Provisional SpinFreq logo and project landing page.
+- Portable Windows/macOS configuration preview and validated JSON export; Linux/WSL2 simulation workers retain resource controls.
+- Explicit auto/landing/compute modes and Ubuntu/Windows preview CI checks.
+
 - Shared, versioned SI `JobConfig` and `run_job` API for Python, CLI and web.
 - Strict configuration validation, equilibrium/eigen/response residual checks,
   numerical stability classification and a small-response guard. Failed jobs

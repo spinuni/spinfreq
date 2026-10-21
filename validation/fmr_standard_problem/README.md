@@ -149,4 +149,4 @@ This result does not validate z-dependent modes, all dark/higher modes,
 arbitrary damping, nonlinear response, independent driven complex susceptibility
 or the entire reference paper. The upstream Nmag data are available but have
 not been included in this comparison. The remaining broader release gates are
-listed in [Validation and release](../../docs/VALIDATION_AND_RELEASE.md).
+listed in [Validation and release](../../docs/science/VALIDATION_AND_RELEASE.md).

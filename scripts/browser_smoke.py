@@ -17,6 +17,7 @@ def main():
     parser.add_argument('--url', default='http://127.0.0.1:8000')
     parser.add_argument('--output', type=Path, default=Path('results/browser-smoke'))
     parser.add_argument('--browser', default=shutil.which('chromium'), help='Optional installed Chromium executable')
+    parser.add_argument('--landing', action='store_true', help='Check preview/configuration export without a worker')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     deadline = time.monotonic()+15
@@ -34,9 +35,35 @@ def main():
         page = browser.new_page(viewport={'width':1280, 'height':1000})
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.goto(args.url)
+        expect(page.locator('.hero-logo')).to_have_js_property('complete', True)
+        assert page.locator('.hero-logo').element_handle().get_property('naturalWidth').json_value() > 0
+        expect(page.locator('#launch')).not_to_have_text('Explore the workbench')
+        page.screenshot(path=str(args.output/'landing.png'), full_page=True)
+        page.click('#launch')
         page.locator('#preset option[value="prism-fmr"]').wait_for(state='attached')
         page.select_option('#preset', 'prism-fmr')
         page.fill('#points', '21')
+        if args.landing:
+            expect(page.locator('#run')).to_be_disabled()
+            expect(page.locator('#preview-notice')).to_be_visible()
+            with page.expect_download() as event:
+                page.click('#export-config')
+            event.value.save_as(args.output/'configuration.json')
+            config = json.loads((args.output/'configuration.json').read_text())
+            assert config['nx'] == 1 and config['points'] == 21
+            assert page.request.get(args.url+'/api/jobs').json() == []
+            assert not errors, errors
+            page.screenshot(path=str(args.output/'desktop.png'), full_page=True)
+            page.set_viewport_size({'width':390, 'height':844})
+            assert page.locator('html').element_handle().get_property('scrollWidth').json_value() <= 390
+            page.screenshot(path=str(args.output/'mobile.png'), full_page=True)
+            report = {'browser':'Chromium', 'browser_version':browser.version,
+                      'mode':'landing', 'configuration_export_passed':True,
+                      'simulation_disabled':True, 'javascript_errors':errors,
+                      'mobile_horizontal_overflow':False}
+            (args.output/'summary.json').write_text(json.dumps(report, indent=2)+'\n')
+            browser.close()
+            return
         page.click('#run')
         expect(page.locator('#status')).to_have_text(re.compile(r'^succeeded'), timeout=120000)
         for name in ('spectrum', 'equilibrium', 'mode'):

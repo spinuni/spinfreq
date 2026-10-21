@@ -88,7 +88,7 @@ python benchmarks/liu2024_fk.py results/chain_pulse/trajectory.npy \
   --summary results/chain_pulse/summary.json --component 2 --output results/chain_fk
 ```
 
-The FFT implementation is tested against a traveling wave with known frequency/wavevector and opposite-phase transverse rows. A short recorded-array workflow was also analyzed, but its 10 GHz frequency bins do not validate the paper's low-frequency spectrum. See the [full usage guide](../../../docs/USAGE.md) for model selection, units, recordings and output interpretation.
+The FFT implementation is tested against a traveling wave with known frequency/wavevector and opposite-phase transverse rows. A short recorded-array workflow was also analyzed, but its 10 GHz frequency bins do not validate the paper's low-frequency spectrum. See the [full usage guide](../../../docs/guides/USAGE.md) for model selection, units, recordings and output interpretation.
 
 ## Boundary-condition sensitivity follow-up
 

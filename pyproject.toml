@@ -23,11 +23,11 @@ spinfreq-web = "spinfreq.web.app:main"
 
 [project.urls]
 Repository = "https://github.com/spinuni/spinfreq"
-Documentation = "https://github.com/spinuni/spinfreq/blob/main/docs/USAGE.md"
-Validation = "https://github.com/spinuni/spinfreq/blob/main/docs/VALIDATION_AND_RELEASE.md"
+Documentation = "https://github.com/spinuni/spinfreq/blob/main/docs/guides/USAGE.md"
+Validation = "https://github.com/spinuni/spinfreq/blob/main/docs/science/VALIDATION_AND_RELEASE.md"
 
 [tool.setuptools.packages.find]
 include = ["spinfreq*"]
 
 [tool.setuptools.package-data]
-"spinfreq.web" = ["static/*.html", "static/*.js", "static/*.css"]
+"spinfreq.web" = ["static/*.html", "static/*.js", "static/*.css", "static/*.png"]

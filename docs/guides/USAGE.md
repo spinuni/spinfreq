@@ -28,7 +28,7 @@ Use the existing checkout; a cloud task is already isolated. No Git worktree or 
 
 Single BLAS threads usually reduce overhead for these small dense systems. Increase parallelism only after measuring it; each process may allocate its own dense matrices. The prepared environment uses Python 3.12 with NumPy 2.4.4, SciPy 1.17.1 and Matplotlib 3.10.8. Project dependency ranges permit other supported versions; record versions for reproducible comparisons.
 
-For the broader validation suite, published OOMMF FMR data, DMI benchmark priorities and the planned package/web release requirements, see [Validation and release](VALIDATION_AND_RELEASE.md). The external FMR benchmark is documented [here](../validation/fmr_standard_problem/README.md); it downloads reference data only when `--fetch-reference` is explicitly requested. A local Linux web interface is now available; public hosting remains a separate milestone. See the [web guide](WEB.md).
+For the broader validation suite, published OOMMF FMR data, DMI benchmark priorities and the planned package/web release requirements, see [Validation and release](../science/VALIDATION_AND_RELEASE.md). The external FMR benchmark is documented [here](../../validation/fmr_standard_problem/README.md); it downloads reference data only when `--fetch-reference` is explicitly requested. A local Linux web interface is now available; public hosting remains a separate milestone. See the [web guide](WEB.md).
 
 ## 1.1 Reproducible jobs and the local web application
 
@@ -68,7 +68,7 @@ spinfreq-web --data-dir results/web --port 8000
 
 Open http://127.0.0.1:8000. See the [web guide](WEB.md) for configuration editing,
 progress, cancellation, downloads, resource limits and restart behavior. The small
-presets are detailed in [examples](../examples/README.md). Lower-level APIs below
+presets are detailed in [examples](../../examples/README.md). Lower-level APIs below
 remain available for research beyond this bounded application workflow.
 
 ## 2. Units and array layout
@@ -93,7 +93,7 @@ Magnetization is a **unit vector**, stored as `(ny, nx, 3)`. The last axis is `(
 
 Specify `dy` explicitly for rectangular cells; otherwise it equals `dx`. Physical dimensions are `nx*dx` and `ny*dy`. The field API uses tesla, not A/m or oersted. For `H` in A/m, use `B=mu0*H` for the applied field. DMI is interfacial, not bulk chiral DMI. Positive `K` favors the z axis.
 
-Cell counts are positive integers, including 1 and 2. Sampled-field derivative diagnostics return zero along singleton axes; open-axis MuMax DMI ghost boundaries are retained. A nonzero Bloch phase still produces exchange and DMI across a one-cell period. A two-cell confined diagnostic uses first-order differences. A one-cell axis represents uniform magnetization within that cell and still needs the intended boundary conditions. See the [DMI standard report](../validation/dmi_standard_problem/README.md#1-single-cell-axes-and-boundary-conditions) for the transverse-periodic wire example and the resulting difference from an open wire.
+Cell counts are positive integers, including 1 and 2. Sampled-field derivative diagnostics return zero along singleton axes; open-axis MuMax DMI ghost boundaries are retained. A nonzero Bloch phase still produces exchange and DMI across a one-cell period. A two-cell confined diagnostic uses first-order differences. A one-cell axis represents uniform magnetization within that cell and still needs the intended boundary conditions. See the [DMI standard report](../../validation/dmi_standard_problem/README.md#1-single-cell-axes-and-boundary-conditions) for the transverse-periodic wire example and the resulting difference from an open wire.
 
 ## 3. Choose a geometry
 
@@ -279,7 +279,7 @@ OPENBLAS_NUM_THREADS=1 python benchmarks/liu2024_fig2.py \
   --meshes 20 --k-points 9 --output results/fig2_exploratory
 ```
 
-Defaults are 20×20 and 40×40 meshes, 17 signed k points, 32 images each side and a 64-image convergence check. Outputs are under `validation/liu2024/fig2`. The plotted intrinsic mode weights are not the finite-chain pulse FFT intensity. See the [Fig. 2 report](../validation/liu2024/fig2/README.md): the FM gap and shifted upper onset agree closely, while the open-width infinite-chain breathing/gyration intervals do not fully reproduce the quoted paper ranges. Failed comparisons are retained as failed; no material parameters are fitted to hide them.
+Defaults are 20×20 and 40×40 meshes, 17 signed k points, 32 images each side and a 64-image convergence check. Outputs are under `validation/liu2024/fig2`. The plotted intrinsic mode weights are not the finite-chain pulse FFT intensity. See the [Fig. 2 report](../../validation/liu2024/fig2/README.md): the FM gap and shifted upper onset agree closely, while the open-width infinite-chain breathing/gyration intervals do not fully reproduce the quoted paper ranges. Failed comparisons are retained as failed; no material parameters are fitted to hide them.
 
 ## 9. Nonlinear time dynamics
 
@@ -361,7 +361,7 @@ an even sample count this shifts frequency labels by one bin. The API pairs
 bins explicitly for both even and odd lengths. The standalone f–kx runner also
 accepts `--temporal-sign -1` and records the convention.
 
-The [executed CPU OOMMF comparison](../validation/dmi_temporal/README.md)
+The [executed CPU OOMMF comparison](../../validation/dmi_temporal/README.md)
 provides pinned headless-build instructions, native reference files, hash-checked
 reanalysis commands, complex amplitude/phase comparisons and an amplitude-halving
 check. It uses the modern OOMMF bond boundary, not the default MuMax ghost edge.
@@ -439,7 +439,7 @@ The analyzer requires numbered `m*.ovf` fields and actual uniform timestamps. Sp
 
 ## 12. Validation and troubleshooting
 
-For an independent noncollinear check, use the [two-field OOMMF skyrmion workflow](../validation/skyrmion_temporal/README.md). It includes native-reference restoration, new CPU runs, complete spatial reconstruction and complex mode extraction:
+For an independent noncollinear check, use the [two-field OOMMF skyrmion workflow](../../validation/skyrmion_temporal/README.md). It includes native-reference restoration, new CPU runs, complete spatial reconstruction and complex mode extraction:
 
 ```bash
 python benchmarks/skyrmion_temporal.py restore \
@@ -450,9 +450,9 @@ python benchmarks/skyrmion_temporal.py analyze --workdir results/skyrmion-refere
 
 Use a fresh directory for restoration or a new external run. A complete scalar table alone is insufficient: this benchmark also requires all spatial snapshots and their actual timestamps. New runs use one OOMMF CPU thread and `checkpoint_interval -1`; value 0 requests a checkpoint every step and caused output contention in the initial experiments. Run OOMMF jobs sequentially with its shared archive service. `--cells` changes the mesh at fixed 40 nm width; it does not resize the sample. The reported matched-grid accuracy does not qualify that coarse grid for continuum results.
 
-The [1 nm continuation](../validation/skyrmion_fine/README.md) supplies two-field
+The [1 nm continuation](../../validation/skyrmion_fine/README.md) supplies two-field
 fine-grid qualification with `skyrmion_temporal.py qualify`. The separate
-[multitone drive workflow](../validation/driven_response/README.md) measures
+[multitone drive workflow](../../validation/driven_response/README.md) measures
 six known-frequency complex responses, drive halving and startup transients.
 It includes both angular-error and explicit timestep-refinement commands;
 the latter verifies that the integration step count actually increases.
@@ -507,4 +507,4 @@ python benchmarks/summarize_conditions.py
 
 The benchmark `PinnedChain` freezes +z boundary rows and removes their tangent degrees of freedom. It supports relaxation and Bloch modes for this study; do not use inherited generic dynamics/response methods as a frozen-spin time solver. Its 2 nm fixed layer is kept physically 2 nm thick across mesh refinement, not one row at every resolution. The 44 nm case has a 40 nm free region plus 2 nm magnetic buffers on each side. The 45 and 46 nm widths are explicit sensitivity probes, not parameters supplied by the authors.
 
-See [the condition report](../validation/liu2024/conditions/README.md) for the numerical corrections, standard checks, mode-character evidence and remaining upper-band/neutral-mode disagreements. Full Standard Problem 4 switching dynamics, exact author geometry and full source-dependent paper response are not validated by the prism-factor checks.
+See [the condition report](../../validation/liu2024/conditions/README.md) for the numerical corrections, standard checks, mode-character evidence and remaining upper-band/neutral-mode disagreements. Full Standard Problem 4 switching dynamics, exact author geometry and full source-dependent paper response are not validated by the prism-factor checks.

@@ -1,13 +1,14 @@
 # Local web application
 
-Install and start on Linux:
+Install and start (all platforms; automatic execution mode):
 
 ```bash
 python -m pip install -e '.[web]'
 spinfreq-web --data-dir results/web --port 8000
 ```
 
-Open **http://127.0.0.1:8000** in a browser. Select periodic FMR, a single-cell
+Open **http://127.0.0.1:8000** for the project landing page, then open the
+workbench at `/workbench`. Select periodic FMR, a single-cell
 prism or a confined skyrmion. Edit labelled nm/T/GHz/microtesla fields and click
 **Run field configuration**. Advanced users can edit the full SI JSON and use
 **Run JSON configuration**; that button submits exactly that JSON. Results show
@@ -15,6 +16,25 @@ equilibrium, lowest positive-frequency mode amplitude and absorbed power.
 Download the full archive, response CSV, summary JSON or equilibrium OVF.
 Refresh/reopen the page to select retained jobs. Cancel pending calculations;
 delete finished jobs to reclaim capacity.
+
+## Windows/macOS preview and configuration export
+
+On native Windows and macOS, startup selects **landing** mode automatically.
+The application does not instantiate a Linux job supervisor or create a job
+directory. The homepage and configuration editor work; simulation controls are
+disabled and job submissions return HTTP 503 with an explanation. Presets and
+SI configuration validation/export remain available. Linux/WSL2 auto-selects
+computation. Force a preview on Linux with `spinfreq-web --mode landing`; use
+`--mode compute` to require a Linux worker explicitly.
+
+**Export field configuration** applies the labelled fields before downloading.
+**Export JSON configuration** validates and downloads exactly the advanced JSON
+editor contents. Files can be used later with `spinfreq --config ...` on a compute
+installation. For PowerShell commands, see [quick start](../getting-started/README.md).
+Native Windows workers are not implemented; native Windows preview tests are
+configured in CI, while local evidence was obtained on Linux.
+
+## Linux/WSL2 simulation workbench
 
 The JSON configuration, physical calculation and exports are the same as
 `spinfreq --config ...` and `spinfreq.run_job(...)`. For example:
@@ -57,7 +77,7 @@ Linux; incomplete status records become `interrupted` at restart.
 
 ```bash
 python -m pip install -e '.[test,web,web-test]'
-python -m pytest -q tests/test_jobs.py tests/test_web.py
+python -m pytest -q tests/test_jobs.py tests/test_web.py tests/test_portable_web.py
 python -m playwright install chromium
 python scripts/browser_smoke.py --url http://127.0.0.1:8000
 ```
@@ -71,6 +91,6 @@ addresses spatial accuracy and increases computational cost.
 
 The launcher binds **127.0.0.1**. This is a local single-user research workbench,
 with same-origin/host checks but no user authentication. A public hosted service
-requires the separate [M7 deployment milestone](RELEASE_PLAN.md), including access
+requires the separate [M7 deployment milestone](../releases/RELEASE_PLAN.md), including access
 control and host-specific resource measurements. The current worker is a resource
 control for trusted local use, not an operating-system sandbox for hostile code.

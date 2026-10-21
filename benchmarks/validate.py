@@ -187,7 +187,7 @@ def skyrmions(folder, sizes):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--output',type=Path,default=Path('validation'))
+    parser.add_argument('--output',type=Path,default=Path('validation/analytical'))
     parser.add_argument('--meshes',type=int,nargs='+',default=[12,16,20,24])
     parser.add_argument('--analytical-only',action='store_true')
     args=parser.parse_args()

@@ -34,6 +34,11 @@ flowchart LR
   Results --> Browser
 ```
 
+The root HTTP route serves a project landing page; `/workbench` serves the
+configuration/simulation interface. `/api/capabilities` selects compute on Linux
+and preview on other platforms. Preview validates/exports configurations without
+initializing the queue; `fcntl` is imported only inside Linux supervisor startup.
+
 The HTTP process never performs dense eigenanalysis. One supervisor owns a data
 directory and starts one worker at a time. Worker memory/CPU/file limits, a wall
 alarm and supervisor disk checks bound computation. Linux parent-death handling

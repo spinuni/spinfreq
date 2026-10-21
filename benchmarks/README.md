@@ -7,7 +7,7 @@ are retained to keep report commands and cross-script imports working.
 
 | Purpose | Main scripts | Accepted evidence |
 | --- | --- | --- |
-| Analytic/operator checks | `validate.py`, `standard_checks.py` | [Physics assessment](../docs/VALIDATION_AND_RELEASE.md) |
+| Analytic/operator checks | `validate.py`, `standard_checks.py` | [Physics assessment](../docs/science/VALIDATION_AND_RELEASE.md) |
 | Finite-film FMR | `fmr_standard_problem.py` | [FMR standard](../validation/fmr_standard_problem/README.md) |
 | DMI static/dispersion | `dmi_standard_problem.py` | [DMI standard](../validation/dmi_standard_problem/README.md) |
 | Independent CPU OOMMF DMI | `dmi_temporal.py`, `setup_oommf_reference.py` | [DMI temporal](../validation/dmi_temporal/README.md) |
@@ -15,7 +15,7 @@ are retained to keep report commands and cross-script imports working.
 | Complex forced response | `driven_response.py` | [Multitone response](../validation/driven_response/README.md) |
 | Prepared dense response reuse | `response_reuse.py` | [Accuracy and measured CPU reuse](../validation/response_reuse/README.md) |
 | Liu single-skyrmion/array research | `liu2024.py`, `liu2024_fig2.py`, `liu2024_dynamics.py`, `liu2024_conditions.py` | [Liu study](../validation/liu2024/README.md) |
-| Temporal solver interchange | `export_mumax.py`, `analyze_mumax.py` | [Usage](../docs/USAGE.md) |
+| Temporal solver interchange | `export_mumax.py`, `analyze_mumax.py` | [Usage](../docs/guides/USAGE.md) |
 
 Application release checks live separately in `scripts/validate_presets.py` and
 `scripts/browser_smoke.py`; they do not replace independent physics validation.

@@ -26,6 +26,6 @@ Tests must cover numerical failures as well as successful calculations. New
 web lifecycle behavior requires real subprocess tests; use `scripts/browser_smoke.py`
 for UI/worker/download checks. Run `python -m build` before proposing a release.
 
-The [release plan](docs/RELEASE_PLAN.md) records gates and remaining blockers.
+The [release plan](docs/releases/RELEASE_PLAN.md) records gates and remaining blockers.
 Original project code is MIT licensed. External reference data retain their
-upstream terms and attribution; see [data provenance](docs/DATA_PROVENANCE.md).
+upstream terms and attribution; see [data provenance](docs/science/DATA_PROVENANCE.md).

@@ -228,7 +228,7 @@ forced-response and drive-amplitude sweeps; qualify thickness and numerical
 limits for the supported presets. Collective skyrmion bands and nonlinear
 frequency combs remain separate application validations. The shared job schema,
 web worker, interface and deployment checks remain delivery work. See the
-[release assessment](../../docs/VALIDATION_AND_RELEASE.md).
+[release assessment](../../docs/science/VALIDATION_AND_RELEASE.md).
 
 
 The [subsequent fine-grid report](../skyrmion_fine/README.md) now supplies

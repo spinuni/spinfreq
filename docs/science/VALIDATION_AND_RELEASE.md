@@ -19,8 +19,8 @@ input files on 2026-10-15, with the DMI reference extended on 2026-10-20. Publis
 environment; the linked primary repositories provided the reproducible inputs
 and, for Baker and Cortés-Ortuño, reference data. Solver attribution below is
 limited to what those sources establish. Two CPU OOMMF 4 ns DMI runs and two 8 ns skyrmion runs were executed on 2026-10-20;
-their [DMI reference](../validation/dmi_temporal/README.md) and
-[skyrmion reference](../validation/skyrmion_temporal/README.md) are archived.
+their [DMI reference](../../validation/dmi_temporal/README.md) and
+[skyrmion reference](../../validation/skyrmion_temporal/README.md) are archived.
 No new MuMax3 simulation was executed here.
 
 | Paper / primary source | Temporal solver or reference | What to compare | Fit to the current solver |
@@ -30,7 +30,7 @@ No new MuMax3 simulation was executed here.
 | **Vansteenkiste et al., “The design and verification of MuMax3,” AIP Advances 4, 107133 (2014), [DOI](https://doi.org/10.1063/1.4899186), [official source](https://github.com/mumax/3), [official SP4 example](https://mumax.github.io/examples.html#ex_SP4)** | MuMax3 verification suite; classic μMAG problems | Demag, exchange, damping, numerical convergence; SP4 switching if nonlinear dynamics are advertised | **Foundation and integration checks.** Existing uniform-prism factors do not constitute SP4 trajectory validation. SP5 current-driven motion needs missing spin torque. |
 | **Rohart and Thiaville, “Skyrmion confinement in ultrathin film nanostructures in the presence of Dzyaloshinskii-Moriya interaction,” PRB 88, 184422 (2013), [DOI](https://doi.org/10.1103/PhysRevB.88.184422), [related OOMMF extension and references](https://github.com/joommf/oommf-extension-dmi-cnv), [Fidimag/OOMMF comparison inputs](https://github.com/computationalmodelling/fidimag/tree/master/examples/micromagnetic/PRB_88_184422)** | The linked OOMMF/Fidimag implementations supply reproducible related checks; a later extension's sign convention is not automatically the original paper's | Natural DMI edges, radius/profile, chirality and confinement | **Static prerequisite for skyrmion spectra.** Our helix and stencil tests are partial evidence. Circular confinement and independent radius/profile comparisons are open. |
 | **Moon et al., “Spin-wave propagation in the presence of interfacial Dzyaloshinskii-Moriya interaction,” PRB 88, 184404 (2013), [DOI](https://doi.org/10.1103/PhysRevB.88.184404), [theory versus temporal solvers in the DMI standard notebook](https://github.com/fangohr/paper-supplement-standard-problem-dmi/blob/master/notebooks/spin_waves_dmi.ipynb)** | The linked Cortés-Ortuño notebook compares Moon's dispersion with OOMMF/Fidimag/MuMax3 | Sign and slope of `f(k)-f(-k)`, dispersion minimum, field dependence | **Analytical companion to the DMI dynamics gate.** The original Moon article's solver is not inferred from the later notebook. |
-| **Liu et al., “Low-lying magnon frequency comb in skyrmion crystals,” PRB 110, 184413 (2024), [DOI](https://doi.org/10.1103/PhysRevB.110.184413), [our report](../validation/liu2024/README.md)** | MuMax3 in the attached paper | Isolated-skyrmion modes; collective bands; nonlinear comb only in a separate nonlinear tier | **One application family.** Isolated modes agree within 0.3%; full collective-band reproduction and nonlinear comb remain unvalidated. Geometry hypotheses are exploratory. |
+| **Liu et al., “Low-lying magnon frequency comb in skyrmion crystals,” PRB 110, 184413 (2024), [DOI](https://doi.org/10.1103/PhysRevB.110.184413), [our report](../../validation/liu2024/README.md)** | MuMax3 in the attached paper | Isolated-skyrmion modes; collective bands; nonlinear comb only in a separate nonlinear tier | **One application family.** Isolated modes agree within 0.3%; full collective-band reproduction and nonlinear comb remain unvalidated. Geometry hypotheses are exploratory. |
 
 Use analytical Kittel, dipole/exchange dispersion and Gilbert susceptibility as
 the first tier, the FMR and DMI standard problems as independent implementation
@@ -43,7 +43,7 @@ The DMI reference MuMax3 spin-wave input is particularly informative: a
 interfacial DMI input of `-3 mJ/m²`, `B_y=0.4 T`, `alpha=0.01` and a localized
 4 ns excitation. Its 100,000 lateral cells exceed our dense assembly limits.
 The D sign must be translated from the **energy convention**, not copied by
-symbol name alone. The [new DMI report](../validation/dmi_standard_problem/README.md)
+symbol name alone. The [new DMI report](../../validation/dmi_standard_problem/README.md)
 uses x-translation symmetry to reduce the interior-strip eigenproblem to one
 x cell and the full transverse mesh. At 2 nm this is 200 tangent coordinates.
 Its asymmetric quadratic fit reproduces the notebook's apparent |D| near
@@ -52,7 +52,7 @@ Its asymmetric quadratic fit reproduces the notebook's apparent |D| near
 
 ## 2. New external result: the FMR standard problem
 
-[Detailed result, plots and commands](../validation/fmr_standard_problem/README.md).
+[Detailed result, plots and commands](../../validation/fmr_standard_problem/README.md).
 The new benchmark reads the authors' pinned, SHA-256-checked OOMMF data. It
 computes our equilibrium and full damped Jacobian, then reconstructs a small
 field-rotation ringdown as `exp(J t) u0`, directly in the eigenbasis. It does
@@ -134,7 +134,7 @@ requested.
 ## 5. Delivery gates for the package and web application
 
 The current candidate implementation and milestone dependencies are recorded in
-[RELEASE_PLAN.md](RELEASE_PLAN.md). Earlier local-check counts below describe
+[RELEASE_PLAN.md](../releases/RELEASE_PLAN.md). Earlier local-check counts below describe
 their respective updates, not the current suite total.
 
 | Delivery gate | Evidence required before public deployment | Status |
@@ -170,7 +170,7 @@ all four signed-k FFT peaks and initial-amplitude scaling. Native reference file
 and source/executable hashes are archived. The new CI job verifies those hashes
 and recomputes the frequency comparison; it does not build or execute OOMMF.
 The even/odd FFT branch regression now protects signed-wavevector extraction.
-See the [report](../validation/dmi_temporal/README.md) for the reduced periodic
+See the [report](../../validation/dmi_temporal/README.md) for the reduced periodic
 geometry and the remaining full-strip and forced-response requirements.
 
 The two-field skyrmion update adds full spatial OOMMF snapshots, independent
@@ -180,15 +180,15 @@ are included in the sdist; the new CI job verifies their hashes and recomputes
 the comparisons. New OOMMF MIFs correctly disable checkpointing with -1;
 0 requested per-step checkpoints and led to rejected corrupt spatial outputs
 in exploratory runs. The accepted references contain complete readable fields.
-See the [report](../validation/skyrmion_temporal/README.md) for numerical results,
+See the [report](../../validation/skyrmion_temporal/README.md) for numerical results,
 reproduction commands and remaining fine-grid qualification.
 
 The fine-grid continuation executes 1 nm ringdowns at both fields and supplies
 joint qualification against the 1 to 0.8 nm study. Separate multitone OOMMF
 runs test weak-field amplitude, phase, startup and halving around two resonances.
 Their settings and numerical-control study are documented in the
-[fine-grid](../validation/skyrmion_fine/README.md) and
-[driven-response](../validation/driven_response/README.md) reports.
+[fine-grid](../../validation/skyrmion_fine/README.md) and
+[driven-response](../../validation/driven_response/README.md) reports.
 `ModalResponse` adds a reusable full-basis API, exact raised-cosine transients,
 and true residual checks; analytic elliptical susceptibility and independent
 linear time integration test its phase and nonnormal-basis treatment.
@@ -210,9 +210,9 @@ package should own the physics.
 
 ## 6. Practical sequence
 
-The [first-version release plan](RELEASE_PLAN.md) now tracks M1–M7. Repository
+The [first-version release plan](../releases/RELEASE_PLAN.md) now tracks M1–M7. Repository
 organization, MIT/citation metadata, shared execution and the bounded local web
-workbench are implemented. The [candidate report](../validation/release_candidate/README.md)
+workbench are implemented. The [candidate report](../../validation/release_candidate/README.md)
 records example frequencies, resource measurements, browser checks and package
 checks. Observe hosted CI before tagging/publishing the package. Public web
 hosting still needs a host, access/TLS policy and operational measurements there.

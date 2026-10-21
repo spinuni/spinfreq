@@ -105,4 +105,4 @@ OPENBLAS_NUM_THREADS=1 python -m pytest -q
 
 The default coarse screen automatically skips widths not divisible by the chosen cell size, including 45 nm at 2 nm cells. `--no-refine` reproduces the earlier equilibrium-accuracy diagnostics; it should not be used as the current near-zero-mode workflow.
 
-The next decisive comparison is a matched finite-chain simulation with confirmed transverse and longitudinal constraints and spatial/time FFT data. Its nonzero cutoff, exact dispersion, continuum onset and source intensities cannot be established from these assumed infinite-chain geometries alone. See the [usage guide](../../../docs/USAGE.md) for the API and data conventions.
+The next decisive comparison is a matched finite-chain simulation with confirmed transverse and longitudinal constraints and spatial/time FFT data. Its nonzero cutoff, exact dispersion, continuum onset and source intensities cannot be established from these assumed infinite-chain geometries alone. See the [usage guide](../../../docs/guides/USAGE.md) for the API and data conventions.

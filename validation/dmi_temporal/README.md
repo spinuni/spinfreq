@@ -206,5 +206,5 @@ dispersion comparison, reference mesh/thickness sweeps, and the exact historical
 OOMMF/Fidimag bands are still open. This test validates small-signal propagation
 with a matched modern bond operator at two wavevector magnitudes. It does not
 validate a skyrmion lattice, strong-drive harmonics or a nonlinear frequency
-comb. See the [release assessment](../../docs/VALIDATION_AND_RELEASE.md) for
+comb. See the [release assessment](../../docs/science/VALIDATION_AND_RELEASE.md) for
 the independent skyrmion and package/web delivery gates.

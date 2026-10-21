@@ -1,5 +1,4 @@
 """Single-process web supervisor with a bounded serial subprocess queue."""
-import fcntl
 import json
 import os
 from pathlib import Path
@@ -22,6 +21,7 @@ class JobManager:
     def __init__(self, directory, *, timeout_s=120, max_pending=4, max_retained=16):
         if not sys.platform.startswith("linux"):
             raise RuntimeError("The bounded web worker currently requires Linux")
+        import fcntl
         self.directory = Path(directory).resolve()
         self.directory.mkdir(parents=True, exist_ok=True, mode=0o700)
         self._lease = (self.directory/".lock").open("a")

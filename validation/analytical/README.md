@@ -1,8 +1,8 @@
 # Analytical and periodic-skyrmion baseline
 
-See the [validation/release assessment](../docs/VALIDATION_AND_RELEASE.md) for physics gates and selected MuMax3/OOMMF/Fidimag/Nmag papers beyond skyrmion frequency combs. The [external FMR standard comparison](fmr_standard_problem/README.md) now checks two visible frequencies, fitted decay linewidths and complex spatial mode overlaps against published OOMMF data. The analytical results below remain the foundation; application-specific agreement does not validate every geometry or parameter range.
+See the [validation/release assessment](../../docs/science/VALIDATION_AND_RELEASE.md) for physics gates and selected MuMax3/OOMMF/Fidimag/Nmag papers beyond skyrmion frequency combs. The [external FMR standard comparison](../fmr_standard_problem/README.md) now checks two visible frequencies, fitted decay linewidths and complex spatial mode overlaps against published OOMMF data. The analytical results below remain the foundation; application-specific agreement does not validate every geometry or parameter range.
 
-The [DMI standard comparison](dmi_standard_problem/README.md) checks published 1D static profiles for MuMax3, OOMMF and Fidimag, transverse boundary choices, an independent continuum BVP, and signed dispersion. Its strip comparison uses published notebook fit summaries; raw temporal f–k arrays and the separate OOMMF/Fidimag band differences remain open. The initial 2-to-1 nm strip refinement fails the 0.5% target; a documented 1-to-0.5 nm check passes at 0.4565% in the specified low-band window.
+The [DMI standard comparison](../dmi_standard_problem/README.md) checks published 1D static profiles for MuMax3, OOMMF and Fidimag, transverse boundary choices, an independent continuum BVP, and signed dispersion. Its strip comparison uses published notebook fit summaries; raw temporal f–k arrays and the separate OOMMF/Fidimag band differences remain open. The initial 2-to-1 nm strip refinement fails the 0.5% target; a documented 1-to-0.5 nm check passes at 0.4565% in the specified low-band window.
 
 Run from the repository root:
 
