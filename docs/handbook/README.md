@@ -30,8 +30,25 @@ CI verifies that pages match their sources and exports a static-site artifact.
 The static export works under a subdirectory or offline, includes validated
 preset JSON and local assets, and clearly identifies itself as documentation.
 Its simulator link targets a separately launched localhost service. Hosting
-the static export does not deploy a calculation backend. Public hosting has
-not been enabled by this change.
+the static export does not deploy a calculation backend.
+
+## Publish with GitHub Pages
+
+The deployment workflow is [`.github/workflows/pages.yml`](../../.github/workflows/pages.yml).
+It checks the generated handbook, builds and browser-tests the static export,
+then publishes it using GitHub's Pages artifact and deployment actions.
+
+1. In [Settings → Pages](https://github.com/spinuni/spinfreq/settings/pages),
+   choose **GitHub Actions** under **Build and deployment → Source**.
+2. Open [Deploy SpinFreq website](https://github.com/spinuni/spinfreq/actions/workflows/pages.yml).
+   Select **Run workflow**, choose `main`, and run it. Subsequent pushes to
+   `main` rebuild and deploy automatically.
+3. After a successful deployment, open **https://spinuni.github.io/spinfreq/**.
+
+Enabling Pages requires repository administration access. Adding this workflow
+does not establish that the repository setting is enabled or deployment has
+succeeded. The `github-pages` environment may also require owner approval if
+repository protection rules specify it. No custom domain or secret is needed.
 
 MuMax3 inspired the choice to make installation, examples, theory and API easy
 to find. All handbook text, site layout and branding are SpinFreq's own. No
