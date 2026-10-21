@@ -15,3 +15,8 @@ __all__ += ["refine_equilibrium"]
 from .linear_response import ModalResponse
 
 __all__ += ["ModalResponse"]
+
+from .config import JobConfig
+from .jobs import run_job
+
+__all__ += ["JobConfig", "run_job"]

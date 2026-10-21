@@ -2,21 +2,32 @@
 
 Micromagnetic simulator for thin films with linear eigenmodes, forced frequency response, 1D Bloch bands and nonlinear LLG dynamics. `Film` models periodic x/y lattices, `ConfinedFilm` models finite rectangles, and `BlochChain` models x-periodic chains with open y boundaries. SI units throughout; magnetization is uniform through the thickness.
 
-See the **[detailed usage guide](docs/USAGE.md)** for installation, model selection, API examples, units, outputs, paper benchmarks and MuMax3 exchange.
+Start with the **[documentation index](docs/README.md)**, **[usage guide](docs/USAGE.md)** and **[first-version release plan](docs/RELEASE_PLAN.md)**. Runnable SI inputs are in [`examples/`](examples/README.md); scientific scripts and evidence have dedicated [benchmark](benchmarks/README.md) and [validation](validation/README.md) indexes.
 
-For the planned Python-package and web release, see the **[validation and release assessment](docs/VALIDATION_AND_RELEASE.md)**. It covers independent FMR and DMI standard problems, literature sources, supported physics, solver scaling and remaining release gates. The repository currently provides a research package; a web application has not been implemented or deployed.
+**0.1.0rc1** provides a research package and an optional **[local web application](docs/WEB.md)**. Python, CLI and web use the same strict SI configuration and numerical checks. The [physics assessment](docs/VALIDATION_AND_RELEASE.md) records independent FMR, DMI, skyrmion and driven-response evidence. Public hosting and package publication remain explicit release milestones.
 
 ## Install and run
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[test]'
-python -m pytest -q
-spinfreq --nx 12 --ny 12 --cell-nm 4 --thickness-nm 1 --points 101
+python -m pip install -e '.[test,web]'
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m pytest -q
+spinfreq --preset confined-skyrmion --output results/first-skyrmion
+# Optional local browser workbench on Linux:
+spinfreq-web --port 8000
 ```
 
-In the prepared cloud environment, activate `/workspace/venvs/spinfreq/bin/activate` instead. Set `MPLCONFIGDIR=/workspace/.cache/matplotlib` for writable plotting caches. Generated files are saved in `results/`: equilibrium magnetization, summary with residual torque and approximate topological charge, complex eigenmodes, complex driven response, absorbed power and a spectrum plot. A nonconverged relaxation exits with an error before computing frequencies. Negative topological charge near -1 identifies the default resolved seed; collapse to a uniform state is possible and must be checked in `summary.json`.
+Open **http://127.0.0.1:8000** for the web application. Choose one of three examples,
+edit SI-labelled parameters, run/cancel jobs and download configuration, diagnostics,
+CSV/NPZ/OVF outputs, plots and a SHA-256 manifest. The queue runs one bounded Linux
+worker at a time; oversized or numerically failed jobs are rejected.
+
+CLI output directories must be empty. Use `spinfreq --config examples/prism-fmr.json
+--output results/prism` to reproduce a saved input, or call `JobConfig`/`run_job` from
+Python. Source code is **MIT licensed**; external reference data retain upstream
+terms. See [architecture](docs/ARCHITECTURE.md), [contributing](CONTRIBUTING.md),
+[changelog](CHANGELOG.md) and [citation metadata](CITATION.cff).
 
 ## Physics and conventions
 

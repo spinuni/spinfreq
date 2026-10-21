@@ -1,0 +1,64 @@
+{
+  "scope": "First-release example regression, not thickness/continuum qualification",
+  "presets": {
+    "periodic-fmr": {
+      "wall_s": 0.5985824500000945,
+      "process_CPU_s": 1.0441289999999999,
+      "process_peak_rss_MiB": 101.5703125,
+      "torque_T": 0.0,
+      "max_delta_m": 1.6244046845954703e-05,
+      "max_response_residual": 9.684692977218347e-13,
+      "configuration_sha256": "941292b97cbb0eaee25a739d811aeae0d49162cab389bb210a850c0c70c0414d",
+      "package_version": "0.1.0rc1",
+      "target_frequencies_Hz": [
+        59662847755.54575
+      ],
+      "relative_frequency_errors": [
+        1.2787513198346848e-16
+      ],
+      "frequency_error_limit": 1e-10,
+      "passed": true
+    },
+    "prism-fmr": {
+      "wall_s": 0.5030313019999539,
+      "process_CPU_s": 0.8985099999999999,
+      "process_peak_rss_MiB": 94.70703125,
+      "torque_T": 0.0,
+      "max_delta_m": 1.321839996347871e-05,
+      "max_response_residual": 4.490423601791238e-15,
+      "configuration_sha256": "eb581ca21ac808d7e54561b5554e24611c5295df25450593504892aae46f3b70",
+      "package_version": "0.1.0rc1",
+      "target_frequencies_Hz": [
+        49284093330.33568
+      ],
+      "relative_frequency_errors": [
+        1.5480440068385927e-16
+      ],
+      "frequency_error_limit": 1e-10,
+      "passed": true
+    },
+    "confined-skyrmion": {
+      "wall_s": 2.410813800000142,
+      "process_CPU_s": 2.802092,
+      "process_peak_rss_MiB": 155.53515625,
+      "torque_T": 2.657540292219053e-10,
+      "max_delta_m": 5.341411027177369e-05,
+      "max_response_residual": 1.2836112064917486e-11,
+      "configuration_sha256": "e6bfbcdd9d8ce86dcd72551125a0525e2e7e252b234740b140ede784bfdd521c",
+      "package_version": "0.1.0rc1",
+      "target_frequencies_Hz": [
+        1839326551.5240104,
+        16293749711.26882,
+        37969083202.528015
+      ],
+      "relative_frequency_errors": [
+        2.753307508495425e-05,
+        0.00018098184999205906,
+        2.7554493376702784e-06
+      ],
+      "frequency_error_limit": 0.002,
+      "passed": true
+    }
+  },
+  "all_executed_gates_passed": true
+}

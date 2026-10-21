@@ -1,20 +1,25 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "spinfreq"
-version = "0.1.0"
+version = "0.1.0rc1"
 description = "Frequency-domain micromagnetics for periodic and confined thin films"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = ["numpy>=2.0", "scipy>=1.14", "matplotlib>=3.8"]
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
+web = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1"]
+web-test = ["httpx>=0.27,<1", "playwright>=1.48,<2"]
 
 [project.scripts]
 spinfreq = "spinfreq.cli:main"
+spinfreq-web = "spinfreq.web.app:main"
 
 [project.urls]
 Repository = "https://github.com/spinuni/spinfreq"
@@ -23,3 +28,6 @@ Validation = "https://github.com/spinuni/spinfreq/blob/main/docs/VALIDATION_AND_
 
 [tool.setuptools.packages.find]
 include = ["spinfreq*"]
+
+[tool.setuptools.package-data]
+"spinfreq.web" = ["static/*.html", "static/*.js", "static/*.css"]

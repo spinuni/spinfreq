@@ -1,4 +1,7 @@
 include README.md
+include LICENSE CHANGELOG.md CITATION.cff CONTRIBUTING.md
+recursive-include examples *.json *.md
+recursive-include scripts *.py
 recursive-include docs *.md
 recursive-include benchmarks *.py *.mx3
 recursive-include tests *.py

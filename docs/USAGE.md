@@ -28,7 +28,48 @@ Use the existing checkout; a cloud task is already isolated. No Git worktree or 
 
 Single BLAS threads usually reduce overhead for these small dense systems. Increase parallelism only after measuring it; each process may allocate its own dense matrices. The prepared environment uses Python 3.12 with NumPy 2.4.4, SciPy 1.17.1 and Matplotlib 3.10.8. Project dependency ranges permit other supported versions; record versions for reproducible comparisons.
 
-For the broader validation suite, published OOMMF FMR data, DMI benchmark priorities and the planned package/web release requirements, see [Validation and release](VALIDATION_AND_RELEASE.md). The external FMR benchmark is documented [here](../validation/fmr_standard_problem/README.md); it downloads reference data only when `--fetch-reference` is explicitly requested. A public web interface is not yet implemented.
+For the broader validation suite, published OOMMF FMR data, DMI benchmark priorities and the planned package/web release requirements, see [Validation and release](VALIDATION_AND_RELEASE.md). The external FMR benchmark is documented [here](../validation/fmr_standard_problem/README.md); it downloads reference data only when `--fetch-reference` is explicitly requested. A local Linux web interface is now available; public hosting remains a separate milestone. See the [web guide](WEB.md).
+
+## 1.1 Reproducible jobs and the local web application
+
+The first release candidate shares one configuration between Python, CLI and web.
+Use a fresh output directory for each calculation:
+
+```bash
+spinfreq --preset confined-skyrmion --output results/first-skyrmion
+spinfreq --config examples/prism-fmr.json --output results/prism
+spinfreq --preset periodic-fmr --write-config my-film.json
+# Edit the SI JSON, then run it:
+spinfreq --config my-film.json --output results/my-film
+```
+
+```python
+from spinfreq import JobConfig, run_job
+config = JobConfig.load("examples/confined-skyrmion.json")
+summary = run_job(config, "results/python-skyrmion")
+print(summary["stability"], summary["torque_T"], summary["max_delta_m"])
+```
+
+The runner saves full input, source hashes, dependency versions, static/eigen/solve
+residuals, numerical growth signs and perturbation amplitude. Spectra are withheld
+for nonconverged, unstable or sign-uncertain equilibria, or if `max |delta m| > 0.05`.
+This numerical screen is not a rigorous stability or continuum-accuracy certificate.
+Successful runs export `configuration.json`, `summary.json`, `equilibrium.npy` and
+`.ovf`, `modes.npz`, `modes.csv`, `response.npz`, `response.csv`, three PNG plots,
+`manifest.json` and `results.zip`. CSV response components use `exp(+i omega t)`;
+NPZ files include spatial complex fields and both eigenvalue branches.
+
+For browser use on Linux:
+
+```bash
+python -m pip install -e '.[web]'
+spinfreq-web --data-dir results/web --port 8000
+```
+
+Open http://127.0.0.1:8000. See the [web guide](WEB.md) for configuration editing,
+progress, cancellation, downloads, resource limits and restart behavior. The small
+presets are detailed in [examples](../examples/README.md). Lower-level APIs below
+remain available for research beyond this bounded application workflow.
 
 ## 2. Units and array layout
 

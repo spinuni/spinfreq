@@ -1,0 +1,8 @@
+{
+  "browser": "Chromium",
+  "ui_worker_download_passed": true,
+  "images_loaded": 3,
+  "javascript_errors": [],
+  "mobile_horizontal_overflow": false,
+  "configuration_sha256": "7a29f6b221222ef77aca02fd742427f1f29fac9d079de2b97523b4d01725fdfc"
+}

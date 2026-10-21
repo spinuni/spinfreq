@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite this software and the relevant benchmark papers when using SpinFreq."
+type: software
+title: "SpinFreq: frequency-domain micromagnetics for thin films"
+authors:
+  - name: "SpinFreq contributors"
+version: 0.1.0rc1
+license: MIT
+repository-code: "https://github.com/spinuni/spinfreq"
+url: "https://github.com/spinuni/spinfreq"

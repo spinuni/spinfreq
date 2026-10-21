@@ -133,15 +133,19 @@ requested.
 
 ## 5. Delivery gates for the package and web application
 
+The current candidate implementation and milestone dependencies are recorded in
+[RELEASE_PLAN.md](RELEASE_PLAN.md). Earlier local-check counts below describe
+their respective updates, not the current suite total.
+
 | Delivery gate | Evidence required before public deployment | Status |
 | --- | --- | --- |
 | D1. Build and install | Wheel and sdist build; fresh-environment installation; run the installed CLI outside the repository; tests on supported Python versions | Workflow added for Python 3.11–3.13, external FMR regression gates and distribution smoke checks. Local results are recorded separately; remote CI is not assumed to have run. |
-| D2. Reproducible jobs | One serializable configuration/schema for materials, geometry, boundaries, solver and drive; save package/git version, dependency versions, units, tolerances, seeds, residuals and machine limits | Current basic CLI records some inputs but exposes only the periodic demo/default material. Full schema and material/model selection remain open. |
-| D3. User-visible numerical status | Failed relaxation/solve rejects spectral output; distinguish unstable, neutral/uncertain and stable; display drive size and convergence limits | Some failure guards exist. Shared diagnostics, completeness status and UI presentation remain open. |
-| D4. Web computation lifecycle | Background worker, bounded queue, measured RAM/CPU/time/disk limits, progress, cancellation, timeout recovery; heavy jobs do not execute inside an HTTP request | No web application or worker exists in the current repository. Benchmark the worker on the actual deployment host before choosing quotas. |
-| D5. Web reproducibility and results | Three vetted presets; editable SI-labelled parameters; plots of equilibrium/modes/response; download config, JSON, CSV and array/OVF outputs | Not implemented. A web result must reproduce the same package call and show unsupported combinations before submission. |
-| D6. Web service tests | Browser-to-worker-to-download smoke test; malformed/oversized-job rejection; isolation of job inputs/results; simultaneous jobs, cancellation and restart tests | Not implemented. These are required operational checks for this compute service. |
-| D7. Release provenance | Owner-selected license; citation metadata; supported-model statement; versioned example results; tag/changelog; dependency/environment record and release artifacts | Owner license selection and release metadata remain open. GitHub commits, package publication and a public running app are different deliverables. |
+| D2. Reproducible jobs | One serializable configuration/schema for materials, geometry, boundaries, solver and drive; save package/git version, dependency versions, units, tolerances, seeds, residuals and machine limits | Implemented in `JobConfig`/`run_job`: strict versioned SI inputs, periodic/confined model selection, full materials, config/source hashes, package/dependency versions, residuals and resource records. CLI and web share the runner. |
+| D3. User-visible numerical status | Failed relaxation/solve rejects spectral output; distinguish unstable, neutral/uncertain and stable; display drive size and convergence limits | Shared runner now rejects failed torque/eigen/response checks, unstable/uncertain numerical growth signs and excessive linear amplitudes. UI and downloads expose diagnostics. Rigorous neutral-mode certification and general branch tracking remain open. |
+| D4. Web computation lifecycle | Background worker, bounded queue, measured RAM/CPU/time/disk limits, progress, cancellation, timeout recovery; heavy jobs do not execute inside an HTTP request | Implemented for local Linux: one bounded subprocess, queue/storage caps, progress/cancel/delete, CPU/address-space/file/wall/disk controls, exclusive supervisor and restart recovery. Host-specific public-service budgets remain open. |
+| D5. Web reproducibility and results | Three vetted presets; editable SI-labelled parameters; plots of equilibrium/modes/response; download config, JSON, CSV and array/OVF outputs | Implemented: three checked presets, editable SI-labelled inputs/full JSON, plots and config/JSON/CSV/NPZ/OVF/ZIP exports. Edited inputs are explicitly research configurations; matched coarse-grid scope is visible. |
+| D6. Web service tests | Browser-to-worker-to-download smoke test; malformed/oversized-job rejection; isolation of job inputs/results; simultaneous jobs, cancellation and restart tests | Local real-worker tests cover queue capacity, isolation, cancellation, timeout, malformed/oversized jobs and restart recovery. Real Chromium submits through the UI, verifies plots and downloads results. Public load/access-control checks remain open. |
+| D7. Release provenance | Owner-selected license; citation metadata; supported-model statement; versioned example results; tag/changelog; dependency/environment record and release artifacts | Owner selected MIT; LICENSE, CITATION.cff, changelog and candidate version `0.1.0rc1` added. Tag, package publication and public hosted application remain pending; a GitHub push is not those deliverables. |
 
 Local delivery checks passed on Python 3.12.14: 42 tests in the development
 environment (NumPy 2.4.4, SciPy 1.17.1, Matplotlib 3.10.8); 42 tests from the
@@ -206,21 +210,15 @@ package should own the physics.
 
 ## 6. Practical sequence
 
-1. Retain the FMR, DMI static/analytical and archived OOMMF temporal regressions.
-   Extend the two-q temporal comparison to the finite-strip pulse and resolve the remaining
-   OOMMF/Fidimag band differences. Retain the new independent two-field skyrmion
-   profile/mode data and their new qualified 1 nm external dynamics. Extend
-   thickness/parameter qualification before expanding supported presets.
-2. Add shared configuration, diagnostics and mode tracking; qualify a finite
-   range of thicknesses, mesh sizes and drive amplitudes. Keep larger and
-   unsupported requests outside the first public presets.
-3. Add scalable, preconditioned frequency methods and benchmark their accuracy,
-   RAM and time against the dense reference. This is needed before promising
-   literature-scale strip or large-array jobs.
-4. Build the web worker/UI around the shared API, test the job lifecycle, and
-   set limits from measurements. Complete package CI, licensing and release
-   metadata, then deploy the bounded v0.1 scope.
+The [first-version release plan](RELEASE_PLAN.md) now tracks M1–M7. Repository
+organization, MIT/citation metadata, shared execution and the bounded local web
+workbench are implemented. The [candidate report](../validation/release_candidate/README.md)
+records example frequencies, resource measurements, browser checks and package
+checks. Observe hosted CI before tagging/publishing the package. Public web
+hosting still needs a host, access/TLS policy and operational measurements there.
 
-SP4 switching, full nonlinear combs, thermal/current-driven problems and 3D
-thickness modes become release blockers only if those capabilities are included
-in the advertised first version. They remain distinct future validation tracks.
+Retain all independent physics regressions. Broaden the advertised envelope only
+after qualifying thickness/mesh/drive changes; keep matrix-free scaling,
+neutral-mode certification and branch tracking as separate improvements. Full
+nonlinear combs, thermal/current-driven problems and 3D thickness modes become
+release blockers only if included in the advertised supported scope.

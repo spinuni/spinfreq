@@ -1,0 +1,66 @@
+"""Real Chromium UI -> worker -> image/export smoke test; launch server first."""
+import argparse
+import json
+from pathlib import Path
+import zipfile
+import shutil
+import re
+import time
+from urllib.request import urlopen
+from urllib.error import URLError
+
+from playwright.sync_api import sync_playwright, expect
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--url', default='http://127.0.0.1:8000')
+    parser.add_argument('--output', type=Path, default=Path('results/browser-smoke'))
+    parser.add_argument('--browser', default=shutil.which('chromium'), help='Optional installed Chromium executable')
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=True)
+    deadline = time.monotonic()+15
+    while True:
+        try:
+            with urlopen(args.url+'/api/presets', timeout=1):
+                break
+        except URLError:
+            if time.monotonic() >= deadline:
+                raise
+            time.sleep(.1)
+    errors = []
+    with sync_playwright() as p:
+        browser = p.chromium.launch(executable_path=args.browser)
+        page = browser.new_page(viewport={'width':1280, 'height':1000})
+        page.on('pageerror', lambda error: errors.append(str(error)))
+        page.goto(args.url)
+        page.locator('#preset option[value="prism-fmr"]').wait_for(state='attached')
+        page.select_option('#preset', 'prism-fmr')
+        page.fill('#points', '21')
+        page.click('#run')
+        expect(page.locator('#status')).to_have_text(re.compile(r'^succeeded'), timeout=120000)
+        for name in ('spectrum', 'equilibrium', 'mode'):
+            expect(page.locator('#'+name)).to_have_js_property('complete', True)
+            assert page.locator('#'+name).element_handle().get_property('naturalWidth').json_value() > 0
+        with page.expect_download() as event:
+            page.click('#zip')
+        event.value.save_as(args.output/'results.zip')
+        with zipfile.ZipFile(args.output/'results.zip') as archive:
+            config = json.loads(archive.read('configuration.json'))
+            summary = json.loads(archive.read('summary.json'))
+        assert config['nx'] == 1 and config['points'] == 21
+        assert summary['status'] == 'succeeded' and summary['stability'] == 'stable'
+        assert not errors, errors
+        page.screenshot(path=str(args.output/'desktop.png'), full_page=True)
+        page.set_viewport_size({'width':390, 'height':844})
+        assert page.locator('html').element_handle().get_property('scrollWidth').json_value() <= 390
+        page.screenshot(path=str(args.output/'mobile.png'), full_page=True)
+        report = {'browser':'Chromium', 'ui_worker_download_passed':True, 'images_loaded':3,
+                  'javascript_errors':errors, 'mobile_horizontal_overflow':False,
+                  'configuration_sha256':summary['configuration_sha256']}
+        (args.output/'summary.json').write_text(json.dumps(report, indent=2)+'\n')
+        browser.close()
+
+
+if __name__ == '__main__':
+    main()
