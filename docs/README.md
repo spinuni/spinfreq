@@ -24,7 +24,7 @@ separate from installation and daily use.
 ## Level 4 · Develop and publish
 
 - [Architecture](development/ARCHITECTURE.md), [Windows backend](development/WINDOWS.md) and [contributing](../CONTRIBUTING.md).
-- [Release plan](releases/RELEASE_PLAN.md) and [changelog](../CHANGELOG.md).
+- [Release plan](releases/RELEASE_PLAN.md), [platform evidence](releases/PLATFORM_EVIDENCE.md) and [changelog](../CHANGELOG.md).
 - [Branding](branding/README.md): provisional SpinFreq logo.
 
 This hierarchy changes navigation and file locations; numerical reference data

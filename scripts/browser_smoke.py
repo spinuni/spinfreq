@@ -18,6 +18,7 @@ def main():
     parser.add_argument('--output', type=Path, default=Path('results/browser-smoke'))
     parser.add_argument('--browser', default=shutil.which('chromium'), help='Optional installed Chromium executable')
     parser.add_argument('--landing', action='store_true', help='Check preview/configuration export without a worker')
+    parser.add_argument('--session', help='Require this qualification server session before submitting a job')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     deadline = time.monotonic()+15
@@ -35,6 +36,9 @@ def main():
         page = browser.new_page(viewport={'width':1280, 'height':1000})
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.goto(args.url)
+        support = page.request.get(args.url+'/api/capabilities').json()
+        if args.session:
+            assert support.get('qualification_session') == args.session, 'Wrong qualification server session'
         expect(page.locator('.hero-logo')).to_have_js_property('complete', True)
         assert page.locator('.hero-logo').element_handle().get_property('naturalWidth').json_value() > 0
         expect(page.locator('#launch')).not_to_have_text('Explore the workbench')
@@ -77,6 +81,8 @@ def main():
             summary = json.loads(archive.read('summary.json'))
         assert config['nx'] == 1 and config['points'] == 21
         assert summary['status'] == 'succeeded' and summary['stability'] == 'stable'
+        if args.session:
+            assert summary.get('qualification_session') == args.session
         server_platform = page.request.get(args.url+'/api/capabilities').json()['platform']
         expected_runtime = 'windows-job-object-experimental' if server_platform == 'win32' else 'linux-rlimit'
         assert summary['worker_runtime'] == expected_runtime
@@ -90,6 +96,7 @@ def main():
                   'configuration_sha256':summary['configuration_sha256'],
                   'server_platform':server_platform,
                   'worker_runtime':summary.get('worker_runtime', 'unrecorded')}
+        report['qualification_session'] = support.get('qualification_session')
         (args.output/'summary.json').write_text(json.dumps(report, indent=2)+'\n')
         browser.close()
 

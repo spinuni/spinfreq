@@ -2,6 +2,11 @@
 
 ## 0.1.0rc2 — experimental native Windows computation
 
+- Installed-wheel platform evidence collector and standalone verifier, with
+  revision/source/procedure hashes, mandatory native JUnit cases, browser session
+  binding, result-manifest verification and negative-case tests. CI now qualifies
+  the exact wheel on Ubuntu and Windows and uploads reviewable evidence bundles.
+
 - Explicit `--mode compute` on Windows uses Job Objects with gated worker
   startup, committed-memory/user-CPU limits and process-tree termination on
   cancellation, server death and normal parent completion.

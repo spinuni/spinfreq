@@ -24,8 +24,12 @@ exact memory/CPU/disk contract and [workflow](../../../.github/workflows/ci.yml)
 for automation. Do not enable native Windows computation automatically until the
 native lifecycle/resource and end-to-end evidence has passed review.
 
-The CI upload named `native-windows-qualification` includes the real Chromium
+The CI upload named `platform-qualification-win32` includes the real Chromium
 report, screenshots, downloaded result archive and server logs. The report saves
 `server_platform` and `worker_runtime`, so Linux execution cannot be mistaken for
 native Windows Job Object evidence. `status.json` records what has actually been
 observed locally; it is not an assertion that hosted CI passed.
+
+A source-bound [evidence collector and verifier](../../../docs/releases/PLATFORM_EVIDENCE.md)
+now produces the native qualification bundle. Existing local Linux reports above
+are historical regression evidence and are not native Windows passes.

@@ -60,3 +60,11 @@ recording the server platform and worker runtime. Observe those native results
 before changing Windows auto mode or claiming parity.
 The [evidence ledger](../../validation/release_candidate/windows/README.md) keeps
 implementation and qualification separate.
+
+## Installed-wheel evidence bundle
+
+Use the [platform evidence collector](../releases/PLATFORM_EVIDENCE.md) for a
+single-command native run and a standalone verifier. The platform CI now tests
+the exact installed wheel and uploads `platform-qualification-win32`, including
+JUnit cases, checksummed artifacts, source revision and server-session binding.
+The checker rejects skipped native tests and Linux bundles presented as Windows.

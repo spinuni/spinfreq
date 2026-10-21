@@ -71,3 +71,11 @@ remains unimplemented. See [Windows qualification](../development/WINDOWS.md).
 
 The detailed [physics assessment](../science/VALIDATION_AND_RELEASE.md) remains the source
 for P1–P8 evidence. Scope changes must update both this plan and user-facing claims.
+
+## Evidence handoff
+
+[Platform qualification](PLATFORM_EVIDENCE.md) now collects installed-wheel tests,
+real browser results, JUnit and checksums tied to a source revision on both hosts.
+The standalone checker supports offline review of the downloaded CI artifact;
+GitHub API access is not required for that review. Windows promotion still
+requires actual trusted native evidence and a separate default-mode change.

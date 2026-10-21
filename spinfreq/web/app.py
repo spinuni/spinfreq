@@ -2,6 +2,7 @@
 import argparse
 from contextlib import asynccontextmanager
 import json
+import os
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -17,6 +18,7 @@ from .platforms import capabilities
 
 def create_app(directory="results/web", *, mode="auto", **manager_options):
     support = capabilities(mode)
+    support['qualification_session'] = os.environ.get('SPINFREQ_QUALIFICATION_SESSION')
     @asynccontextmanager
     async def lifespan(app):
         app.state.jobs = JobManager(directory, **manager_options) if support["simulation_enabled"] else None

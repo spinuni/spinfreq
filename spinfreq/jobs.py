@@ -71,6 +71,7 @@ def run_job(config: JobConfig, output, progress=None):
     summary["thread_environment"] = {key: os.environ.get(key) for key in
                                      ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")}
     summary['worker_runtime'] = os.environ.get('SPINFREQ_WORKER_RUNTIME', 'direct-python')
+    summary['qualification_session'] = os.environ.get('SPINFREQ_QUALIFICATION_SESSION')
     for name, preset in presets().items():
         if config == preset:
             summary["preset"] = name
