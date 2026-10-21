@@ -1,0 +1,5 @@
+{
+  "description": "CPU frequency-domain micromagnetics for thin films: equilibria, magnon modes, driven response and reproducible parameter studies.",
+  "homepage": "https://spinuni.github.io/spinfreq/",
+  "topics": ["micromagnetics", "spintronics", "skyrmions", "magnonics", "frequency-domain", "llg", "scientific-computing", "python"]
+}

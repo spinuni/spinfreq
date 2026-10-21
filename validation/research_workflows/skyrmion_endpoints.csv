@@ -1,0 +1,7 @@
+field_T,mode,frequency_Hz,OOMMF_frequency_Hz,relative_error,reference
+0.0,1,1839377193.8400593,1839326551.5240104,2.7533075084962277e-05,validation/skyrmion_temporal/field_0mT/summary.json
+0.0,2,16296698584.234873,16293749711.26882,0.0001809818499920457,validation/skyrmion_temporal/field_0mT/summary.json
+0.0,3,37968978580.64285,37969083202.528015,2.755449337699112e-06,validation/skyrmion_temporal/field_0mT/summary.json
+0.05,1,1724209613.3935935,1724184207.8007467,1.4734848360120623e-05,validation/skyrmion_temporal/field_50mT/summary.json
+0.05,2,17213787552.36407,17213682635.433918,6.094972957004785e-06,validation/skyrmion_temporal/field_50mT/summary.json
+0.05,3,39694092523.53666,39694051705.40955,1.0283184848081106e-06,validation/skyrmion_temporal/field_50mT/summary.json

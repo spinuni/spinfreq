@@ -11,6 +11,7 @@
 <li><a href="#your-first-simulation">Your first simulation</a></li>
 <li><a href="#choose-the-physical-model">Choose the physical model</a></li>
 <li><a href="#configuration-and-units">Configuration and units</a></li>
+<li><a href="#local-parameter-studies-and-restart-textures">Local parameter studies and restart textures</a></li>
 <li><a href="#read-the-results">Read the results</a></li>
 <li><a href="#diagnose-and-refine">Diagnose and refine</a></li>
 </ul>
@@ -46,6 +47,7 @@ spinfreq --config prism.json --output results/my-first-prism
 </code></pre>
 <p>Use a new output directory for every shared-API job. Existing files cause refusal rather than mixing runs. CLI calculations run directly; the web worker resource limits do not apply to direct CLI or Python calls.</p>
 <h2 id="choose-the-physical-model">Choose the physical model</h2>
+<p>The local experiment tools below build on these same models; they do not add new physics.</p>
 <table>
 <thead>
 <tr>
@@ -127,6 +129,14 @@ spinfreq --config prism.json --output results/my-first-prism
 </table>
 <p>The <code>mumax</code> boundary option is a physical boundary discretization, not a MuMax3 dependency. It differs from the <code>bond</code> default in reproducible presets; always report the selected boundary. Python <code>ConfinedFilm</code> defaults to <code>mumax</code>, so set it explicitly when comparing with a JSON job.</p>
 <p>Download complete validated <a href="downloads.html#example-inputs">example inputs</a> rather than guessing omitted defaults. For a skyrmion, start from <code>confined-skyrmion</code>: its 2 nm grid is a matched comparison example and needs refinement for continuum accuracy.</p>
+<h2 id="local-parameter-studies-and-restart-textures">Local parameter studies and restart textures</h2>
+<p>No web server is needed to run a research scan from a source checkout:</p>
+<pre><code class="language-bash">spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep --resume
+spinfreq --config my-film.json --initial-state previous/equilibrium.ovf --output results/restarted
+</code></pre>
+<p>Studies support independent Cartesian parameter grids or a single-axis field/material path with equilibrium continuation. Continuation stops on failure; it does not silently reseed. Every job now saves its actual <code>initial.npy</code>. Resume verifies completed artifacts and requires the same inputs and numerical implementation. Output includes case/pole CSVs and PNG/PDF spectra. These commands run locally through Python and are not exposed by the browser queue.</p>
+<p>See the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md">research workflow guide</a> for study JSON, scan order, preserved failed attempts, geometry checks, limitations and convergence. Frequency rank is not a tracked mode identity; a continuation path is not proof of a ground state or switching field.</p>
 <h2 id="read-the-results">Read the results</h2>
 <table>
 <thead>
@@ -139,6 +149,10 @@ spinfreq --config prism.json --output results/my-first-prism
 <tr>
 <td><code>configuration.json</code>, <code>summary.json</code></td>
 <td>Full input, versions, source hashes, torque, stability margin, residuals and response amplitude</td>
+</tr>
+<tr>
+<td><code>initial.npy</code></td>
+<td>Actual starting unit-vector texture; hash and initialization type recorded in the summary</td>
 </tr>
 <tr>
 <td><code>equilibrium.npy</code>, <code>equilibrium.ovf</code></td>

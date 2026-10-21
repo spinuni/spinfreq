@@ -1,20 +1,23 @@
 """Command-line adapter for the shared reproducible job runner."""
 import argparse
 import json
+from importlib.metadata import version
 from pathlib import Path
 import sys
 
 from .config import JobConfig, presets
-from .jobs import run_job, write_json
+from .jobs import load_initial_state, run_job, write_json
 
 
 def main():
     parser = argparse.ArgumentParser(description='Thin-film small-signal modes and driven response (SI)')
+    parser.add_argument('--version', action='version', version=f"SpinFreq {version('spinfreq')}")
     source = parser.add_mutually_exclusive_group()
     source.add_argument('--config', type=Path, help='Versioned SI JSON configuration')
     source.add_argument('--preset', choices=list(presets()))
     parser.add_argument('--list-presets', action='store_true')
     parser.add_argument('--write-config', type=Path, help='Write resolved configuration and exit')
+    parser.add_argument('--initial-state', type=Path, help='Unit-vector NPY or mesh-matched OVF2 initial texture')
     parser.add_argument('--nx', type=int, default=12)
     parser.add_argument('--ny', type=int, default=12)
     parser.add_argument('--cell-nm', type=float, default=4)
@@ -27,6 +30,8 @@ def main():
     parser.add_argument('--maxiter', type=int, default=2000)
     parser.add_argument('--output', type=Path, default=Path('results/run'))
     args = parser.parse_args()
+    if args.initial_state and args.write_config:
+        parser.error('--initial-state is used for execution, not --write-config')
     if args.list_presets:
         print(json.dumps({name: config.to_dict() for name, config in presets().items()}, indent=2))
         return
@@ -48,7 +53,8 @@ def main():
         if args.write_config:
             write_json(args.write_config, config.to_dict())
             return
-        summary = run_job(config, args.output)
+        initial = load_initial_state(args.initial_state, config) if args.initial_state else None
+        summary = run_job(config, args.output, initial_m=initial)
     except (ValueError, RuntimeError, OSError) as error:
         parser.exit(1, f'{error}\n')
     print(json.dumps(summary, indent=2))

@@ -11,6 +11,7 @@
 | Driven susceptibility | [Multitone OOMMF](driven_response/README.md) | Complex amplitude/phase, turn-on, drive halving and temporal refinement |
 | Implementation performance | [Modal reuse](response_reuse/README.md) | Accuracy and measured small-system reuse, not independent physics |
 | Candidate application | [Release checks](release_candidate/README.md) | Example frequencies, measured resources and browser delivery |
+| Local research workflow | [Parameter studies and continuation](research_workflows/README.md) | Analytical field/damping response, verified state reuse and archived OOMMF endpoint poles |
 | Literature exploration | [Liu 2024](liu2024/README.md) | Single-skyrmion/array studies; nonlinear comb remains unvalidated |
 
 Accepted data and settings are versioned. Intermediate arrays, exploratory

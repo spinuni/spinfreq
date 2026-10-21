@@ -1,0 +1,72 @@
+{
+  "scope": "Coarse 2 nm single-layer confined skyrmion; archived OOMMF endpoints only; 25 mT is numerical continuation",
+  "case_count": 3,
+  "reference_pole_count": 6,
+  "max_frequency_relative_error": 0.0001809818499920457,
+  "frequency_relative_tolerance": 0.0003,
+  "initial_states_match_predecessors": true,
+  "passed": true,
+  "configuration": {
+    "schema_version": 1,
+    "base": {
+      "schema_version": 1,
+      "model": "confined",
+      "nx": 20,
+      "ny": 20,
+      "dx_m": 2e-09,
+      "dy_m": 2e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0.003,
+        "K": 600000.0,
+        "alpha": 0.01,
+        "gamma": 175950000000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dmi_boundary": "bond",
+      "seed": "skyrmion",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 1000000000.0,
+      "fmax_Hz": 45000000000.0,
+      "points": 41,
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000
+    },
+    "axes": {
+      "field_T.2": [
+        0.0,
+        0.025,
+        0.05
+      ]
+    },
+    "continuation": true
+  },
+  "implementation": {
+    "package_version": "0.1.0rc2",
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "sources": {
+      "model.py": "b887aae8566c6e96d0b02d4e134d4ae53e0e8b44151356e189b086980295157a",
+      "confined.py": "d748b1e9105a95f6713fc9195ab037a8fdf1af38c287b8ebcb96cd95b57354b2",
+      "equilibrium.py": "bb4a652dd7774844109d39bbf4a7dc4f888cecf1a02510f67986068065c7ec0b",
+      "linear_response.py": "ecc68e9c03844cd1b2c2df69ef1e7f480a97dc74c9364f4bee16021c1e80474d",
+      "config.py": "97de17b7a8e4bf530c5dab7fe36efa0a198f258f73ce1b5ff07493bb3c404efe",
+      "jobs.py": "f0737513834d65dbfe9767a92ea2c7dd24fa63c9691220416e60f061fa8a3540",
+      "ovf.py": "2576c72851b5e56ea03ee79925c641773cb3bc4d6db7fa1a01c85c1aed60e7e2",
+      "studies.py": "c9eb6a3778233c3e961972fa1e793d79d0cd6ec179509c9bd01f9022ee7463b9"
+    }
+  }
+}

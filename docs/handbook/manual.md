@@ -43,6 +43,8 @@ Use a new output directory for every shared-API job. Existing files cause refusa
 
 ## Choose the physical model
 
+The local experiment tools below build on these same models; they do not add new physics.
+
 | Model | Geometry and operators | Use for |
 | --- | --- | --- |
 | `Film` / `periodic` | Periodic x/y, spectral derivatives, thickness-averaged film demagnetization | Repeating textures and uniform-film FMR |
@@ -72,11 +74,26 @@ The `mumax` boundary option is a physical boundary discretization, not a MuMax3 
 
 Download complete validated [example inputs](downloads.html#example-inputs) rather than guessing omitted defaults. For a skyrmion, start from `confined-skyrmion`: its 2 nm grid is a matched comparison example and needs refinement for continuum accuracy.
 
+## Local parameter studies and restart textures
+
+No web server is needed to run a research scan from a source checkout:
+
+```bash
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep --resume
+spinfreq --config my-film.json --initial-state previous/equilibrium.ovf --output results/restarted
+```
+
+Studies support independent Cartesian parameter grids or a single-axis field/material path with equilibrium continuation. Continuation stops on failure; it does not silently reseed. Every job now saves its actual `initial.npy`. Resume verifies completed artifacts and requires the same inputs and numerical implementation. Output includes case/pole CSVs and PNG/PDF spectra. These commands run locally through Python and are not exposed by the browser queue.
+
+See the [research workflow guide](https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md) for study JSON, scan order, preserved failed attempts, geometry checks, limitations and convergence. Frequency rank is not a tracked mode identity; a continuation path is not proof of a ground state or switching field.
+
 ## Read the results
 
 | Artifact | Interpretation |
 | --- | --- |
 | `configuration.json`, `summary.json` | Full input, versions, source hashes, torque, stability margin, residuals and response amplitude |
+| `initial.npy` | Actual starting unit-vector texture; hash and initialization type recorded in the summary |
 | `equilibrium.npy`, `equilibrium.ovf` | Unit-vector field; NumPy shape `(ny, nx, 3)`; OVF interchange |
 | `modes.csv`, `modes.npz` | Complex eigenvalues and spatial eigenvectors; both conjugate branches |
 | `response.csv`, `response.npz` | Driven sweep and complex magnetization response |

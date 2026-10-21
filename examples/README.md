@@ -19,3 +19,16 @@ settings fail explicitly. `model` is `periodic` or `confined`; the latter select
 `bond` or `mumax` DMI edges. The web queue applies stricter computation bounds than
 the core dense solvers. Edited inputs are research configurations; check their
 equilibrium, stability, amplitude and mesh convergence.
+
+## Local parameter studies
+
+- [FMR field scan](studies/fmr-field-sweep.json): six fields with equilibrium continuation.
+- [FMR damping scan](studies/fmr-damping-sweep.json): three independent damping values.
+- [Skyrmion field path](studies/skyrmion-field-path.json): 0 → 25 → 50 mT with continuation on the coarse matched 2 nm model.
+
+```bash
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
+```
+
+Study files use a separate schema with `base`, `axes` and `continuation`; do not
+pass them to `spinfreq --config`. See the [research guide](../docs/guides/RESEARCH.md).

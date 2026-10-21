@@ -64,6 +64,12 @@ remains unimplemented. See [Windows qualification](../development/WINDOWS.md).
 
 ## Scientific scope that remains open
 
+Local research experiment files, equilibrium continuation, restart textures and
+verified study resume are implemented; see the [research guide](../guides/RESEARCH.md).
+The [research roadmap](../development/RESEARCH_ROADMAP.md) prioritizes spatial
+spectroscopy, mode analysis, material regions, matrix-free execution and
+current-driven physics. These are distinct from public web deployment.
+
 - Single z layer: general thickness/parameter qualification remains open.
 - The 2 nm skyrmion preset reproduces the matched discrete OOMMF model; the
   independent 1 nm report and 1 to 0.8 nm study show why finer grids matter.

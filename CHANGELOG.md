@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — local research experiments
+
+- Reusable NPY/mesh-matched OVF initial states in the CLI/Python runner; every
+  job records and exports its actual starting texture and hash.
+- `StudyConfig`, `run_study` and `spinfreq-study` for independent parameter grids
+  and single-axis equilibrium continuation. Continuation stops on failure;
+  resume verifies artifacts and numerical implementation and retains attempts.
+- Aggregate parameter/pole CSVs, PNG/PDF spectra, field/damping examples and an
+  independent analytical Gilbert frequency/linewidth/complex-response check.
+- Local research guide and prioritized model-development roadmap. GitHub About
+  metadata and an authenticated update command are prepared separately.
+
 ## Unreleased — product website and handbook
 
 - Original SpinFreq navigation for Manual, Theory, API, Downloads, Validation

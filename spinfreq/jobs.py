@@ -21,7 +21,7 @@ from .model import Film, MU0, skyrmion_lattice
 from .ovf import write_ovf
 
 
-ARTIFACTS = ("configuration.json", "summary.json", "equilibrium.npy", "equilibrium.ovf",
+ARTIFACTS = ("configuration.json", "summary.json", "initial.npy", "equilibrium.npy", "equilibrium.ovf",
              "modes.npz", "response.npz", "response.csv", "modes.csv", "spectrum.png",
              "equilibrium.png", "mode.png", "manifest.json", "results.zip")
 
@@ -46,7 +46,44 @@ def write_json(path, data):
             time.sleep(.02)
 
 
-def run_job(config: JobConfig, output, progress=None):
+def load_initial_state(path, config: JobConfig):
+    """Load unit magnetization from NPY or a mesh-matched single-layer OVF2.
+
+    NPY carries no geometry; the caller must confirm its cell dimensions.
+    Physical M fields are rejected rather than silently normalized.
+    """
+    path = Path(path)
+    if path.suffix.lower() == ".npy":
+        m = np.load(path, allow_pickle=False)
+    elif path.suffix.lower() == ".ovf":
+        from .ovf import read_ovf
+        m, metadata = read_ovf(path)
+        for key, expected in (("xstepsize", config.dx_m), ("ystepsize", config.dy_m),
+                              ("zstepsize", config.thickness_m)):
+            if not np.isclose(float(metadata.get(key, "nan")), expected, rtol=1e-8, atol=0):
+                raise ValueError(f"OVF {key} does not match the configured mesh")
+        if metadata.get("meshunit", "").lower() != "m":
+            raise ValueError("OVF meshunit must be m")
+        units = metadata.get("valueunits", "").translate(str.maketrans("", "", '{}"')).split()
+        if len(units) not in (1, 3) or any(unit != "1" for unit in units):
+            raise ValueError("OVF requires dimensionless valueunits 1; convert M in A/m explicitly")
+    else:
+        raise ValueError("Initial state must be .npy or .ovf")
+    return _check_initial(m, config)
+
+
+def _check_initial(m, config):
+    if np.iscomplexobj(m):
+        raise ValueError("Initial magnetization must be real")
+    m = np.asarray(m, dtype=float)
+    if m.shape != (config.ny, config.nx, 3) or not np.all(np.isfinite(m)):
+        raise ValueError("Initial magnetization must match (ny, nx, 3) and be finite")
+    if not np.allclose(np.linalg.norm(m, axis=-1), 1, rtol=0, atol=1e-7):
+        raise ValueError("Initial magnetization must contain unit vectors; M in A/m is not accepted")
+    return m.copy()
+
+
+def run_job(config: JobConfig, output, progress=None, *, initial_m=None):
     """Run one job in an empty directory. Failure never exports spectra."""
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
@@ -87,8 +124,18 @@ def run_job(config: JobConfig, output, progress=None):
         film = (Film(**kwargs) if config.model == "periodic" else
                 ConfinedFilm(**kwargs, dmi_boundary=config.dmi_boundary))
         initial = np.zeros(film.shape); initial[..., 2] = 1
-        if config.seed == "skyrmion":
+        if initial_m is not None:
+            initial = _check_initial(initial_m, config)
+        elif config.seed == "skyrmion":
             initial = skyrmion_lattice(film, config.seed_radius_m, config.seed_wall_m)
+        np.save(output/"initial.npy", initial)
+        summary["initialization"] = {
+            "kind": "provided-state" if initial_m is not None else config.seed,
+            "initial_sha256": hashlib.sha256((output/"initial.npy").read_bytes()).hexdigest(),
+        }
+        if initial_m is not None:
+            summary.pop("preset", None)
+            summary["validation_scope"] = "Provided initial state; independent branch and convergence checks required."
         relaxed = film.relax(initial, maxiter=config.maxiter, tolerance_T=max(config.torque_tolerance_T, 1e-6))
         if relaxed.torque_T > config.torque_tolerance_T:
             relaxed = refine_equilibrium(film, relaxed.m, tolerance_T=config.torque_tolerance_T)
@@ -184,7 +231,7 @@ def run_job(config: JobConfig, output, progress=None):
     except Exception as error:
         # A partially computed response must not survive a failed check/export.
         for name in ARTIFACTS:
-            if name not in ("configuration.json", "summary.json", "equilibrium.npy", "equilibrium.ovf"):
+            if name not in ("configuration.json", "summary.json", "initial.npy", "equilibrium.npy", "equilibrium.ovf"):
                 (output/name).unlink(missing_ok=True)
         summary.update(status="failed", error=str(error), wall_s=time.perf_counter()-start)
         write_json(output/"summary.json", summary)

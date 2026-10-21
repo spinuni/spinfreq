@@ -1,6 +1,6 @@
 # API reference
 
-The CPU Python library, CLI and local HTTP workbench share the same `JobConfig` and `run_job` workflow. Version **0.1.0rc2** is a pre-release: record the exact revision and `schema_version`, and review changes before upgrading. Advanced Python APIs can change before 1.0.
+The CPU Python library, CLI and local HTTP workbench share the same `JobConfig` and `run_job` workflow. Local parameter studies add `StudyConfig` and `run_study`. Version **0.1.0rc2** is a pre-release: record the exact revision and `schema_version`, and review changes before upgrading. Advanced Python APIs can change before 1.0.
 
 ## Reproducible Python jobs
 
@@ -49,6 +49,12 @@ delta_m = prepared.response(f, drive)
 power_W = film.absorbed_power(f, delta_m, drive)
 ```
 
+## Local research API
+
+`run_job(config, output, progress=None, *, initial_m=None)` accepts a real unit-vector starting texture with shape `(ny, nx, 3)`. `load_initial_state(path, config)` reads NPY or mesh-matched OVF2. The supplied texture overrides the seed, then undergoes normal relaxation and spectral checks. All jobs save `initial.npy` with a hash in their summary.
+
+`StudyConfig(base, axes, continuation=False)` expands numeric dotted parameter paths into validated cases. `run_study(config, output, *, resume=False)` returns a case/attempt ledger and writes aggregate CSVs and plots. Independent studies use Cartesian products; continuation supports exactly one field/material axis, reuses the preceding equilibrium and stops on failure. Resume checks configuration, numerical implementation and completed artifact hashes. It preserves failed attempts and retries in new directories. See the [research guide](https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md).
+
 ## CLI
 
 ```bash
@@ -57,6 +63,7 @@ spinfreq --preset periodic-fmr --write-config film.json
 spinfreq --config film.json --output results/film
 spinfreq-web --help
 spinfreq-web --mode landing --port 8000
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
 ```
 
 `--preset` and `--config` select the shared reproducible runner. Legacy geometry flags remain available for exploratory periodic-film runs; their overwrite behavior differs. Prefer the shared configuration workflow for recorded studies.

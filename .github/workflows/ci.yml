@@ -25,6 +25,29 @@ jobs:
       - run: python -m pip install -e '.[test]'
       - run: python -m pytest -q
 
+  research-workflows:
+    runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - run: spinfreq-study --config examples/studies/fmr-field-sweep.json --dry-run
+      - run: python benchmarks/research_studies.py --check --output results/research
+      - run: python benchmarks/research_continuation.py --check --output results/research/skyrmion
+      - name: Reuse verified study through the installed CLI
+        run: spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/research/fmr-field-sweep --resume
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: research-workflow-comparison
+          path: results/research/
+
   fmr-reference:
     runs-on: ubuntu-latest
     env:

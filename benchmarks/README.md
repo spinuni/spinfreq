@@ -16,6 +16,7 @@ are retained to keep report commands and cross-script imports working.
 | Prepared dense response reuse | `response_reuse.py` | [Accuracy and measured CPU reuse](../validation/response_reuse/README.md) |
 | Liu single-skyrmion/array research | `liu2024.py`, `liu2024_fig2.py`, `liu2024_dynamics.py`, `liu2024_conditions.py` | [Liu study](../validation/liu2024/README.md) |
 | Temporal solver interchange | `export_mumax.py`, `analyze_mumax.py` | [Usage](../docs/guides/USAGE.md) |
+| Local research studies | `research_studies.py`, `research_continuation.py` | [Analytical susceptibility and OOMMF continuation endpoints](../validation/research_workflows/README.md) |
 
 Application release checks live separately in `scripts/validate_presets.py` and
 `scripts/browser_smoke.py`; they do not replace independent physics validation.

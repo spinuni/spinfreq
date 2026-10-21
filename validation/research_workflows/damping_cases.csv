@@ -1,0 +1,4 @@
+case,material.alpha,status,attempts,lowest_frequency_Hz,torque_T,max_delta_m,energy_J,topological_charge,mean_mx,mean_my,mean_mz,error
+0,0.01,succeeded,1,59680744820.16594,0.0,3.290337475485305e-05,-1.0346138340263664e-20,0.0,0.0,0.0,1.0,
+1,0.02,succeeded,1,59662847755.545746,0.0,1.658170384856298e-05,-1.0346138340263664e-20,0.0,0.0,0.0,1.0,
+2,0.04,succeeded,1,59591366707.915306,0.0,8.308510382554845e-06,-1.0346138340263664e-20,0.0,0.0,0.0,1.0,

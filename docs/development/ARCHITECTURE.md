@@ -7,6 +7,7 @@
 | `spinfreq/config.py` | Strict versioned SI configuration, presets and web computation bounds |
 | `spinfreq/jobs.py` | Shared reproducible job, diagnostics, plots and exports |
 | `spinfreq/cli.py` | CLI adapter; no independent physics implementation |
+| `spinfreq/studies.py` | Sequential parameter experiments, magnetic-state history, verified resume and aggregate outputs |
 | `spinfreq/web/`, `worker.py` | Browser/API, queue supervisor and bounded platform subprocess |
 | `spinfreq/runtime/` | Linux rlimits/process groups and experimental Windows Job Objects |
 | `examples/` | Checked-in runnable configurations |

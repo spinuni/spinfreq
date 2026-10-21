@@ -22,6 +22,7 @@ docs = ["Markdown==3.11.2"]
 spinfreq = "spinfreq.cli:main"
 spinfreq-web = "spinfreq.web.app:main"
 spinfreq-verify-evidence = "spinfreq.qualification:main"
+spinfreq-study = "spinfreq.studies:main"
 
 [project.urls]
 Repository = "https://github.com/spinuni/spinfreq"

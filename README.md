@@ -3,13 +3,15 @@
 # SpinFreq
 
 Frequency-domain micromagnetics for thin films: magnetic equilibria, linear
-resonances and weak-field response. A Python research package with a local web
-interface. Current candidate: **0.1.0rc2**, MIT licensed.
+resonances and weak-field response. A CPU Python research package with file-based
+experiments, command-line studies and an optional local web interface.
+Current candidate: **0.1.0rc2**, MIT licensed.
 
 ## 1. Start here
 
 | Goal | Read next |
 | --- | --- |
+| Run local parameter studies or reuse magnetic textures | [Research workflows](docs/guides/RESEARCH.md) |
 | Browse the complete handbook | Run `spinfreq-web`: Manual · Theory · API · Downloads · Validation |
 | Install and launch on Windows, Linux or macOS | [Quick start](docs/getting-started/README.md) |
 | Use the browser interface | [Web guide](docs/guides/WEB.md) |
@@ -28,6 +30,20 @@ validate and download SI JSON. Windows also offers experimental native computati
 using Job Objects; native CI qualification remains pending. macOS workers are
 not implemented. Use `--mode landing` to preview on any platform.
 
+For local research, no web server is needed:
+
+```bash
+python -m pip install -e .
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
+# Reuse verified completed cases after an interruption:
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep --resume
+```
+
+Studies export parameter tables, complex mode/response data and PNG/PDF spectra.
+Optional equilibrium continuation follows a specified parameter path; every job
+saves its actual initial texture. See the [research guide](docs/guides/RESEARCH.md)
+for restart files, failure handling and convergence requirements.
+
 ## 2. Understand the science
 
 - [Physics and solver reference](docs/reference/PHYSICS.md): models, equations,
@@ -42,6 +58,11 @@ linear and dense, limited to small problems. Mesh convergence is required;
 nonlinear combs and thickness-dependent modes are not validated by this workflow.
 
 ## 3. Develop and release
+
+- [Research priorities](docs/development/RESEARCH_ROADMAP.md): spatial spectroscopy,
+  patterned devices, large systems and current-driven physics.
+- [GitHub About metadata](docs/development/REPOSITORY_METADATA.md): description,
+  website and topics, with an authenticated update command.
 
 - [Architecture](docs/development/ARCHITECTURE.md) and [contributing](CONTRIBUTING.md).
 - [Release milestones](docs/releases/RELEASE_PLAN.md) and [changelog](CHANGELOG.md).

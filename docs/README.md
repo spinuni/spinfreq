@@ -17,6 +17,7 @@ separate from installation and daily use.
 
 - [Web interface](guides/WEB.md): landing, configuration preview and Linux workers.
 - [Python and CLI guide](guides/USAGE.md): units, APIs, outputs and research workflows.
+- [Local research studies](guides/RESEARCH.md): parameter grids, magnetic-state continuation, restart textures and verified resume.
 
 ## Level 3 · Understand and validate
 
@@ -29,6 +30,7 @@ separate from installation and daily use.
 ## Level 4 · Develop and publish
 
 - [Architecture](development/ARCHITECTURE.md), [Windows backend](development/WINDOWS.md) and [contributing](../CONTRIBUTING.md).
+- [Research roadmap](development/RESEARCH_ROADMAP.md): spectroscopy, patterned devices, scalable solvers and current-driven physics.
 - [Release plan](releases/RELEASE_PLAN.md), [platform evidence](releases/PLATFORM_EVIDENCE.md) and [changelog](../CHANGELOG.md).
 - [Branding](branding/README.md): provisional SpinFreq logo.
 

@@ -10,13 +10,14 @@
 <li><a href="#reproducible-python-jobs">Reproducible Python jobs</a></li>
 <li><a href="#core-numerical-objects">Core numerical objects</a></li>
 <li><a href="#minimal-low-level-example">Minimal low-level example</a></li>
+<li><a href="#local-research-api">Local research API</a></li>
 <li><a href="#cli">CLI</a></li>
 <li><a href="#local-http-api">Local HTTP API</a></li>
 </ul>
 </div>
 </aside>
 <article id="content"><h1 id="api-reference">API reference</h1>
-<p>The CPU Python library, CLI and local HTTP workbench share the same <code>JobConfig</code> and <code>run_job</code> workflow. Version <strong>0.1.0rc2</strong> is a pre-release: record the exact revision and <code>schema_version</code>, and review changes before upgrading. Advanced Python APIs can change before 1.0.</p>
+<p>The CPU Python library, CLI and local HTTP workbench share the same <code>JobConfig</code> and <code>run_job</code> workflow. Local parameter studies add <code>StudyConfig</code> and <code>run_study</code>. Version <strong>0.1.0rc2</strong> is a pre-release: record the exact revision and <code>schema_version</code>, and review changes before upgrading. Advanced Python APIs can change before 1.0.</p>
 <h2 id="reproducible-python-jobs">Reproducible Python jobs</h2>
 <pre><code class="language-python">from spinfreq import JobConfig, run_job
 
@@ -95,12 +96,16 @@ drive = (1e-6, 0, 0)
 delta_m = prepared.response(f, drive)
 power_W = film.absorbed_power(f, delta_m, drive)
 </code></pre>
+<h2 id="local-research-api">Local research API</h2>
+<p><code>run_job(config, output, progress=None, *, initial_m=None)</code> accepts a real unit-vector starting texture with shape <code>(ny, nx, 3)</code>. <code>load_initial_state(path, config)</code> reads NPY or mesh-matched OVF2. The supplied texture overrides the seed, then undergoes normal relaxation and spectral checks. All jobs save <code>initial.npy</code> with a hash in their summary.</p>
+<p><code>StudyConfig(base, axes, continuation=False)</code> expands numeric dotted parameter paths into validated cases. <code>run_study(config, output, *, resume=False)</code> returns a case/attempt ledger and writes aggregate CSVs and plots. Independent studies use Cartesian products; continuation supports exactly one field/material axis, reuses the preceding equilibrium and stops on failure. Resume checks configuration, numerical implementation and completed artifact hashes. It preserves failed attempts and retries in new directories. See the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md">research guide</a>.</p>
 <h2 id="cli">CLI</h2>
 <pre><code class="language-bash">spinfreq --help
 spinfreq --preset periodic-fmr --write-config film.json
 spinfreq --config film.json --output results/film
 spinfreq-web --help
 spinfreq-web --mode landing --port 8000
+spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
 </code></pre>
 <p><code>--preset</code> and <code>--config</code> select the shared reproducible runner. Legacy geometry flags remain available for exploratory periodic-film runs; their overwrite behavior differs. Prefer the shared configuration workflow for recorded studies.</p>
 <h2 id="local-http-api">Local HTTP API</h2>
