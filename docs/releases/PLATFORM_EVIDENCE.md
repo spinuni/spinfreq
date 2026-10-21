@@ -78,6 +78,10 @@ worker runtime, session binding, numerical diagnostics, configuration and the
 nested result manifest. Missing or skipped native tests reject the Windows gate.
 A valid Linux bundle reports its Linux checks passed and **cannot** close Windows.
 
+Source/procedure fingerprints normalize CRLF to LF for text files, allowing
+review of the same Git revision across Windows and Linux. Wheel/result artifact
+checksums and binary assets remain byte-exact.
+
 Hashes check consistency and corruption; they are not signatures or proof against
 fabricated reports. Review the trusted runner, CI run/revision and logs before
 accepting evidence. No tool automatically edits platform support defaults.

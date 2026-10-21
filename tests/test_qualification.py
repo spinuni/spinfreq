@@ -192,3 +192,23 @@ def test_wheel_version_must_match_the_report(bundle):
         for name, data in contents.items(): archive.writestr(name, data)
     seal()
     with pytest.raises(EvidenceError, match='Wheel name/version'): verify()
+
+
+def test_crlf_package_checkout_can_verify_the_same_source(bundle):
+    _, source, _, _, _, _, verify, _ = bundle
+    (source/'spinfreq/core.py').write_bytes(b'# synthetic fixture\r\n')
+    assert verify()['checks_passed']
+
+
+def test_crlf_procedure_checkout_can_verify_the_same_revision(bundle):
+    _, source, _, _, _, _, verify, _ = bundle
+    for name in ('tests/test_runtime.py', 'scripts/qualify_platform.py', 'pyproject.toml'):
+        (source/name).write_bytes(b'# fixture\r\n')
+    assert verify()['checks_passed']
+
+
+def test_binary_fingerprints_remain_byte_exact(tmp_path):
+    path = tmp_path/'logo.png'; path.write_bytes(b'A\r\n')
+    before = package_fingerprint(tmp_path)
+    path.write_bytes(b'A\n')
+    assert package_fingerprint(tmp_path) != before
