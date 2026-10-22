@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SpinFreq Start here: thin-film frequency-domain micromagnetics.">
+<title>Start here · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
+<body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="start.html" aria-current="page">Start here</a><a href="manual.html">Manual</a><a href="theory.html">Theory</a><a href="api.html">API</a><a href="downloads.html">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
+<div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
+<ul>
+<li><a href="#1-get-the-source">1. Get the source</a></li>
+<li><a href="#2-install-on-windows">2. Install on Windows</a></li>
+<li><a href="#2-install-on-linux-or-macos">2. Install on Linux or macOS</a></li>
+<li><a href="#your-first-result">Your first result</a></li>
+<li><a href="#3-try-another-example">3. Try another example</a></li>
+<li><a href="#optional-browser-interface">Optional browser interface</a></li>
+<li><a href="#if-something-goes-wrong">If something goes wrong</a></li>
+</ul>
+</div>
+</aside>
+<article id="content"><h1 id="your-first-spinfreq-simulation">Your first SpinFreq simulation</h1>
+<p>Start with one small CPU calculation, learn what its plots mean, then move to
+films, skyrmions and research studies. No GPU, MuMax3 or Linux subsystem is
+required for this local demo. The current source candidate uses <strong>64-bit
+Python 3.11, 3.12 or 3.13</strong>; it is not yet a standalone application installer.</p>
+<h2 id="1-get-the-source">1. Get the source</h2>
+<p><a href="https://github.com/spinuni/spinfreq/archive/refs/heads/main.zip">Download the source ZIP</a>
+and extract it into a writable folder such as Documents. Git users can run:</p>
+<pre><code class="language-bash">git clone https://github.com/spinuni/spinfreq.git
+cd spinfreq
+</code></pre>
+<p>The ZIP/main branch is a moving development snapshot. Keep the source revision
+with research results. Installation downloads Python dependencies from the
+package index; subsequent demo calculations run locally.</p>
+<h2 id="2-install-on-windows">2. Install on Windows</h2>
+<p>Install 64-bit Python 3.11–3.13 from <a href="https://www.python.org/downloads/windows/">python.org</a>.
+Open the extracted repository's <code>windows</code> folder, double-click <strong>Install.cmd</strong>
+and wait for the CPU self-check to pass. Then double-click <strong>Run-Demo.cmd</strong>.
+The helper scripts create and use a <code>.venv</code> inside this checkout and leave
+previous results intact. They do not change PowerShell execution policy.</p>
+<p>If you prefer a PowerShell terminal, open it in the repository root:</p>
+<pre><code class="language-powershell">py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e &quot;.[web]&quot;
+.\.venv\Scripts\spinfreq-doctor.exe --check
+.\.venv\Scripts\spinfreq-demo.exe --open
+</code></pre>
+<p>These commands run a native Windows <strong>CPU</strong> simulation. They use the numerical
+Python package directly. The optional protected browser queue has separate
+platform controls, described below. See <a href="https://github.com/spinuni/spinfreq/blob/main/windows/README.md">Windows helpers</a>
+for troubleshooting and current qualification status.</p>
+<h2 id="2-install-on-linux-or-macos">2. Install on Linux or macOS</h2>
+<p>Open a terminal in the repository root:</p>
+<pre><code class="language-bash">python3 -m venv .venv
+.venv/bin/python -m pip install -e .
+.venv/bin/spinfreq-doctor --check
+.venv/bin/spinfreq-demo --open
+</code></pre>
+<p>Omit <code>--open</code> on a remote/headless machine and open the saved image manually.
+The self-check exercises the installed CPU eigensolver against analytical FMR.
+Native Windows/macOS CI checks are configured; this Linux workspace does not
+establish that they have passed on those hosts.</p>
+<h2 id="your-first-result">Your first result</h2>
+<p>The demo finds the resting magnetization, calculates natural modes and sweeps
+an oscillating field. It prints progress and a results path such as
+<code>results/first-simulation</code>. Later demos use <code>first-simulation-2</code>, and so on.</p>
+<table>
+<thead>
+<tr>
+<th>Open this file</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spectrum.png</code></td>
+<td>Absorbed power versus frequency; peaks indicate strong response to the chosen drive</td>
+</tr>
+<tr>
+<td><code>equilibrium.png</code></td>
+<td>Magnetization at rest; this one-cell example has no spatial texture</td>
+</tr>
+<tr>
+<td><code>mode.png</code></td>
+<td>A mode's amplitude pattern; a single cell is deliberately simple</td>
+</tr>
+<tr>
+<td><code>summary.json</code></td>
+<td>Numerical status, residuals, units and versions</td>
+</tr>
+<tr>
+<td><code>configuration.json</code> / <code>results.zip</code></td>
+<td>Reproducible input and complete portable result bundle</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>mode</strong> is a spatial pattern of magnetic motion. A <strong>resonance</strong> is a strong
+response to a particular excitation. The excitation and detector determine
+which modes are visible. <strong>FMR</strong> means ferromagnetic resonance. A <strong>skyrmion</strong>
+is a nonuniform magnetic texture; its existence and stability must be checked.</p>
+<p>The demo is a single-cell rectangular prism, useful for learning and analytical
+checks. It does not represent a spatially resolved device. Frequency is plotted
+in GHz; JSON uses SI units such as metres, hertz and tesla.</p>
+<h2 id="3-try-another-example">3. Try another example</h2>
+<p>In Windows PowerShell, from the repository root:</p>
+<pre><code class="language-powershell">.\.venv\Scripts\spinfreq.exe --preset periodic-fmr --output results/my-film
+.\.venv\Scripts\spinfreq.exe --preset confined-skyrmion --output results/my-skyrmion
+</code></pre>
+<p>On Linux/macOS:</p>
+<pre><code class="language-bash">.venv/bin/spinfreq --preset periodic-fmr --output results/my-film
+.venv/bin/spinfreq --preset confined-skyrmion --output results/my-skyrmion
+</code></pre>
+<p>Use a fresh output directory. For a skyrmion, inspect the equilibrium and
+numerical status before interpreting peaks; the preset is a coarse 2 nm matched
+reference problem and needs mesh refinement for continuum accuracy.</p>
+<p>Choose a path: <a href="https://github.com/spinuni/spinfreq/blob/main/examples/README.md">example gallery</a>,
+<a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md">local source/detector</a>,
+<a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md">parameter studies</a>, or
+<a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/MODE_TRACKING.md">mode matching</a>. The <a href="manual.html">manual</a>
+and <a href="theory.html">theory</a> explain the full workflow and assumptions.</p>
+<h2 id="optional-browser-interface">Optional browser interface</h2>
+<p>Install <code>.[web]</code> from the checkout, then run <code>spinfreq-web</code> and open
+<strong>http://127.0.0.1:8000</strong>. On Windows, <strong>Open-Web.cmd</strong> starts it after installation.
+Your browser displays the interface; calculations use the machine running Python.</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Local CPU commands</th>
+<th>Protected browser queue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux / WSL2</td>
+<td>Available</td>
+<td>Enabled automatically</td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>Native Python calculation path; verify with doctor/demo</td>
+<td>Preview by default; experimental <code>--mode compute</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>Python calculation path; verify with doctor/demo</td>
+<td>Preview only</td>
+</tr>
+</tbody>
+</table>
+<p>A Windows preview does not mean all Windows computation is disabled. The demo
+and command-line simulations are separate from the protected browser worker.
+Native Windows worker qualification remains pending; it is not enabled by
+default. Continue to the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/WEB.md">web guide</a> when you need that interface.</p>
+<h2 id="if-something-goes-wrong">If something goes wrong</h2>
+<ul>
+<li><strong>Python command is missing:</strong> install the supported 64-bit Python and enable
+  its launcher/PATH option. On Windows, try <code>py -3 --version</code>.</li>
+<li><strong>A dependency fails to install:</strong> check Python version and internet access;
+  keep the terminal error. Use a clean <code>.venv</code> with a supported Python.</li>
+<li><strong>The image does not open:</strong> find <code>spectrum.png</code> in the printed results folder.</li>
+<li><strong>An output directory is occupied:</strong> choose a new <code>--output</code> path. The demo
+  allocates a new folder automatically.</li>
+<li><strong>A numerical calculation stops:</strong> inspect <code>summary.json</code>; report the full
+  configuration and <code>spinfreq-doctor --check</code> output with the error.</li>
+</ul>
+<p>For research, retain data and versions, perform mesh/solver convergence and
+compare an independent reference. A passing demo is a first installation check.</p></article></div>
+<footer>SpinFreq · MIT licensed · <a href="https://github.com/spinuni/spinfreq">Source and issues</a> · Documentation ships with the application.</footer>
+</main></body></html>

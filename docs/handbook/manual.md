@@ -1,5 +1,7 @@
 # User manual
 
+New to SpinFreq? Begin with [Start here](start.html) for platform-specific installation, a guided CPU demo and help reading your first plots. This manual is the next step for configuration and research workflows.
+
 SpinFreq computes thin-film equilibria, linear modes and weak-field spectra on a CPU. Start with a small FMR problem, then change geometry and material. A skyrmion seed alone does not establish a stable skyrmion.
 
 ## Install and launch

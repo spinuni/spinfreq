@@ -3,7 +3,7 @@
 <meta name="description" content="SpinFreq Downloads: thin-film frequency-domain micromagnetics.">
 <title>Downloads · SpinFreq</title><link rel="stylesheet" href="static/style.css"></head>
 <body><a class="skip-link" href="#content">Skip to content</a><main class="handbook">
-<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="manual.html">Manual</a><a href="theory.html">Theory</a><a href="api.html">API</a><a href="downloads.html" aria-current="page">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
+<nav class="topbar" aria-label="Main"><a class="brand" href="index.html">SpinFreq</a><div><a href="start.html">Start here</a><a href="manual.html">Manual</a><a href="theory.html">Theory</a><a href="api.html">API</a><a href="downloads.html" aria-current="page">Downloads</a><a href="validation.html">Validation</a><a href="about.html">About</a><a href="workbench">Simulator ↗</a></div></nav>
 <p class="eyebrow">HANDBOOK · 0.1.0rc2 · RESEARCH CANDIDATE</p>
 <div class="book-layout"><aside class="book-toc" aria-label="On this page"><strong>On this page</strong><div class="toc">
 <ul>
@@ -16,6 +16,7 @@
 </aside>
 <article id="content"><h1 id="downloads-and-installation">Downloads and installation</h1>
 <p>Current source candidate: <strong>0.1.0rc2</strong>, Python 3.11–3.13, MIT license. A stable 0.1.0 release, PyPI package and native application installers have <strong>not</strong> been published. Source installation is the available distribution route. No GPU or MuMax3 installation is required for the CPU solver.</p>
+<p><strong>First time using SpinFreq? Follow <a href="start.html">Start here</a>.</strong> Windows users can use the source ZIP's <code>windows/Install.cmd</code> and <code>Run-Demo.cmd</code> helpers. They create a local Python environment and run the CPU example; no WSL2 is needed. These are source-install helpers, rather than a standalone executable bundle.</p>
 <h2 id="get-the-source">Get the source</h2>
 <p><a href="https://github.com/spinuni/spinfreq/archive/refs/heads/main.zip">Download the main-branch source ZIP</a> or clone with Git:</p>
 <pre><code class="language-bash">git clone https://github.com/spinuni/spinfreq.git
@@ -33,6 +34,7 @@ git rev-parse HEAD
 .\.venv\Scripts\spinfreq-web.exe
 </code></pre>
 <p>For only the numerical Python package and CLI, omit <code>[web]</code>. Install <code>.[test]</code> for physics tests, or <code>.[test,web,web-test]</code> for HTTP/browser checks. The <a href="manual.html">manual</a> walks through a first simulation.</p>
+<p>After installation, <code>spinfreq-doctor --check</code> checks the numerical installation and <code>spinfreq-demo</code> runs a guided CPU example. These local commands work independently of the protected browser queue; Windows browser preview is a separate default mode.</p>
 <table>
 <thead>
 <tr>

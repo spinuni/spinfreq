@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — guided first run and mode matching
+
+- `spinfreq-doctor --check` and `spinfreq-demo` provide an installation self-check,
+  a guided CPU example, safe new result folders and optional image opening.
+- Windows source-install/demo/browser helper scripts and native Windows/macOS/Linux
+  onboarding CI. Native worker qualification remains separate and pending.
+- A single canonical Start-here tutorial is rendered for the website; README,
+  landing and downloads guide new users from installation to their first spectrum.
+- Phase/scale-invariant spatial MAC matching and `spinfreq-track` analysis with
+  global assignments, near-frequency/alternative-match flags, persistent lineage
+  uncertainty, verified inputs and chain breaks at failed cases.
+
 ## Unreleased — spatial spectroscopy
 
 - Uniform, rectangular, Gaussian and complex plane-wave excitation profiles in

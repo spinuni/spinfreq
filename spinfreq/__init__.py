@@ -28,3 +28,7 @@ __all__ += ["StudyConfig", "run_study"]
 from .profiles import Probe, SpatialProfile
 
 __all__ += ["Probe", "SpatialProfile"]
+
+from .tracking import ModeMatch, match_modes, track_study
+
+__all__ += ["ModeMatch", "match_modes", "track_study"]

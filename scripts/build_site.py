@@ -10,21 +10,39 @@ from pathlib import Path
 import shutil
 import sys
 import tomllib
+import re
+from urllib.parse import urlsplit
 
 import markdown
 
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = ROOT / "spinfreq/web/static"
 PAGES = {
+    "start": "Start here",
     "manual": "Manual", "theory": "Theory", "api": "API",
     "downloads": "Downloads", "validation": "Validation", "about": "About",
 }
+
+
+def source_for(name):
+    return ROOT/"docs/getting-started/README.md" if name == "start" else ROOT/"docs/handbook"/f"{name}.md"
 
 
 def render(name, source):
     md = markdown.Markdown(extensions=["toc", "tables", "fenced_code"],
                            extension_configs={"toc": {"toc_depth": "2-3"}})
     content = md.convert(source)
+    def documentation_link(match):
+        target = urlsplit(match.group(1))
+        if target.scheme or target.netloc or not target.path.endswith(".md"):
+            return match.group(0)
+        path = (source_for(name).parent/target.path).resolve()
+        if not path.is_relative_to(ROOT):
+            raise ValueError("Documentation link escapes the repository")
+        pages = {source_for(key).resolve(): key+".html" for key in PAGES}
+        href = pages.get(path, "https://github.com/spinuni/spinfreq/blob/main/"+path.relative_to(ROOT).as_posix())
+        return 'href="'+href+('#'+target.fragment if target.fragment else '')+'"'
+    content = re.sub(r'href="([^"]+)"', documentation_link, content)
     links = "".join(f'<a href="{key}.html"' +
                     (' aria-current="page"' if key == name else '') +
                     f'>{label}</a>' for key, label in PAGES.items())
@@ -46,7 +64,7 @@ def render(name, source):
 def build(check=False, export=None):
     stale = []
     for name in PAGES:
-        source = ROOT / "docs/handbook" / f"{name}.md"
+        source = source_for(name)
         page = STATIC / f"{name}.html"
         rendered = render(name, source.read_text(encoding="utf-8"))
         if check:
@@ -74,9 +92,10 @@ def build(check=False, export=None):
             page = page.replace('href="/workbench"', 'href="http://127.0.0.1:8000/workbench"')
             page = page.replace('href="workbench"', 'href="http://127.0.0.1:8000/workbench"')
             page = page.replace('<script defer src="static/landing.js"></script>', '')
+            page = page.replace('Explore the workbench</a>', 'Open local workbench</a>')
             page = page.replace('Checking local execution capabilities…', 'Static documentation · launch spinfreq-web locally to compute.')
             page = page.replace('The workbench reports whether this server supports simulation workers.',
-                                'This static website has no computation backend. Install SpinFreq and run spinfreq-web, then open the simulator link.')
+                                'This is the documentation website. Install SpinFreq on your computer to run simulations, then use the local workbench link.')
             (destination / ("index.html" if name == "landing" else f"{name}.html")).write_text(page, encoding="utf-8")
         # Import only when exporting; regular rendering does not need the package.
         sys.path.insert(0, str(ROOT))

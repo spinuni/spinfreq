@@ -70,8 +70,9 @@ Order is physical: up and down scans can follow different local states. Values
 may repeat, for example `[0.0, 0.025, 0.05, 0.025, 0.0]`. This supports a path
 through parameter space, but does not prove ground states or switching fields.
 Spectral continuation rejects unstable/sign-uncertain states, so it is not a
-general hysteresis-loop or switching solver. The current implementation does
-not identify magnetic phases or track mode branches across crossings.
+general hysteresis-loop or switching solver. The study runner exports frequency ranks; optional [mode tracking](MODE_TRACKING.md)
+compares spatial patterns with explicit uncertainty flags. It does not identify
+magnetic phases.
 
 ## Inspect and reproduce results
 

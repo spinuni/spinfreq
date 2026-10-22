@@ -2,90 +2,79 @@
 
 # SpinFreq
 
-Frequency-domain micromagnetics for thin films: magnetic equilibria, linear
-resonances and weak-field response. A CPU Python research package with file-based
-experiments, command-line studies and an optional local web interface.
-Current candidate: **0.1.0rc2**, MIT licensed.
+**Explore how magnetic films and skyrmions resonate.** SpinFreq is a CPU Python
+simulator for thin-film equilibria, natural modes and weak-field frequency response.
+Use experiment files and local commands, or the optional browser interface.
+Current research candidate: **0.1.0rc2**, MIT licensed.
 
-## 1. Start here
+**New here? [Start with your first spectrum](docs/getting-started/README.md).**
+You need 64-bit Python 3.11–3.13. No GPU, MuMax3 or Linux subsystem is needed for
+the local CPU demo. Download the [source ZIP](https://github.com/spinuni/spinfreq/archive/refs/heads/main.zip)
+and extract it, or clone this repository.
 
-| Goal | Read next |
+## Your first result
+
+On **Windows**, open the extracted `windows` folder and double-click
+**Install.cmd**, then **Run-Demo.cmd**. The helper creates a local `.venv`,
+installs dependencies and opens the result after calculation. See the
+[Windows instructions](windows/README.md) for the equivalent terminal commands.
+
+On **Linux or macOS**, open a terminal in the extracted repository:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e .
+.venv/bin/spinfreq-doctor --check
+.venv/bin/spinfreq-demo --open
+```
+
+The demo prints its results folder. Open `spectrum.png` to see absorption versus
+frequency, and keep `configuration.json` and `results.zip` to reproduce the run.
+Repeated demos create new folders and preserve previous results. It is a fast
+single-cell example; spatial films and skyrmions are the next steps.
+
+## Choose your next experiment
+
+| I want to… | Start here |
 | --- | --- |
-| Run local parameter studies or reuse magnetic textures | [Research workflows](docs/guides/RESEARCH.md) |
-| Define a local source and detector or probe a wavevector | [Spatial spectroscopy](docs/guides/SPECTROSCOPY.md) |
-| Browse the complete handbook | Run `spinfreq-web`: Manual · Theory · API · Downloads · Validation |
-| Install and launch on Windows, Linux or macOS | [Quick start](docs/getting-started/README.md) |
-| Use the browser interface | [Web guide](docs/guides/WEB.md) |
-| Run a reproducible example | [Example configurations](examples/README.md) |
-| Use the Python API and advanced workflows | [User guide](docs/guides/USAGE.md) |
+| Understand the plots, units and basic commands | [First-result tutorial](docs/getting-started/README.md) |
+| Try a film or a confined skyrmion | [Example gallery](examples/README.md) |
+| Place a source and detector or select a wavevector | [Spatial spectroscopy](docs/guides/SPECTROSCOPY.md) |
+| Sweep a field/material or reuse a saved texture | [Research workflows](docs/guides/RESEARCH.md) |
+| Follow mode shapes across a sweep | [Mode matching and ambiguity](docs/guides/MODE_TRACKING.md) |
+| Script a custom calculation | [Python and CLI manual](docs/guides/USAGE.md) |
 
-```bash
-python -m pip install -e '.[web]'
-spinfreq-web
-```
+Optional browser interface: install `.[web]`, run `spinfreq-web`, then open
+**http://127.0.0.1:8000**. Windows defaults to configuration preview; local CPU
+commands still run. Protected native Windows browser computation is an explicit
+experimental option with qualification pending. Linux/WSL2 enables the queue
+automatically; macOS offers browser preview. See the [web guide](docs/guides/WEB.md).
 
-Open **http://127.0.0.1:8000**. On Linux/WSL2, the workbench can run bounded
-simulations using that machine's CPU and RAM. On native Windows/macOS, it opens
-as a landing page and configuration preview: explore presets, edit parameters,
-validate and download SI JSON. Windows also offers experimental native computation with `--mode compute`,
-using Job Objects; native CI qualification remains pending. macOS workers are
-not implemented. Use `--mode landing` to preview on any platform.
+## Understand and trust the calculation
 
-For local research, no web server is needed:
+- [Theory and numerical methods](docs/reference/PHYSICS.md): equations, conventions and model scope.
+- [Validation evidence](validation/README.md): analytical tests and independent temporal-solver comparisons, with data and plots.
+- [Research priorities](docs/development/RESEARCH_ROADMAP.md): what is implemented and what remains to develop.
 
-```bash
-python -m pip install -e .
-spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep
-# Reuse verified completed cases after an interruption:
-spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/field-sweep --resume
-```
+All current models use one magnetization vector through thickness. Frequency
+response is linear and dense problems have resource limits. Refine the mesh and
+check numerical diagnostics before quoting research results. Nonlinear combs,
+current-induced torques and general thickness-dependent modes remain outside
+this workflow's validated scope.
 
-Studies export parameter tables, complex mode/response data and PNG/PDF spectra.
-Optional equilibrium continuation follows a specified parameter path; every job
-saves its actual initial texture. See the [research guide](docs/guides/RESEARCH.md)
-for restart files, failure handling and convergence requirements.
-
-## 2. Understand the science
-
-- [Physics and solver reference](docs/reference/PHYSICS.md): models, equations,
-  units, limitations and research workflows.
-- [Validation evidence](validation/README.md): analytical, FMR, DMI, skyrmion and
-  driven-response comparisons, with native data and plots.
-- [Scientific assessment](docs/science/VALIDATION_AND_RELEASE.md): what the
-  evidence establishes and what remains open.
-
-All models use one magnetization vector through thickness. The web workflow is
-linear and dense, limited to small problems. Mesh convergence is required;
-nonlinear combs and thickness-dependent modes are not validated by this workflow.
-
-## 3. Develop and release
-
-- [Research priorities](docs/development/RESEARCH_ROADMAP.md): spatial spectroscopy,
-  patterned devices, large systems and current-driven physics.
-- [GitHub About metadata](docs/development/REPOSITORY_METADATA.md): description,
-  website and topics, with an authenticated update command.
-
-- [Architecture](docs/development/ARCHITECTURE.md) and [contributing](CONTRIBUTING.md).
-- [Release milestones](docs/releases/RELEASE_PLAN.md) and [changelog](CHANGELOG.md).
-- [Benchmark scripts](benchmarks/README.md), [citation](CITATION.cff) and
-  [data provenance](docs/science/DATA_PROVENANCE.md).
-- [Provisional visual identity](docs/branding/README.md).
+## Find your way around
 
 ```text
-spinfreq/      Numerical library, shared job API, CLI and web
-examples/      Runnable SI input configurations
-docs/         Getting started → guides → science/reference → development/releases
-benchmarks/    Independent scientific comparison scripts
-validation/    Accepted evidence, grouped by validation family
-scripts/       Application and release checks
-tests/         Physics, configuration and lifecycle regressions
+examples/      Experiments to run and adapt
+windows/       Windows source-install and first-run helpers
+docs/          Start here → usage → theory → research/development
+spinfreq/      Numerical library, local commands and optional browser interface
+benchmarks/    Reproduction scripts for scientific comparisons
+validation/    Accepted data, plots and provenance
 ```
 
-`results/`, `build/` and `dist/` contain ignored local runs and build outputs.
-Start from the [documentation map](docs/README.md) for the complete reading order.
-Package publication and public web hosting remain separate release milestones.
-
-The [website and handbook sources](docs/handbook/README.md) can also be exported
-as a self-contained static site with `python scripts/build_site.py --export results/site`
-after installing `.[docs]`. This export documents the simulator; computations
-use the separately running local application.
+The [documentation map](docs/README.md) contains the full reading order.
+For development, see [contributing](CONTRIBUTING.md), [architecture](docs/development/ARCHITECTURE.md),
+[release milestones](docs/releases/RELEASE_PLAN.md), [changelog](CHANGELOG.md)
+and [citation](CITATION.cff). Package publication and hosted deployment are
+separate from installing this source candidate.

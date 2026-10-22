@@ -33,7 +33,7 @@ def main():
             page = browser.new_page(viewport={"width": 390, "height": 844})
             page.on("pageerror", lambda error: errors.append(str(error)))
             page.on("response", lambda response: errors.append(response.url) if response.status >= 400 else None)
-            for name in ("index", "manual", "theory", "api", "downloads", "validation", "about"):
+            for name in ("index", "start", "manual", "theory", "api", "downloads", "validation", "about"):
                 page.goto(base + name + ".html")
                 expect(page.locator("h1")).to_be_visible()
                 assert page.locator("html").evaluate("(el) => el.scrollWidth") <= 390, name
@@ -50,7 +50,7 @@ def main():
         server.shutdown()
         server.server_close()
         thread.join()
-    print("Static website: seven pages, subpath navigation, mobile layout and preset JSON passed.")
+    print("Static website: eight pages, subpath navigation, mobile layout and preset JSON passed.")
 
 
 if __name__ == "__main__":

@@ -51,6 +51,8 @@ power_W = film.absorbed_power(f, delta_m, drive)
 
 ## Local research API
 
+`match_modes(previous, current, min_overlap=..., min_margin=...)` returns a phase/scale-invariant maximum-total-MAC assignment and ambiguity flags. `track_study(study, output, max_modes=12, ...)` verifies a fixed-mesh one-axis study, writes branch tables/plots, and retains uncertainty after ambiguous steps. See [mode matching](https://github.com/spinuni/spinfreq/blob/main/docs/guides/MODE_TRACKING.md). For installation and a guided CPU example, use `spinfreq-doctor --check` and `spinfreq-demo` from [Start here](start.html).
+
 `SpatialProfile(kind="uniform", ...)` defines a sampled source/probe envelope. `Probe(name, profile=SpatialProfile())` defines a named observation. `JobConfig` accepts optional `drive_imag_T`, `drive_profile` and `probes`, with full JSON roundtrip. The default probe is the whole-film mean. Spatial profiles are shared across the three drive-polarization components; probe outputs are dimensionless complex vectors with conjugated L1 normalization. See the [spectroscopy API examples](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md).
 
 `run_job(config, output, progress=None, *, initial_m=None)` accepts a real unit-vector starting texture with shape `(ny, nx, 3)`. `load_initial_state(path, config)` reads NPY or mesh-matched OVF2. The supplied texture overrides the seed, then undergoes normal relaxation and spectral checks. All jobs save `initial.npy` with a hash in their summary.

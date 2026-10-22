@@ -3,6 +3,7 @@ include LICENSE CHANGELOG.md CITATION.cff CONTRIBUTING.md
 include .github/repository.json
 recursive-include examples *.json *.md
 recursive-include scripts *.py
+recursive-include windows *.cmd *.md
 recursive-include docs *.md
 recursive-include benchmarks *.py *.mx3
 recursive-include tests *.py

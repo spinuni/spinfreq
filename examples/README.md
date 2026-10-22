@@ -1,5 +1,13 @@
 # Runnable SI configurations
 
+**New to SpinFreq? Run `spinfreq-demo` first.** It explains the calculation and
+opens a single-cell spectrum. Follow the [first-result tutorial](../docs/getting-started/README.md)
+for platform-specific installation and help interpreting plots.
+
+Then choose a small uniform film, a confined skyrmion, a spatial source/detector,
+or a parameter study below. Commands run from the repository root; use
+`.venv/bin/` or `.\.venv\Scripts\` executable paths if the environment is not active.
+
 | File | Purpose | Scope |
 | --- | --- | --- |
 | `periodic-fmr.json` | Uniform periodic film, weak x drive | Uniform mode checked analytically; no finite edges |
@@ -43,3 +51,13 @@ spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/f
 
 Study files use a separate schema with `base`, `axes` and `continuation`; do not
 pass them to `spinfreq --config`. See the [research guide](../docs/guides/RESEARCH.md).
+
+After a fixed-mesh one-axis scan, compare spatial mode shapes:
+
+```bash
+spinfreq-track --study results/field-sweep --output results/tracking
+```
+
+The
+[mode-matching guide](../docs/guides/MODE_TRACKING.md) explains provisional branch
+IDs, near-degeneracy flags and choosing the number of modes.

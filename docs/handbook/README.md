@@ -2,6 +2,9 @@
 
 Original user-facing documentation, rendered into the installed application:
 
+- **Start here** renders the canonical [first-result tutorial](../getting-started/README.md)
+  directly, so repository and website installation guidance share one source.
+
 1. [User manual](manual.md): installation, first simulation, configuration, outputs and troubleshooting.
 2. [Theory](theory.md): energy, discretization, LLG, tangent-space modes, response and limits.
 3. [API](api.md): shared jobs, numerical Python objects, CLI and HTTP contracts.
@@ -22,8 +25,9 @@ python scripts/build_site.py --export results/site
 python scripts/site_smoke.py results/site  # requires .[web-test] and Chromium
 ```
 
-Commit source Markdown and generated HTML together. Rendering uses a pinned
-Markdown version and reads the package version from `pyproject.toml`. The wheel
+Commit source Markdown and generated HTML together. Rendering uses the pinned
+Markdown version and the package version from `pyproject.toml`. Relative tutorial
+links map to local handbook pages where available and to GitHub documents otherwise. The wheel
 ships generated pages; there is no runtime Markdown or internet dependency.
 CI verifies that pages match their sources and exports a static-site artifact.
 

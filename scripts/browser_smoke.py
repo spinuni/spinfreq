@@ -45,7 +45,7 @@ def main():
         page.screenshot(path=str(args.output/'landing.png'), full_page=True)
         # The installed handbook must render without external scripts and remain
         # usable on a phone before entering the numerical workbench.
-        for name in ('manual', 'theory', 'api', 'downloads', 'validation', 'about'):
+        for name in ('start', 'manual', 'theory', 'api', 'downloads', 'validation', 'about'):
             page.goto(args.url+'/'+name+'.html')
             expect(page.locator('article h1')).to_be_visible()
             page.set_viewport_size({'width':390, 'height':844})

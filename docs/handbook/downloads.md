@@ -2,6 +2,8 @@
 
 Current source candidate: **0.1.0rc2**, Python 3.11–3.13, MIT license. A stable 0.1.0 release, PyPI package and native application installers have **not** been published. Source installation is the available distribution route. No GPU or MuMax3 installation is required for the CPU solver.
 
+**First time using SpinFreq? Follow [Start here](start.html).** Windows users can use the source ZIP's `windows/Install.cmd` and `Run-Demo.cmd` helpers. They create a local Python environment and run the CPU example; no WSL2 is needed. These are source-install helpers, rather than a standalone executable bundle.
+
 ## Get the source
 
 [Download the main-branch source ZIP](https://github.com/spinuni/spinfreq/archive/refs/heads/main.zip) or clone with Git:
@@ -31,6 +33,8 @@ On Windows PowerShell use:
 ```
 
 For only the numerical Python package and CLI, omit `[web]`. Install `.[test]` for physics tests, or `.[test,web,web-test]` for HTTP/browser checks. The [manual](manual.html) walks through a first simulation.
+
+After installation, `spinfreq-doctor --check` checks the numerical installation and `spinfreq-demo` runs a guided CPU example. These local commands work independently of the protected browser queue; Windows browser preview is a separate default mode.
 
 | Platform | Documentation and web preview | Protected web computation |
 | --- | --- | --- |

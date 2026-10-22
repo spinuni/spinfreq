@@ -5,12 +5,15 @@ Manual, Theory, API, Downloads and Validation in the navigation. Its canonical
 sources are in [handbook/](handbook/README.md). This is the primary user-facing
 reading path; the levels below retain detailed research and development references.
 
-Read from level 1 downward. Scientific reports and development notes are kept
+Start with the [first-result tutorial](getting-started/README.md), also available
+as **Start here** in the installed website. Then choose an example or topic below.
+Scientific reports and development notes are kept
 separate from installation and daily use.
 
 ## Level 1 · Start
 
 - [Quick start](getting-started/README.md): Windows, Linux/WSL2 and macOS.
+- [Windows helper scripts](../windows/README.md): install, run a CPU demo and start the optional browser interface.
 - [Example configurations](../examples/README.md): three small reproducible inputs.
 
 ## Level 2 · Use
@@ -19,6 +22,7 @@ separate from installation and daily use.
 - [Python and CLI guide](guides/USAGE.md): units, APIs, outputs and research workflows.
 - [Local research studies](guides/RESEARCH.md): parameter grids, magnetic-state continuation, restart textures and verified resume.
 - [Spatial spectroscopy](guides/SPECTROSCOPY.md): complex polarized drives, local source/detector profiles and Fourier probes.
+- [Mode tracking](guides/MODE_TRACKING.md): spatial shape matching across a sweep, with explicit uncertainty flags.
 
 ## Level 3 · Understand and validate
 

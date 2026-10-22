@@ -74,7 +74,7 @@ def create_app(directory="results/web", *, mode="auto", **manager_options):
 
     @app.get("/{page}.html", include_in_schema=False)
     def handbook(page: str):
-        if page not in ("manual", "theory", "api", "downloads", "validation", "about"):
+        if page not in ("start", "manual", "theory", "api", "downloads", "validation", "about"):
             raise HTTPException(404)
         return FileResponse(Path(__file__).with_name("static")/f"{page}.html")
 

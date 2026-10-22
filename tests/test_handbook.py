@@ -14,7 +14,7 @@ from fastapi.testclient import TestClient
 from spinfreq.config import JobConfig, presets
 from spinfreq.web.app import create_app
 
-PAGES = ("manual", "theory", "api", "downloads", "validation", "about")
+PAGES = ("start", "manual", "theory", "api", "downloads", "validation", "about")
 
 
 class Document(HTMLParser):

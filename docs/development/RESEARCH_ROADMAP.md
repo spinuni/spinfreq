@@ -24,9 +24,10 @@ independent OOMMF endpoint poles, retaining the original coarse-mesh limits.
 Spatial excitation, complex polarization and normalized local/Fourier probes
 are now part of reproducible jobs, with exact field/weight exports and analytical
 polarized/finite-k checks. See the [spectroscopy guide](../guides/SPECTROSCOPY.md).
-Next add automated susceptibility tensors, modal visibility and phase-invariant
-spatial mode overlaps. Branch tracking needs ambiguity reports at degeneracies and crossings,
-not just nearest-frequency matching. Validate against analytic polarized FMR,
+Phase/scale-invariant spatial MAC tracking is now available with global assignments,
+near-frequency/competitor flags, persistent lineage uncertainty and verified
+one-axis study inputs. See [mode matching](../guides/MODE_TRACKING.md). Next add
+automated susceptibility tensors, modal visibility and degenerate-subspace analysis. Validate against analytic polarized FMR,
 symmetry selection rules and independent temporal spatial recordings.
 
 ## R3 · Patterned devices and material regions
