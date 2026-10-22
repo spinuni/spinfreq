@@ -39,6 +39,16 @@ spinfreq --config examples/spectroscopy/localized-source.json --output results/l
 
 See [profile coordinates, phase and normalization](../docs/guides/SPECTROSCOPY.md).
 
+After the simulation, compare x/y/z source polarizations without relaxing again:
+
+```bash
+spinfreq-susceptibility --job results/localized --output results/localized-tensor
+```
+
+Open `results/localized-tensor/susceptibility.png`. The
+[tensor tutorial](../docs/guides/SUSCEPTIBILITY.md) explains CSV/NPZ outputs,
+modal coupling and the equivalent Windows commands.
+
 ## Local parameter studies
 
 - [FMR field scan](studies/fmr-field-sweep.json): six fields with equilibrium continuation.

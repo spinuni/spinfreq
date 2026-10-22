@@ -61,6 +61,16 @@ A mode can exist without a visible absorption peak if its overlap with the drive
 
 ## Cost and physical limits
 
+The optional [tensor analysis](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SUSCEPTIBILITY.md)
+reuses this operator for x/y/z source polarizations. With J = V diag(λ) V⁻¹,
+weighted observation C and source forcing F, its B-based transfer is
+`T(f) = C V diag[1/(iω−λ)] V⁻¹ F`, in 1/T. The residue of signed mode n is
+`R_n = (C V)_n (V⁻¹ F)_n`, in 1/(T s). Residues are complex and interfere;
+they are not separate absorbed powers. At degenerate poles only their summed
+subspace contribution is invariant. Both signed branches are needed to
+reconstruct the tensor. Unit-tesla normalization denotes a linear derivative;
+new finite drives still require full-field small-signal checks.
+
 Full dense eigenanalysis stores a 2N × 2N matrix and scales approximately as N³ in work and N² in matrix memory. Reusing an eigenbasis accelerates repeated sweeps but does not remove dense storage or conditioning limits. Library assembly limits are 1024 periodic cells and 4096 confined/Bloch cells; the web cap is 400. Specialized confined iterative response and targeted Bloch modes exist in Python and have separate convergence requirements.
 
 The linear solver does not generate nonlinear harmonics, a nonlinear frequency comb, thermal noise, current-driven torque or switching. A linear sum of tones and its startup transient are still linear. The separate nonlinear time integrator is a research workflow and does not establish validation of these omitted mechanisms.

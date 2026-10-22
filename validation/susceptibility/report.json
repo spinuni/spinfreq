@@ -1,0 +1,65 @@
+{
+  "cases": [
+    {
+      "case": "uniform",
+      "k_rad_m": 0.0,
+      "tensor_relative_error": 4.5718914690464606e-14,
+      "residue_reconstruction_relative_error": 1.92524332582059e-16,
+      "max_response_residual": 2.555999541928415e-13
+    },
+    {
+      "case": "finite-k",
+      "k_rad_m": 98174770.42468102,
+      "tensor_relative_error": 5.147574047723357e-14,
+      "residue_reconstruction_relative_error": 1.6075306369769602e-16,
+      "max_response_residual": 1.2688180798290044e-13
+    }
+  ],
+  "configuration": {
+    "schema_version": 1,
+    "model": "periodic",
+    "nx": 8,
+    "ny": 2,
+    "dx_m": 8e-09,
+    "dy_m": 8e-09,
+    "thickness_m": 1e-09,
+    "material": {
+      "Ms": 580000.0,
+      "A": 1.5e-11,
+      "D": 0,
+      "K": 800000.0,
+      "alpha": 0.02,
+      "gamma": 176085900000.0
+    },
+    "field_T": [
+      0.0,
+      0.0,
+      0.1
+    ],
+    "dmi_boundary": "bond",
+    "seed": "uniform",
+    "seed_radius_m": 8e-09,
+    "seed_wall_m": 3e-09,
+    "fmin_Hz": 0.0,
+    "fmax_Hz": 150000000000.0,
+    "points": 501,
+    "drive_T": [
+      1e-06,
+      0.0,
+      0.0
+    ],
+    "torque_tolerance_T": 1e-08,
+    "maxiter": 2000
+  },
+  "source_sha256": {
+    "model.py": "b887aae8566c6e96d0b02d4e134d4ae53e0e8b44151356e189b086980295157a",
+    "linear_response.py": "ecc68e9c03844cd1b2c2df69ef1e7f480a97dc74c9364f4bee16021c1e80474d",
+    "profiles.py": "b5fca9f911b3ce6b5009a1a4efeb99b43bf69f4fcf971db7d2460d636158c91a",
+    "susceptibility.py": "f1c8c0d03bdc5f106b91fb21fbfbf44fdec97aee263edb8efb1a5c75e2434975"
+  },
+  "python": "3.12.14",
+  "numpy": "2.4.4",
+  "scipy": "1.17.1",
+  "benchmark_sha256": "771614b1f470a8672616280477c008511161d92afa5403c25eee925eb9f0ba37",
+  "scope": "Independent analytical linear periodic uniform/finite-k tensors; not temporal-code or nonlinear validation."
+}

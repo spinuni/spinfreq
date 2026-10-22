@@ -32,3 +32,7 @@ __all__ += ["Probe", "SpatialProfile"]
 from .tracking import ModeMatch, match_modes, track_study
 
 __all__ += ["ModeMatch", "match_modes", "track_study"]
+
+from .susceptibility import susceptibility, analyze_job
+
+__all__ += ["susceptibility", "analyze_job"]

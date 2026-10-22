@@ -145,7 +145,9 @@ Here the transfer function is normalized to the example's 1 μT source
 prefactor, not its sampled peak. It depends on the chosen source and detector
 profiles. A full susceptibility tensor requires independent basis drives with
 consistent excitation/observation definitions. The current JSON job executes
-one drive polarization per run; it does not automatically assemble that tensor.
+one drive polarization per run. The optional
+[tensor analysis command](SUSCEPTIBILITY.md) assembles the independent x/y/z
+responses from a completed job with the same source/probe definitions.
 
 Absorbed power is summed over all cells with the actual local complex drive:
 `P = -Ms Vcell ω Im Σ(conj(b)·δm)/2`. It differs from a local detector amplitude.

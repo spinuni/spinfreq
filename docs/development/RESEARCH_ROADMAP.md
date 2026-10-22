@@ -26,9 +26,12 @@ are now part of reproducible jobs, with exact field/weight exports and analytica
 polarized/finite-k checks. See the [spectroscopy guide](../guides/SPECTROSCOPY.md).
 Phase/scale-invariant spatial MAC tracking is now available with global assignments,
 near-frequency/competitor flags, persistent lineage uncertainty and verified
-one-axis study inputs. See [mode matching](../guides/MODE_TRACKING.md). Next add
-automated susceptibility tensors, modal visibility and degenerate-subspace analysis. Validate against analytic polarized FMR,
-symmetry selection rules and independent temporal spatial recordings.
+one-axis study inputs. See [mode matching](../guides/MODE_TRACKING.md).
+[Polarization tensors](../guides/SUSCEPTIBILITY.md) now provide all xyz source/probe
+components and non-Hermitian modal residues with analytical uniform/finite-k
+checks. Next add automatic degenerate-subspace grouping and independent temporal
+spatial recordings for mode coupling; individual degenerate residues remain
+basis dependent.
 
 ## R3 · Patterned devices and material regions
 

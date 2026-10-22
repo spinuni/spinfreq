@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — polarization tensors and modal coupling
+
+- Optional `spinfreq-susceptibility` analysis of verified completed CPU jobs,
+  with x/y/z B-based transfer tensors, signed non-Hermitian modal residues,
+  original-drive reconstruction, CSV/NPZ and PNG/PDF comparisons.
+- Uniform/finite-k analytical Gilbert checks, phase/scale and degenerate-group
+  invariance tests, source/probe coupling and provenance checks.
+- Guided Windows/Linux/macOS usage and explicit normalization, small-signal
+  and modal-interference limits. Normal demo/job outputs remain unchanged.
+
 ## Unreleased — guided first run and mode matching
 
 - `spinfreq-doctor --check` and `spinfreq-demo` provide an installation self-check,

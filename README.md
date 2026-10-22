@@ -42,6 +42,7 @@ single-cell example; spatial films and skyrmions are the next steps.
 | Place a source and detector or select a wavevector | [Spatial spectroscopy](docs/guides/SPECTROSCOPY.md) |
 | Sweep a field/material or reuse a saved texture | [Research workflows](docs/guides/RESEARCH.md) |
 | Follow mode shapes across a sweep | [Mode matching and ambiguity](docs/guides/MODE_TRACKING.md) |
+| Compare x/y/z fields and inspect modal coupling | [Polarization tensors](docs/guides/SUSCEPTIBILITY.md) |
 | Script a custom calculation | [Python and CLI manual](docs/guides/USAGE.md) |
 
 Optional browser interface: install `.[web]`, run `spinfreq-web`, then open

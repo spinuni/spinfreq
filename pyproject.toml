@@ -24,6 +24,7 @@ spinfreq-web = "spinfreq.web.app:main"
 spinfreq-verify-evidence = "spinfreq.qualification:main"
 spinfreq-study = "spinfreq.studies:main"
 spinfreq-track = "spinfreq.tracking:main"
+spinfreq-susceptibility = "spinfreq.susceptibility:main"
 spinfreq-demo = "spinfreq.onboarding:demo_main"
 spinfreq-doctor = "spinfreq.onboarding:doctor_main"
 

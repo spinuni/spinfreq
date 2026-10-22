@@ -97,6 +97,12 @@ delta_m = prepared.response(f, drive)
 power_W = film.absorbed_power(f, delta_m, drive)
 </code></pre>
 <h2 id="local-research-api">Local research API</h2>
+<p><code>susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=None)</code>
+returns B-based transfer tensors <code>(nf, nprobe, 3, 3)</code> in 1/T, all signed modal
+residues and shifted-system residuals. <code>analyze_job(job, output)</code> verifies a
+completed job and exports CSV/NPZ/plots without changing it. Use
+<code>spinfreq-susceptibility --job results/my-job --output results/my-tensor</code>.
+See the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/SUSCEPTIBILITY.md">polarization tutorial and tensor conventions</a>.</p>
 <p><code>match_modes(previous, current, min_overlap=..., min_margin=...)</code> returns a phase/scale-invariant maximum-total-MAC assignment and ambiguity flags. <code>track_study(study, output, max_modes=12, ...)</code> verifies a fixed-mesh one-axis study, writes branch tables/plots, and retains uncertainty after ambiguous steps. See <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/MODE_TRACKING.md">mode matching</a>. For installation and a guided CPU example, use <code>spinfreq-doctor --check</code> and <code>spinfreq-demo</code> from <a href="start.html">Start here</a>.</p>
 <p><code>SpatialProfile(kind="uniform", ...)</code> defines a sampled source/probe envelope. <code>Probe(name, profile=SpatialProfile())</code> defines a named observation. <code>JobConfig</code> accepts optional <code>drive_imag_T</code>, <code>drive_profile</code> and <code>probes</code>, with full JSON roundtrip. The default probe is the whole-film mean. Spatial profiles are shared across the three drive-polarization components; probe outputs are dimensionless complex vectors with conjugated L1 normalization. See the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md">spectroscopy API examples</a>.</p>
 <p><code>run_job(config, output, progress=None, *, initial_m=None)</code> accepts a real unit-vector starting texture with shape <code>(ny, nx, 3)</code>. <code>load_initial_state(path, config)</code> reads NPY or mesh-matched OVF2. The supplied texture overrides the seed, then undergoes normal relaxation and spectral checks. All jobs save <code>initial.npy</code> with a hash in their summary.</p>

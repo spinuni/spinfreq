@@ -41,6 +41,7 @@ jobs:
       - run: python benchmarks/research_studies.py --check --output results/research
       - run: python benchmarks/research_continuation.py --check --output results/research/skyrmion
       - run: python benchmarks/spatial_spectroscopy.py --check --output results/research/spectroscopy
+      - run: python benchmarks/susceptibility_tensor.py --check --output results/research/tensor-validation
       - run: python benchmarks/mode_tracking.py --study results/research/skyrmion/study --check --output results/research/mode-tracking
       - name: Reuse verified study through the installed CLI
         run: spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/research/fmr-field-sweep --resume
@@ -68,7 +69,8 @@ jobs:
       - run: python -m pip install '.[test,web]'
       - run: spinfreq-doctor --check
       - run: spinfreq-demo --output results/first-result
-      - run: python -m pytest -q tests/test_onboarding.py tests/test_tracking.py
+      - run: spinfreq-susceptibility --job results/first-result --output results/first-tensor
+      - run: python -m pytest -q tests/test_onboarding.py tests/test_tracking.py tests/test_susceptibility.py
       - name: Exercise source-install and demo helpers on native Windows
         if: runner.os == 'Windows'
         shell: cmd

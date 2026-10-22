@@ -9,6 +9,7 @@ Validation belongs to specific physical models, meshes and observables. Passing 
 | Analytical | Uniform FMR, susceptibility, exchange dispersion, damping and operators | [Analytical baseline](https://github.com/spinuni/spinfreq/tree/main/validation/analytical) |
 | Research studies | Field/damping grids, state continuation and archived OOMMF endpoint poles | [Local workflow qualification](https://github.com/spinuni/spinfreq/tree/main/validation/research_workflows) |
 | Spatial spectroscopy | Complex polarization, finite-k response, local/Fourier probes and weak-drive scaling | [Spectroscopy qualification](https://github.com/spinuni/spinfreq/tree/main/validation/spatial_spectroscopy) |
+| Polarization tensors | All Gilbert tensor components, signed modal residues and source/probe coupling | [Tensor checks](https://github.com/spinuni/spinfreq/tree/main/validation/susceptibility) |
 | Mode analysis | Spatial-character assignments, crossing/degeneracy flags and real skyrmion scan | [Mode tracking checks](https://github.com/spinuni/spinfreq/tree/main/validation/mode_tracking) |
 | Baker FMR standard | Independent OOMMF poles, linewidths and spatial mode overlaps | [FMR standard](https://github.com/spinuni/spinfreq/tree/main/validation/fmr_standard_problem) |
 | Cortés-Ortuño DMI | Static profiles, signed-k dispersion and independent OOMMF ringdowns | [DMI standard](https://github.com/spinuni/spinfreq/tree/main/validation/dmi_standard_problem), [temporal comparison](https://github.com/spinuni/spinfreq/tree/main/validation/dmi_temporal) |

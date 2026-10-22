@@ -51,6 +51,13 @@ power_W = film.absorbed_power(f, delta_m, drive)
 
 ## Local research API
 
+`susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=None)`
+returns B-based transfer tensors `(nf, nprobe, 3, 3)` in 1/T, all signed modal
+residues and shifted-system residuals. `analyze_job(job, output)` verifies a
+completed job and exports CSV/NPZ/plots without changing it. Use
+`spinfreq-susceptibility --job results/my-job --output results/my-tensor`.
+See the [polarization tutorial and tensor conventions](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SUSCEPTIBILITY.md).
+
 `match_modes(previous, current, min_overlap=..., min_margin=...)` returns a phase/scale-invariant maximum-total-MAC assignment and ambiguity flags. `track_study(study, output, max_modes=12, ...)` verifies a fixed-mesh one-axis study, writes branch tables/plots, and retains uncertainty after ambiguous steps. See [mode matching](https://github.com/spinuni/spinfreq/blob/main/docs/guides/MODE_TRACKING.md). For installation and a guided CPU example, use `spinfreq-doctor --check` and `spinfreq-demo` from [Start here](start.html).
 
 `SpatialProfile(kind="uniform", ...)` defines a sampled source/probe envelope. `Probe(name, profile=SpatialProfile())` defines a named observation. `JobConfig` accepts optional `drive_imag_T`, `drive_profile` and `probes`, with full JSON roundtrip. The default probe is the whole-film mean. Spatial profiles are shared across the three drive-polarization components; probe outputs are dimensionless complex vectors with conjugated L1 normalization. See the [spectroscopy API examples](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md).

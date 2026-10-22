@@ -106,6 +106,10 @@ Choose a path: [example gallery](../../examples/README.md),
 [mode matching](../guides/MODE_TRACKING.md). The [manual](../handbook/manual.md)
 and [theory](../handbook/theory.md) explain the full workflow and assumptions.
 
+To compare x/y/z field polarizations after a simulation, follow the
+[tensor tutorial](../guides/SUSCEPTIBILITY.md). It includes Windows commands
+and explains which output image to open first.
+
 ## Optional browser interface
 
 Install `.[web]` from the checkout, then run `spinfreq-web` and open
