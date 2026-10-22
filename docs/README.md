@@ -18,6 +18,7 @@ separate from installation and daily use.
 - [Web interface](guides/WEB.md): landing, configuration preview and Linux workers.
 - [Python and CLI guide](guides/USAGE.md): units, APIs, outputs and research workflows.
 - [Local research studies](guides/RESEARCH.md): parameter grids, magnetic-state continuation, restart textures and verified resume.
+- [Spatial spectroscopy](guides/SPECTROSCOPY.md): complex polarized drives, local source/detector profiles and Fourier probes.
 
 ## Level 3 · Understand and validate
 

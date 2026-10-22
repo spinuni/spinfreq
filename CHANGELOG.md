@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — spatial spectroscopy
+
+- Uniform, rectangular, Gaussian and complex plane-wave excitation profiles in
+  reproducible jobs, with real/imaginary polarization components in tesla.
+- Named spatial/Fourier probes with explicit conjugated L1-weighted observation,
+  exact drive-field export, complex observation NPZ/CSV and manifest coverage.
+- Legacy uniform-real JSON meanings and configuration hashes are preserved.
+  Added source/detector and wavevector examples, analytical polarized/finite-k
+  validation, Fourier cancellation and local weak-drive scaling checks.
+
 ## Unreleased — local research experiments
 
 - Reusable NPY/mesh-matched OVF initial states in the CLI/Python runner; every

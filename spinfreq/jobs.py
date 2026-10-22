@@ -19,9 +19,11 @@ from .equilibrium import refine_equilibrium
 from .linear_response import ModalResponse
 from .model import Film, MU0, skyrmion_lattice
 from .ovf import write_ovf
+from .profiles import Probe, excitation_field, observe
 
 
-ARTIFACTS = ("configuration.json", "summary.json", "initial.npy", "equilibrium.npy", "equilibrium.ovf",
+ARTIFACTS = ("configuration.json", "summary.json", "initial.npy", "excitation.npy", "equilibrium.npy", "equilibrium.ovf",
+             "observations.npz", "observations.csv",
              "modes.npz", "response.npz", "response.csv", "modes.csv", "spectrum.png",
              "equilibrium.png", "mode.png", "manifest.json", "results.zip")
 
@@ -103,7 +105,7 @@ def run_job(config: JobConfig, output, progress=None, *, initial_m=None):
                           "A stable discrete equilibrium does not establish mesh convergence."]}
     summary["solver_source_sha256"] = {
         name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-        for name in ("model.py", "confined.py", "equilibrium.py", "linear_response.py", "config.py", "jobs.py")
+        for name in ("model.py", "confined.py", "equilibrium.py", "linear_response.py", "config.py", "profiles.py", "jobs.py")
     }
     summary["thread_environment"] = {key: os.environ.get(key) for key in
                                      ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")}
@@ -176,13 +178,14 @@ def run_job(config: JobConfig, output, progress=None, *, initial_m=None):
             raise NumericalFailure("Eigen residual or stability check failed; spectra withheld")
         progress("frequency response")
         frequencies = np.linspace(config.fmin_Hz, config.fmax_Hz, config.points)
-        response = prepared.response(frequencies, config.drive_T)
+        drive = excitation_field(config)
+        response = prepared.response(frequencies, drive)
         amplitude = float(np.linalg.norm(response, axis=-1).max())
         summary.update(max_delta_m=amplitude, max_response_residual=float(prepared.last_response_residuals.max()),
                        max_basis_residual=prepared.last_basis_residual)
         if amplitude > .05:
             raise NumericalFailure("Predicted perturbation exceeds 0.05; reduce the drive before using linear response")
-        power = film.absorbed_power(frequencies, response, config.drive_T)
+        power = film.absorbed_power(frequencies, response, drive)
         if not np.all(np.isfinite(power)):
             raise NumericalFailure("Nonfinite power; spectra withheld")
         order = np.argsort(values.imag)
@@ -190,7 +193,25 @@ def run_job(config: JobConfig, output, progress=None, *, initial_m=None):
         values = values[order]
         np.savez_compressed(output/"modes.npz", eigenvalues=values, modes=modes)
         np.savez_compressed(output/"response.npz", frequencies_Hz=frequencies, delta_m=response,
-                            absorbed_power_W=power, drive_T=config.drive_T)
+                            absorbed_power_W=power, drive_T=(np.asarray(config.drive_T)+1j*np.asarray(config.drive_imag_T)
+                                                            if any(config.drive_imag_T) else config.drive_T))
+        np.save(output/"excitation.npy", drive)
+        probes = config.probes or (Probe("mean"),)
+        weights = np.array([probe.profile.evaluate(film.nx, film.ny, film.dx, film.dy) for probe in probes])
+        observed = observe(response, weights)
+        np.savez_compressed(output/"observations.npz", frequencies_Hz=frequencies,
+                            probe_names=np.array([probe.name for probe in probes]),
+                            weights=weights, normalization=np.abs(weights).sum(axis=(1, 2)), delta_m=observed)
+        import csv
+        with (output/"observations.csv").open("w", newline="", encoding="utf-8") as stream:
+            writer = csv.writer(stream)
+            writer.writerow(["frequency_Hz", "probe", "mx_real", "my_real", "mz_real", "mx_imag", "my_imag", "mz_imag"])
+            for frequency, measurements in zip(frequencies, observed):
+                for probe, vector in zip(probes, measurements):
+                    writer.writerow([frequency, probe.name, *vector.real, *vector.imag])
+        summary.update(probe_names=[probe.name for probe in probes],
+                       observation_convention="sum(conj(w)*delta_m)/sum(abs(w)); dimensionless; exp(+i omega t)",
+                       max_drive_component_T=float(np.abs(drive).max()))
         mean = response.mean(axis=(1, 2))
         np.savetxt(output/"response.csv", np.column_stack((frequencies, power, mean.real, mean.imag)),
                    delimiter=",", header="frequency_Hz,power_W,mx_real,my_real,mz_real,mx_imag,my_imag,mz_imag", comments="")

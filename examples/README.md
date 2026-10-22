@@ -20,6 +20,17 @@ settings fail explicitly. `model` is `periodic` or `confined`; the latter select
 the core dense solvers. Edited inputs are research configurations; check their
 equilibrium, stability, amplitude and mesh convergence.
 
+## Spatial spectroscopy
+
+- [Localized source and detector](spectroscopy/localized-source.json): Gaussian field and source/detector/mean probes.
+- [Wavevector-selective measurement](spectroscopy/wavevector-probe.json): circularly polarized plane-wave drive and matching/opposite/mean probes.
+
+```bash
+spinfreq --config examples/spectroscopy/localized-source.json --output results/localized
+```
+
+See [profile coordinates, phase and normalization](../docs/guides/SPECTROSCOPY.md).
+
 ## Local parameter studies
 
 - [FMR field scan](studies/fmr-field-sweep.json): six fields with equilibrium continuation.

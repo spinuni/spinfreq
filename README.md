@@ -12,6 +12,7 @@ Current candidate: **0.1.0rc2**, MIT licensed.
 | Goal | Read next |
 | --- | --- |
 | Run local parameter studies or reuse magnetic textures | [Research workflows](docs/guides/RESEARCH.md) |
+| Define a local source and detector or probe a wavevector | [Spatial spectroscopy](docs/guides/SPECTROSCOPY.md) |
 | Browse the complete handbook | Run `spinfreq-web`: Manual · Theory · API · Downloads · Validation |
 | Install and launch on Windows, Linux or macOS | [Quick start](docs/getting-started/README.md) |
 | Use the browser interface | [Web guide](docs/guides/WEB.md) |

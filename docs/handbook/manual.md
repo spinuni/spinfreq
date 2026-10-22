@@ -65,6 +65,7 @@ JSON uses SI units, whereas labelled web fields can use nm and GHz. Exported JSO
 | `material.Ms`, `.A`, `.D`, `.K` | A/m, J/m, J/m² and J/m³; signed interfacial DMI and uniaxial anisotropy |
 | `material.alpha`, `.gamma` | Dimensionless Gilbert damping; positive gyromagnetic magnitude in rad/(s T) |
 | `field_T`, `drive_T` | Three Cartesian components in T; static bias and real harmonic drive |
+| `drive_imag_T`, `drive_profile`, `probes` | Optional imaginary drive components, spatial source envelope and named observation profiles |
 | `seed`, `seed_radius_m`, `seed_wall_m` | `uniform` or `skyrmion` and seed dimensions |
 | `dmi_boundary` | `bond` or `mumax` for confined films; periodic requires `bond` |
 | `fmin_Hz`, `fmax_Hz`, `points` | Inclusive linear frequency sweep; at least two samples |
@@ -90,10 +91,13 @@ See the [research workflow guide](https://github.com/spinuni/spinfreq/blob/main/
 
 ## Read the results
 
+For a spatial source and detector, run `spinfreq --config examples/spectroscopy/localized-source.json --output results/localized`. Complex polarization, local Gaussian/rectangular fields and plane-wave/Fourier profiles share the same configuration workflow; see the [spatial spectroscopy guide](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md) for phase, coordinates and normalization.
+
 | Artifact | Interpretation |
 | --- | --- |
 | `configuration.json`, `summary.json` | Full input, versions, source hashes, torque, stability margin, residuals and response amplitude |
 | `initial.npy` | Actual starting unit-vector texture; hash and initialization type recorded in the summary |
+| `excitation.npy`, `observations.npz`, `observations.csv` | Exact complex drive field in T, named probe weights and dimensionless complex observations |
 | `equilibrium.npy`, `equilibrium.ovf` | Unit-vector field; NumPy shape `(ny, nx, 3)`; OVF interchange |
 | `modes.csv`, `modes.npz` | Complex eigenvalues and spatial eigenvectors; both conjugate branches |
 | `response.csv`, `response.npz` | Driven sweep and complex magnetization response |

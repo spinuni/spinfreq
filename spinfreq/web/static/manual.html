@@ -110,6 +110,10 @@ spinfreq --config prism.json --output results/my-first-prism
 <td>Three Cartesian components in T; static bias and real harmonic drive</td>
 </tr>
 <tr>
+<td><code>drive_imag_T</code>, <code>drive_profile</code>, <code>probes</code></td>
+<td>Optional imaginary drive components, spatial source envelope and named observation profiles</td>
+</tr>
+<tr>
 <td><code>seed</code>, <code>seed_radius_m</code>, <code>seed_wall_m</code></td>
 <td><code>uniform</code> or <code>skyrmion</code> and seed dimensions</td>
 </tr>
@@ -138,6 +142,7 @@ spinfreq --config my-film.json --initial-state previous/equilibrium.ovf --output
 <p>Studies support independent Cartesian parameter grids or a single-axis field/material path with equilibrium continuation. Continuation stops on failure; it does not silently reseed. Every job now saves its actual <code>initial.npy</code>. Resume verifies completed artifacts and requires the same inputs and numerical implementation. Output includes case/pole CSVs and PNG/PDF spectra. These commands run locally through Python and are not exposed by the browser queue.</p>
 <p>See the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md">research workflow guide</a> for study JSON, scan order, preserved failed attempts, geometry checks, limitations and convergence. Frequency rank is not a tracked mode identity; a continuation path is not proof of a ground state or switching field.</p>
 <h2 id="read-the-results">Read the results</h2>
+<p>For a spatial source and detector, run <code>spinfreq --config examples/spectroscopy/localized-source.json --output results/localized</code>. Complex polarization, local Gaussian/rectangular fields and plane-wave/Fourier profiles share the same configuration workflow; see the <a href="https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md">spatial spectroscopy guide</a> for phase, coordinates and normalization.</p>
 <table>
 <thead>
 <tr>
@@ -153,6 +158,10 @@ spinfreq --config my-film.json --initial-state previous/equilibrium.ovf --output
 <tr>
 <td><code>initial.npy</code></td>
 <td>Actual starting unit-vector texture; hash and initialization type recorded in the summary</td>
+</tr>
+<tr>
+<td><code>excitation.npy</code>, <code>observations.npz</code>, <code>observations.csv</code></td>
+<td>Exact complex drive field in T, named probe weights and dimensionless complex observations</td>
 </tr>
 <tr>
 <td><code>equilibrium.npy</code>, <code>equilibrium.ovf</code></td>

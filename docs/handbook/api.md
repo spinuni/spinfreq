@@ -51,6 +51,8 @@ power_W = film.absorbed_power(f, delta_m, drive)
 
 ## Local research API
 
+`SpatialProfile(kind="uniform", ...)` defines a sampled source/probe envelope. `Probe(name, profile=SpatialProfile())` defines a named observation. `JobConfig` accepts optional `drive_imag_T`, `drive_profile` and `probes`, with full JSON roundtrip. The default probe is the whole-film mean. Spatial profiles are shared across the three drive-polarization components; probe outputs are dimensionless complex vectors with conjugated L1 normalization. See the [spectroscopy API examples](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md).
+
 `run_job(config, output, progress=None, *, initial_m=None)` accepts a real unit-vector starting texture with shape `(ny, nx, 3)`. `load_initial_state(path, config)` reads NPY or mesh-matched OVF2. The supplied texture overrides the seed, then undergoes normal relaxation and spectral checks. All jobs save `initial.npy` with a hash in their summary.
 
 `StudyConfig(base, axes, continuation=False)` expands numeric dotted parameter paths into validated cases. `run_study(config, output, *, resume=False)` returns a case/attempt ledger and writes aggregate CSVs and plots. Independent studies use Cartesian products; continuation supports exactly one field/material axis, reuses the preceding equilibrium and stops on failure. Resume checks configuration, numerical implementation and completed artifact hashes. It preserves failed attempts and retries in new directories. See the [research guide](https://github.com/spinuni/spinfreq/blob/main/docs/guides/RESEARCH.md).

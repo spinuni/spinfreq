@@ -24,3 +24,7 @@ __all__ += ["JobConfig", "run_job", "load_initial_state"]
 from .studies import StudyConfig, run_study
 
 __all__ += ["StudyConfig", "run_study"]
+
+from .profiles import Probe, SpatialProfile
+
+__all__ += ["Probe", "SpatialProfile"]

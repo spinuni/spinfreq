@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "model": "periodic",
+  "nx": 8,
+  "ny": 4,
+  "dx_m": 8e-09,
+  "dy_m": 8e-09,
+  "thickness_m": 1e-09,
+  "material": {
+    "Ms": 580000.0,
+    "A": 1.5e-11,
+    "D": 0,
+    "K": 800000.0,
+    "alpha": 0.02,
+    "gamma": 176085900000.0
+  },
+  "field_T": [
+    0.0,
+    0.0,
+    0.1
+  ],
+  "dmi_boundary": "bond",
+  "seed": "uniform",
+  "seed_radius_m": 8e-09,
+  "seed_wall_m": 3e-09,
+  "fmin_Hz": 40000000000.0,
+  "fmax_Hz": 140000000000.0,
+  "points": 101,
+  "drive_T": [
+    1e-06,
+    0.0,
+    0.0
+  ],
+  "torque_tolerance_T": 1e-08,
+  "maxiter": 2000,
+  "drive_profile": {
+    "kind": "gaussian",
+    "center_m": [
+      1.6e-08,
+      1.6e-08
+    ],
+    "sigma_m": [
+      8e-09,
+      8e-09
+    ]
+  },
+  "probes": [
+    {
+      "name": "source",
+      "profile": {
+        "kind": "gaussian",
+        "center_m": [
+          1.6e-08,
+          1.6e-08
+        ],
+        "sigma_m": [
+          8e-09,
+          8e-09
+        ]
+      }
+    },
+    {
+      "name": "detector",
+      "profile": {
+        "kind": "rectangle",
+        "center_m": [
+          4.8e-08,
+          1.6e-08
+        ],
+        "size_m": [
+          1.6e-08,
+          3.2e-08
+        ]
+      }
+    },
+    {
+      "name": "mean",
+      "profile": {
+        "kind": "uniform"
+      }
+    }
+  ]
+}

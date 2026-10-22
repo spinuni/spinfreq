@@ -1,0 +1,520 @@
+{
+  "case_count": 7,
+  "cases": [
+    {
+      "case": "circular_co",
+      "response_relative_error": 5.956752294485751e-15,
+      "power_relative_error": 6.378131939808833e-15,
+      "probe_relative_error": 5.956752294485751e-15,
+      "forbidden_probe_relative_amplitude": null
+    },
+    {
+      "case": "circular_counter",
+      "response_relative_error": 3.912603326266048e-15,
+      "power_relative_error": 3.486609397919477e-16,
+      "probe_relative_error": 3.912603326266048e-15,
+      "forbidden_probe_relative_amplitude": null
+    },
+    {
+      "case": "elliptical",
+      "response_relative_error": 6.060749976738721e-15,
+      "power_relative_error": 6.608916055883719e-15,
+      "probe_relative_error": 6.060749976738721e-15,
+      "forbidden_probe_relative_amplitude": null
+    },
+    {
+      "case": "wave_plus",
+      "response_relative_error": 3.7251721446429947e-14,
+      "power_relative_error": 9.756219689845454e-15,
+      "probe_relative_error": 1.0763725730614536e-14,
+      "forbidden_probe_relative_amplitude": 3.555678056541221e-14
+    },
+    {
+      "case": "wave_minus",
+      "response_relative_error": 3.681236922679239e-14,
+      "power_relative_error": 7.709845065777189e-15,
+      "probe_relative_error": 9.617860582546133e-15,
+      "forbidden_probe_relative_amplitude": 3.5618153804414985e-14
+    },
+    {
+      "case": "localized",
+      "response_relative_error": 3.718939298654972e-14,
+      "power_relative_error": 2.8833575106229185e-14,
+      "probe_relative_error": 1.467272386992048e-16,
+      "forbidden_probe_relative_amplitude": null
+    },
+    {
+      "case": "localized_half",
+      "response_relative_error": 3.718939298654972e-14,
+      "power_relative_error": 2.8833575106229185e-14,
+      "probe_relative_error": 1.467272386992048e-16,
+      "forbidden_probe_relative_amplitude": null
+    }
+  ],
+  "amplitude_scaling_errors": {
+    "field": 0.0,
+    "power": 0.0,
+    "probes": 0.0
+  },
+  "circular_power_ratio_at_co_peak": 9314.020299497493,
+  "relative_tolerance": 1e-10,
+  "configuration": {
+    "circular_co": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 1,
+      "ny": 1,
+      "dx_m": 4e-09,
+      "dy_m": 4e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_imag_T": [
+        0.0,
+        -1e-06,
+        0.0
+      ]
+    },
+    "circular_counter": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 1,
+      "ny": 1,
+      "dx_m": 4e-09,
+      "dy_m": 4e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_imag_T": [
+        0.0,
+        1e-06,
+        0.0
+      ]
+    },
+    "elliptical": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 1,
+      "ny": 1,
+      "dx_m": 4e-09,
+      "dy_m": 4e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        1e-06,
+        3e-07,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_imag_T": [
+        2e-07,
+        -8e-07,
+        0.0
+      ]
+    },
+    "wave_plus": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 1,
+      "dx_m": 8e-09,
+      "dy_m": 4e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_profile": {
+        "kind": "plane_wave",
+        "k_rad_m": [
+          98174770.42468102,
+          0.0
+        ],
+        "phase_rad": 0.3
+      },
+      "probes": [
+        {
+          "name": "matched",
+          "profile": {
+            "kind": "plane_wave",
+            "k_rad_m": [
+              98174770.42468102,
+              0.0
+            ],
+            "phase_rad": 0.3
+          }
+        },
+        {
+          "name": "mean",
+          "profile": {
+            "kind": "uniform"
+          }
+        },
+        {
+          "name": "opposite",
+          "profile": {
+            "kind": "plane_wave",
+            "k_rad_m": [
+              -98174770.42468102,
+              0.0
+            ],
+            "phase_rad": 0.3
+          }
+        }
+      ]
+    },
+    "wave_minus": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 1,
+      "dx_m": 8e-09,
+      "dy_m": 4e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_profile": {
+        "kind": "plane_wave",
+        "k_rad_m": [
+          -98174770.42468102,
+          0.0
+        ],
+        "phase_rad": 0.3
+      },
+      "probes": [
+        {
+          "name": "matched",
+          "profile": {
+            "kind": "plane_wave",
+            "k_rad_m": [
+              -98174770.42468102,
+              0.0
+            ],
+            "phase_rad": 0.3
+          }
+        },
+        {
+          "name": "mean",
+          "profile": {
+            "kind": "uniform"
+          }
+        },
+        {
+          "name": "opposite",
+          "profile": {
+            "kind": "plane_wave",
+            "k_rad_m": [
+              98174770.42468102,
+              0.0
+            ],
+            "phase_rad": 0.3
+          }
+        }
+      ]
+    },
+    "localized": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 4,
+      "dx_m": 8e-09,
+      "dy_m": 8e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_profile": {
+        "kind": "gaussian",
+        "center_m": [
+          1.6e-08,
+          1.6e-08
+        ],
+        "sigma_m": [
+          8e-09,
+          8e-09
+        ]
+      },
+      "probes": [
+        {
+          "name": "source",
+          "profile": {
+            "kind": "gaussian",
+            "center_m": [
+              1.6e-08,
+              1.6e-08
+            ],
+            "sigma_m": [
+              8e-09,
+              8e-09
+            ]
+          }
+        },
+        {
+          "name": "detector",
+          "profile": {
+            "kind": "rectangle",
+            "center_m": [
+              4.8e-08,
+              1.6e-08
+            ],
+            "size_m": [
+              1.6e-08,
+              3.2e-08
+            ]
+          }
+        },
+        {
+          "name": "mean",
+          "profile": {
+            "kind": "uniform"
+          }
+        }
+      ]
+    },
+    "localized_half": {
+      "schema_version": 1,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 4,
+      "dx_m": 8e-09,
+      "dy_m": 8e-09,
+      "thickness_m": 1e-09,
+      "material": {
+        "Ms": 580000.0,
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "dmi_boundary": "bond",
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "fmin_Hz": 40000000000.0,
+      "fmax_Hz": 140000000000.0,
+      "points": 101,
+      "drive_T": [
+        5e-07,
+        0.0,
+        0.0
+      ],
+      "torque_tolerance_T": 1e-08,
+      "maxiter": 2000,
+      "drive_profile": {
+        "kind": "gaussian",
+        "center_m": [
+          1.6e-08,
+          1.6e-08
+        ],
+        "sigma_m": [
+          8e-09,
+          8e-09
+        ]
+      },
+      "probes": [
+        {
+          "name": "source",
+          "profile": {
+            "kind": "gaussian",
+            "center_m": [
+              1.6e-08,
+              1.6e-08
+            ],
+            "sigma_m": [
+              8e-09,
+              8e-09
+            ]
+          }
+        },
+        {
+          "name": "detector",
+          "profile": {
+            "kind": "rectangle",
+            "center_m": [
+              4.8e-08,
+              1.6e-08
+            ],
+            "size_m": [
+              1.6e-08,
+              3.2e-08
+            ]
+          }
+        },
+        {
+          "name": "mean",
+          "profile": {
+            "kind": "uniform"
+          }
+        }
+      ]
+    }
+  },
+  "implementation": {
+    "package_version": "0.1.0rc2",
+    "python": "3.12.14",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "sources": {
+      "model.py": "b887aae8566c6e96d0b02d4e134d4ae53e0e8b44151356e189b086980295157a",
+      "confined.py": "d748b1e9105a95f6713fc9195ab037a8fdf1af38c287b8ebcb96cd95b57354b2",
+      "equilibrium.py": "bb4a652dd7774844109d39bbf4a7dc4f888cecf1a02510f67986068065c7ec0b",
+      "linear_response.py": "ecc68e9c03844cd1b2c2df69ef1e7f480a97dc74c9364f4bee16021c1e80474d",
+      "config.py": "98a4675c4a3f439324090831a5ff5517d2f8ed14283188c6168d89f5513c56b6",
+      "profiles.py": "b5fca9f911b3ce6b5009a1a4efeb99b43bf69f4fcf971db7d2460d636158c91a",
+      "jobs.py": "41b903c7b583eb843715b6e736de2dd541d6b483c7a49534358a7537fbed27b2",
+      "ovf.py": "2576c72851b5e56ea03ee79925c641773cb3bc4d6db7fa1a01c85c1aed60e7e2",
+      "studies.py": "6c4723395edaaa9c62e61b97a714dcca4fde36aeec1e4446eb4707c0a0d44ba4"
+    }
+  },
+  "analysis_source_sha256": "d9a0291bb02b34fc32b51deb5e9ce30aabecc33e6549fe4452350431d8fae562",
+  "scope": "Analytical linear uniform and finite-k periodic FMR; localized numerical cross-check, not device/current physics",
+  "passed": true
+}

@@ -55,7 +55,7 @@ Use `Bac(t) = Re[b exp(+iωt)]`, with ω = 2πf. Then
 Pabs = −(Ms Vcell ω/2) Im Σcells [ b* · δmω ].
 ```
 
-The power is in watts, summed over cells. Response is dimensionless δm; divide by drive to form a B-based susceptibility in T⁻¹. Convert carefully when comparing H-based susceptibility. Arbitrary complex spatial drives are available in the low-level Python API; JSON jobs currently accept a real uniform three-component drive.
+The power is in watts, summed over cells. Response is dimensionless δm; divide by a defined drive reference to form a B-based transfer function in T⁻¹. Convert carefully when comparing H-based susceptibility. JSON jobs support complex polarization and uniform, rectangular, Gaussian or plane-wave spatial profiles. Named observation probes compute `sum(conj(w) δm)/sum(abs(w))`. Exact sampled fields and weights are exported; see the [spatial spectroscopy guide](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md). Arbitrary component-dependent complex spatial drives remain available through the low-level Python API.
 
 A mode can exist without a visible absorption peak if its overlap with the drive or observation is small. Uniform drive in a periodic texture probes lattice wavevector zero. Complex phases depend on drive convention and time origin. To compare with `exp(−iωt)`, conjugate the corresponding real-system response consistently.
 

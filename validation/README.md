@@ -12,6 +12,7 @@
 | Implementation performance | [Modal reuse](response_reuse/README.md) | Accuracy and measured small-system reuse, not independent physics |
 | Candidate application | [Release checks](release_candidate/README.md) | Example frequencies, measured resources and browser delivery |
 | Local research workflow | [Parameter studies and continuation](research_workflows/README.md) | Analytical field/damping response, verified state reuse and archived OOMMF endpoint poles |
+| Spatial spectroscopy | [Polarized drives and local/Fourier probes](spatial_spectroscopy/README.md) | Analytical finite-k/complex response, source/detector definitions, cancellation and weak-drive scaling |
 | Literature exploration | [Liu 2024](liu2024/README.md) | Single-skyrmion/array studies; nonlinear comb remains unvalidated |
 
 Accepted data and settings are versioned. Intermediate arrays, exploratory

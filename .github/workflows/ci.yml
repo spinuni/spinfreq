@@ -40,6 +40,7 @@ jobs:
       - run: spinfreq-study --config examples/studies/fmr-field-sweep.json --dry-run
       - run: python benchmarks/research_studies.py --check --output results/research
       - run: python benchmarks/research_continuation.py --check --output results/research/skyrmion
+      - run: python benchmarks/spatial_spectroscopy.py --check --output results/research/spectroscopy
       - name: Reuse verified study through the installed CLI
         run: spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/research/fmr-field-sweep --resume
       - uses: actions/upload-artifact@v4

@@ -5,6 +5,7 @@ import math
 from pathlib import Path
 
 from .model import Material
+from .profiles import Probe, SpatialProfile
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,9 @@ class JobConfig:
     drive_T: tuple = (1e-6, 0., 0.)
     torque_tolerance_T: float = 1e-8
     maxiter: int = 2000
+    drive_imag_T: tuple = (0., 0., 0.)
+    drive_profile: SpatialProfile | None = None
+    probes: tuple = ()
 
     def __post_init__(self):
         if type(self.schema_version) is not int or self.schema_version != 1:
@@ -52,7 +56,7 @@ class JobConfig:
                 raise ValueError(f"{name} must be finite")
         if not 0 <= self.fmin_Hz < self.fmax_Hz or self.seed not in ("uniform", "skyrmion"):
             raise ValueError("Require 0 <= fmin < fmax and a supported seed")
-        for name in ("field_T", "drive_T"):
+        for name in ("field_T", "drive_T", "drive_imag_T"):
             value = getattr(self, name)
             if not isinstance(value, (list, tuple)) or len(value) != 3 or any(
                 type(x) not in (int, float) or not math.isfinite(x) for x in value
@@ -61,13 +65,40 @@ class JobConfig:
             object.__setattr__(self, name, tuple(value))
         if not isinstance(self.material, Material) or self.material.alpha <= 0:
             raise ValueError("Jobs require Material with strictly positive damping")
-        if not any(self.drive_T):
+        if not any(self.drive_T) and not any(self.drive_imag_T):
             raise ValueError("Require a nonzero drive")
+        if self.drive_profile is not None:
+            if not isinstance(self.drive_profile, SpatialProfile):
+                raise ValueError("drive_profile must be a SpatialProfile")
+            self.drive_profile.evaluate(self.nx, self.ny, self.dx_m, self.dy_m)
+        if not isinstance(self.probes, (tuple, list)) or len(self.probes) > 16 or any(
+            not isinstance(probe, Probe) for probe in self.probes
+        ):
+            raise ValueError("Require at most 16 Probe objects")
+        if len({probe.name for probe in self.probes}) != len(self.probes):
+            raise ValueError("Probe names must be unique")
+        for probe in self.probes:
+            probe.profile.evaluate(self.nx, self.ny, self.dx_m, self.dy_m)
+        object.__setattr__(self, "probes", tuple(self.probes))
         if self.seed == "skyrmion" and self.seed_radius_m >= .48*min(self.nx*self.dx_m, self.ny*self.dy_m):
             raise ValueError("Skyrmion seed radius must fit inside the film")
 
     def to_dict(self):
-        return asdict(self)
+        data = asdict(self)
+        # Preserve schema-1 preset JSON and hashes when optional features are unused.
+        if any(self.drive_imag_T):
+            data["drive_imag_T"] = list(self.drive_imag_T)
+        else:
+            data.pop("drive_imag_T")
+        if self.drive_profile is None:
+            data.pop("drive_profile")
+        else:
+            data["drive_profile"] = self.drive_profile.to_dict()
+        if self.probes:
+            data["probes"] = [probe.to_dict() for probe in self.probes]
+        else:
+            data.pop("probes")
+        return data
 
     @classmethod
     def from_dict(cls, data):
@@ -77,6 +108,12 @@ class JobConfig:
         if unknown:
             raise ValueError(f"Unknown configuration keys: {sorted(unknown)}")
         values = dict(data)
+        if "drive_profile" in values:
+            values["drive_profile"] = SpatialProfile.from_dict(values["drive_profile"])
+        if "probes" in values:
+            if not isinstance(values["probes"], list):
+                raise ValueError("probes must be a JSON list")
+            values["probes"] = tuple(Probe.from_dict(probe) for probe in values["probes"])
         if "material" in values:
             material = values["material"]
             if not isinstance(material, dict) or set(material)-{f.name for f in fields(Material)}:
@@ -122,7 +159,9 @@ def validate_web_config(config):
     if not (1 <= p.Ms <= 1e7 and 0 <= p.A <= 1e-9 and abs(p.D) <= .1
             and abs(p.K) <= 1e8 and 1e9 <= p.gamma <= 1e13 and 1e-4 <= p.alpha <= 1):
         raise ValueError("Material exceeds web computation bounds")
-    if max(map(abs, config.field_T)) > 20 or max(map(abs, config.drive_T)) > 1e-4 or config.fmax_Hz > 1e13:
+    if max(map(abs, config.field_T)) > 20 or max(math.hypot(a, b) for a, b in zip(
+        config.drive_T, config.drive_imag_T
+    )) > 1e-4 or config.fmax_Hz > 1e13:
         raise ValueError("Field or frequency exceeds web computation bounds")
     if not 1e-10 <= config.torque_tolerance_T <= 1e-6:
         raise ValueError("Web torque tolerance must be 1e-10 to 1e-6 T")

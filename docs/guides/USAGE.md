@@ -1,5 +1,9 @@
 # Using spinfreq
 
+For file-based spatial excitation, complex polarization and normalized local or
+Fourier detectors, see [Spatial spectroscopy](SPECTROSCOPY.md). Parameter
+experiments, saved textures and verified resume are in [Research workflows](RESEARCH.md).
+
 `spinfreq` solves thin-film micromagnetics using energy relaxation, linearized LLG eigenmodes, forced frequency response, Bloch bands and nonlinear time dynamics. Every model assumes a single magnetization vector through the film thickness. Choose the geometry before selecting a solver: a periodic lattice and a confined film are different physical systems.
 
 ## 1. Install and verify

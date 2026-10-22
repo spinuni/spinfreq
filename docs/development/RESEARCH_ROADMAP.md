@@ -19,12 +19,13 @@ The [workflow qualification](../../validation/research_workflows/README.md)
 also compares a three-point confined-skyrmion continuation with archived
 independent OOMMF endpoint poles, retaining the original coarse-mesh limits.
 
-## R2 · Spectroscopy and mode analysis — next priority
+## R2 · Spectroscopy and mode analysis — spatial baseline implemented
 
-Expose spatial excitation and observation profiles in reproducible jobs; the
-low-level response already accepts spatial complex drives. Add complex
-susceptibility tensors, drive visibility and phase-invariant spatial mode
-overlaps. Branch tracking needs ambiguity reports at degeneracies and crossings,
+Spatial excitation, complex polarization and normalized local/Fourier probes
+are now part of reproducible jobs, with exact field/weight exports and analytical
+polarized/finite-k checks. See the [spectroscopy guide](../guides/SPECTROSCOPY.md).
+Next add automated susceptibility tensors, modal visibility and phase-invariant
+spatial mode overlaps. Branch tracking needs ambiguity reports at degeneracies and crossings,
 not just nearest-frequency matching. Validate against analytic polarized FMR,
 symmetry selection rules and independent temporal spatial recordings.
 

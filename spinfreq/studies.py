@@ -40,10 +40,12 @@ def _set_parameter(data, name, value):
     numeric = {"nx", "ny", "dx_m", "dy_m", "thickness_m", "seed_radius_m", "seed_wall_m",
                "fmin_Hz", "fmax_Hz", "points", "torque_tolerance_T", "maxiter"}
     numeric.update("material."+key for key in ("Ms", "A", "D", "K", "alpha", "gamma"))
-    numeric.update(f"{key}.{i}" for key in ("field_T", "drive_T") for i in range(3))
+    numeric.update(f"{key}.{i}" for key in ("field_T", "drive_T", "drive_imag_T") for i in range(3))
     if name not in numeric:
         raise ValueError(f"Unsupported numeric study parameter: {name}")
     parts = name.split(".")
+    if parts[0] == "drive_imag_T" and "drive_imag_T" not in data:
+        data["drive_imag_T"] = [0., 0., 0.]
     if len(parts) == 1:
         data[name] = value
     elif isinstance(data[parts[0]], list):
@@ -119,7 +121,7 @@ class StudyConfig:
 
 def _implementation():
     sources = ("model.py", "confined.py", "equilibrium.py", "linear_response.py",
-               "config.py", "jobs.py", "ovf.py", "studies.py")
+               "config.py", "profiles.py", "jobs.py", "ovf.py", "studies.py")
     return {"package_version": version("spinfreq"), "python": platform.python_version(),
             "numpy": np.__version__, "scipy": scipy.__version__,
             "sources": {name: hashlib.sha256(Path(__file__).with_name(name).read_text(encoding="utf-8").encode()).hexdigest()

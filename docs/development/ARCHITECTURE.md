@@ -5,6 +5,7 @@
 | `spinfreq/model.py`, `confined.py`, `bloch.py` | Periodic spectral, finite FD/Newell and Bloch-chain physics |
 | `spinfreq/linear_response.py`, `equilibrium.py`, `dynamics.py`, `ovf.py` | Reusable modal response, static refinement, temporal integration and interchange |
 | `spinfreq/config.py` | Strict versioned SI configuration, presets and web computation bounds |
+| `spinfreq/profiles.py` | Cell-centred complex source profiles and normalized spatial/Fourier observations |
 | `spinfreq/jobs.py` | Shared reproducible job, diagnostics, plots and exports |
 | `spinfreq/cli.py` | CLI adapter; no independent physics implementation |
 | `spinfreq/studies.py` | Sequential parameter experiments, magnetic-state history, verified resume and aggregate outputs |
