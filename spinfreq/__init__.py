@@ -36,3 +36,7 @@ __all__ += ["ModeMatch", "match_modes", "track_study"]
 from .susceptibility import susceptibility, analyze_job
 
 __all__ += ["susceptibility", "analyze_job"]
+
+from .pole_groups import group_poles, grouped_response
+
+__all__ += ["group_poles", "grouped_response"]

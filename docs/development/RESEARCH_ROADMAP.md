@@ -29,9 +29,10 @@ near-frequency/competitor flags, persistent lineage uncertainty and verified
 one-axis study inputs. See [mode matching](../guides/MODE_TRACKING.md).
 [Polarization tensors](../guides/SUSCEPTIBILITY.md) now provide all xyz source/probe
 components and non-Hermitian modal residues with analytical uniform/finite-k
-checks. Next add automatic degenerate-subspace grouping and independent temporal
-spatial recordings for mode coupling; individual degenerate residues remain
-basis dependent.
+checks. Complex-pole grouping now exports summed subspace residues and preserves
+all original denominators for nearby distinct poles. Next validate mode coupling
+against independent temporal spatial recordings and develop subspace matching
+across parameter studies; individual degenerate residues remain basis dependent.
 
 ## R3 · Patterned devices and material regions
 

@@ -7,6 +7,8 @@ simulator for thin-film equilibria, natural modes and weak-field frequency respo
 Use experiment files and local commands, or the optional browser interface.
 Current research candidate: **0.1.0rc2**, MIT licensed.
 
+Release preparation: [candidate checks, downloads and remaining publication steps](docs/releases/CANDIDATE.md).
+
 **New here? [Start with your first spectrum](docs/getting-started/README.md).**
 You need 64-bit Python 3.11–3.13. No GPU, MuMax3 or Linux subsystem is needed for
 the local CPU demo. Download the [source ZIP](https://github.com/spinuni/spinfreq/archive/refs/heads/main.zip)

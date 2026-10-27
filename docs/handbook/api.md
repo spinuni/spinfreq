@@ -58,6 +58,12 @@ completed job and exports CSV/NPZ/plots without changing it. Use
 `spinfreq-susceptibility --job results/my-job --output results/my-tensor`.
 See the [polarization tutorial and tensor conventions](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SUSCEPTIBILITY.md).
 
+`group_poles(eigenvalues_per_s, residues, atol_Hz=1e6, rtol=1e-4)` reports nearby
+same-sign complex poles and summed residues. `grouped_response(frequencies_Hz,
+eigenvalues_per_s, residues, grouping)` yields each group's response retaining
+every original denominator. `analyze_job` accepts `group_atol_Hz` and `group_rtol`
+and exports group tables with reconstruction diagnostics.
+
 `match_modes(previous, current, min_overlap=..., min_margin=...)` returns a phase/scale-invariant maximum-total-MAC assignment and ambiguity flags. `track_study(study, output, max_modes=12, ...)` verifies a fixed-mesh one-axis study, writes branch tables/plots, and retains uncertainty after ambiguous steps. See [mode matching](https://github.com/spinuni/spinfreq/blob/main/docs/guides/MODE_TRACKING.md). For installation and a guided CPU example, use `spinfreq-doctor --check` and `spinfreq-demo` from [Start here](start.html).
 
 `SpatialProfile(kind="uniform", ...)` defines a sampled source/probe envelope. `Probe(name, profile=SpatialProfile())` defines a named observation. `JobConfig` accepts optional `drive_imag_T`, `drive_profile` and `probes`, with full JSON roundtrip. The default probe is the whole-film mean. Spatial profiles are shared across the three drive-polarization components; probe outputs are dimensionless complex vectors with conjugated L1 normalization. See the [spectroscopy API examples](https://github.com/spinuni/spinfreq/blob/main/docs/guides/SPECTROSCOPY.md).

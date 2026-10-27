@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — first-release assembly and grouped poles
+
+- Conservative same-sign complex-pole groups, summed tensor residues and exact
+  all-pole reconstruction; coincident and nearby-distinct poles are distinguished.
+  Grouped CSV/JSON/NPZ exports and configurable reporting tolerances.
+- A final CI candidate gate requires scientific, distribution, onboarding,
+  application and native platform checks. It verifies clean source, wheel/sdist
+  contents and Linux/Windows evidence before exporting a review bundle with
+  checksums and Windows/Linux/macOS installation commands. No publication or
+  platform-default changes are performed.
+
 ## Unreleased — polarization tensors and modal coupling
 
 - Optional `spinfreq-susceptibility` analysis of verified completed CPU jobs,

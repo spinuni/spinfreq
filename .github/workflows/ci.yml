@@ -42,6 +42,7 @@ jobs:
       - run: python benchmarks/research_continuation.py --check --output results/research/skyrmion
       - run: python benchmarks/spatial_spectroscopy.py --check --output results/research/spectroscopy
       - run: python benchmarks/susceptibility_tensor.py --check --output results/research/tensor-validation
+      - run: python benchmarks/pole_groups.py --check --output results/research/pole-groups
       - run: python benchmarks/mode_tracking.py --study results/research/skyrmion/study --check --output results/research/mode-tracking
       - name: Reuse verified study through the installed CLI
         run: spinfreq-study --config examples/studies/fmr-field-sweep.json --output results/research/fmr-field-sweep --resume
@@ -70,7 +71,7 @@ jobs:
       - run: spinfreq-doctor --check
       - run: spinfreq-demo --output results/first-result
       - run: spinfreq-susceptibility --job results/first-result --output results/first-tensor
-      - run: python -m pytest -q tests/test_onboarding.py tests/test_tracking.py tests/test_susceptibility.py
+      - run: python -m pytest -q tests/test_onboarding.py tests/test_tracking.py tests/test_susceptibility.py tests/test_pole_groups.py
       - name: Exercise source-install and demo helpers on native Windows
         if: runner.os == 'Windows'
         shell: cmd
@@ -340,3 +341,57 @@ jobs:
         with:
           name: distributions
           path: dist/*
+
+  release-candidate:
+    name: Assemble candidate for review
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - research-workflows
+      - desktop-onboarding
+      - fmr-reference
+      - dmi-static-reference
+      - dmi-temporal-reference
+      - skyrmion-reference
+      - fine-skyrmion-reference
+      - driven-response-reference
+      - platform-workers
+      - application
+      - distribution
+    env:
+      SPINFREQ_CI_NEEDS: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - uses: actions/download-artifact@v4
+        with:
+          name: distributions
+          path: results/distributions
+      - uses: actions/download-artifact@v4
+        with:
+          name: platform-qualification-linux
+          path: results/linux-evidence
+      - uses: actions/download-artifact@v4
+        with:
+          name: platform-qualification-win32
+          path: results/windows-evidence
+      - name: Record all prerequisite job conclusions from this run
+        run: python -c "import os,pathlib; pathlib.Path('results/ci-results.json').write_text(os.environ['SPINFREQ_CI_NEEDS'])"
+      - name: Verify exact source, distributions and native evidence
+        run: >-
+          python scripts/prepare_release_candidate.py
+          --distributions results/distributions
+          --linux-evidence results/linux-evidence
+          --windows-evidence results/windows-evidence
+          --ci-results results/ci-results.json
+          --expect-revision ${{ github.sha }}
+          --expect-run-id ${{ github.run_id }}
+          --output results/release-candidate
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-candidate-review
+          path: results/release-candidate/
+          if-no-files-found: error

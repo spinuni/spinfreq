@@ -19,6 +19,8 @@ are retained to keep report commands and cross-script imports working.
 | Local research studies | `research_studies.py`, `research_continuation.py` | [Analytical susceptibility and OOMMF continuation endpoints](../validation/research_workflows/README.md) |
 | Spatial spectroscopy | `spatial_spectroscopy.py` | [Analytical polarization/finite-k response and source/probe checks](../validation/spatial_spectroscopy/README.md) |
 | Mode analysis | `mode_tracking.py` | [Spatial-character tracking and ambiguity checks](../validation/mode_tracking/README.md) |
+| Polarization tensors | `susceptibility_tensor.py` | [Uniform/finite-k analytical transfer](../validation/susceptibility/README.md) |
+| Grouped poles | `pole_groups.py` | [Exact grouped reconstruction](../validation/pole_groups/README.md) |
 
 Application release checks live separately in `scripts/validate_presets.py` and
 `scripts/browser_smoke.py`; they do not replace independent physics validation.

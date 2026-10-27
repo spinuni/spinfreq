@@ -10,6 +10,7 @@ import numpy as np
 
 from .profiles import SpatialProfile, Probe, observe
 from .linear_response import ModalResponse
+from .pole_groups import group_poles, grouped_response
 
 
 def susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=None):
@@ -34,10 +35,11 @@ def susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=
     modes = np.einsum("yxci,yxin->nyxc", prepared.basis,
                       prepared.vectors.reshape(*shape, 2, -1))
     observed_modes = observe(modes, probes)
-    tensors, residues, residuals = [], [], []
+    tensors, residues, residuals, full_norms = [], [], [], []
     for component in range(3):
         drive = source[..., None]*np.eye(3)[component]
         response = prepared.response(frequencies_Hz, drive)
+        full_norms.append(float(np.linalg.norm(response)))
         tensors.append(observe(response, probes))
         residuals.append(prepared.last_response_residuals.copy())
         coefficients = prepared._weights(prepared._force(drive))
@@ -49,10 +51,11 @@ def susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=
     return {"frequencies_Hz": np.atleast_1d(np.asarray(frequencies_Hz, float)),
             "tensor_per_T": tensor, "residues_per_T_s": residue,
             "eigenvalues_per_s": prepared.values.copy(),
+            "full_field_response_norm_per_T": float(np.linalg.norm(full_norms)),
             "response_residuals": np.stack(residuals, axis=-1)}
 
 
-def analyze_job(job, output):
+def analyze_job(job, output, *, group_atol_Hz=1e6, group_rtol=1e-4):
     """Analyze an intact successful job made by the current numerical sources.
 
     Rebuild one dense basis from the saved equilibrium, without relaxing again.
@@ -96,6 +99,22 @@ def analyze_job(job, output):
     weights = np.array([p.profile.evaluate(config.nx, config.ny, config.dx_m, config.dy_m) for p in probes])
     frequencies = np.linspace(config.fmin_Hz, config.fmax_Hz, config.points)
     data = susceptibility(prepared, frequencies, source, weights)
+    grouping = group_poles(data['eigenvalues_per_s'], data['residues_per_T_s'],
+                           atol_Hz=group_atol_Hz, rtol=group_rtol)
+    reconstructed = np.zeros_like(data['tensor_per_T'])
+    for _, contribution in grouped_response(frequencies, prepared.values, data['residues_per_T_s'], grouping):
+        reconstructed += contribution
+    difference = np.linalg.norm(reconstructed-data['tensor_per_T'])
+    # A Fourier probe may cancel the full signal. Scale the guard with the
+    # full spatial response and modal contributions, not a vanishing tensor.
+    modal_bound = sum(np.linalg.norm(residue)*np.linalg.norm(1/(2j*np.pi*frequencies-value))
+                      for value, residue in zip(prepared.values, data['residues_per_T_s']))
+    if not np.isfinite(modal_bound) or not np.isfinite(difference):
+        raise RuntimeError('Grouped reconstruction exceeded finite numerical range')
+    full_scale = data['full_field_response_norm_per_T']*np.sqrt(len(probes))
+    group_error = float(difference/max(np.linalg.norm(data['tensor_per_T']), modal_bound, full_scale, 1e-300))
+    if not np.isfinite(group_error) or group_error > 1e-7:
+        raise RuntimeError('Grouped poles failed tensor reconstruction')
     drive = np.asarray(config.drive_T)+1j*np.asarray(config.drive_imag_T)
     predicted = np.einsum("fpij,j->fpi", data["tensor_per_T"], drive)
     with np.load(job/"observations.npz", allow_pickle=False) as saved:
@@ -110,6 +129,17 @@ def analyze_job(job, output):
     if any(output.iterdir()):
         raise FileExistsError("Use an empty tensor output directory")
     names = np.array([p.name for p in probes])
+    np.savez_compressed(output/'pole_groups.npz', mode_group=grouping['mode_group'],
+                        summed_residues_per_T_s=grouping['summed_residues'])
+    write_json(output/'pole_groups.json', {key: value for key, value in grouping.items()
+                                         if key not in ('mode_group', 'summed_residues')})
+    with (output/'pole_groups.csv').open('w', newline='') as stream:
+        columns = ['group', 'kind', 'count', 'signed_frequency_min_Hz', 'signed_frequency_max_Hz',
+                   'growth_min_per_s', 'growth_max_per_s', 'complex_diameter_Hz', 'members']
+        writer = csv.DictWriter(stream, fieldnames=columns)
+        writer.writeheader()
+        for record in grouping['groups']:
+            writer.writerow({**record, 'members': ' '.join(map(str, record['members']))})
     np.savez_compressed(output/"susceptibility.npz", **data, probe_names=names,
                         source_weights=source, probe_weights=weights, drive_T=drive,
                         predicted_delta_m=predicted)
@@ -155,10 +185,14 @@ def analyze_job(job, output):
               "residue_axes": ["signed_mode", "probe", "observed_xyz", "drive_xyz"],
               "reconstruction_error_full_field_scaled": error,
               "max_response_residual": float(np.max(data["response_residuals"])),
+              "grouped_tensor_reconstruction_scaled_error": group_error,
+              "grouped_tensor_reconstruction_absolute_error_per_T": float(difference),
+              "pole_groups": len(grouping['groups']),
               "source_job_manifest_sha256": hashlib.sha256((job/"manifest.json").read_bytes()).hexdigest(),
               "source_artifacts_sha256": manifest,
               "solver_source_sha256": sources,
               "analysis_source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              "grouping_source_sha256": hashlib.sha256(Path(__file__).with_name('pole_groups.py').read_bytes()).hexdigest(),
               "limits": ["Weighted B-based transfer, not H-based dimensionless susceptibility.",
                          "Unit-tesla normalization is a linear derivative, not a finite-amplitude simulation.",
                          "Modal residues are complex, interfere, and are not independent absorbed powers.",
@@ -172,9 +206,11 @@ def main():
     parser = argparse.ArgumentParser(description="Compare x/y/z field polarizations for a completed local CPU simulation.")
     parser.add_argument("--job", required=True, type=Path, help="Completed simulation directory (not ZIP)")
     parser.add_argument("--output", required=True, type=Path, help="New, empty analysis directory")
+    parser.add_argument('--group-atol-Hz', type=float, default=1e6, help='Absolute complex-pole grouping tolerance in Hz (default 1e6)')
+    parser.add_argument('--group-rtol', type=float, default=1e-4, help='Relative complex-pole grouping tolerance (default 1e-4)')
     args = parser.parse_args()
     try:
-        report = analyze_job(args.job, args.output)
+        report = analyze_job(args.job, args.output, group_atol_Hz=args.group_atol_Hz, group_rtol=args.group_rtol)
     except (ValueError, OSError, RuntimeError) as error:
         parser.exit(1, f"Tensor analysis stopped: {error}\n")
     print(f"Polarization comparison ready: {args.output/'susceptibility.png'}")

@@ -17,12 +17,16 @@ DMI, noncollinear dynamics and driven response.
 | M4. Local web lifecycle | Separate worker; bounded queue/storage/resources; progress/cancel/delete; process isolation; restart recovery; browser-to-download check | Linux qualified locally; Windows experimental opt-in, native CI review pending |
 | M5. Distribution and CI | Wheel/sdist with code, static assets, examples and tests; installed CLI/web outside source; Python 3.11–3.13 jobs, archived reference regressions | Local checks plus CI configuration; hosted results must be observed |
 | M5a. Product website and handbook | Original homepage; offline manual, theory, Python/HTTP API, downloads and validation pages; preset downloads; deterministic rendering; static export and browser checks | Implemented and locally tested; public hosting pending |
-| M6. Publish package release | Review candidate evidence; green hosted CI; reproducible release artifacts and tag; configure PyPI trusted publishing if PyPI delivery is wanted | Pending |
+| M6. Publish package release | Review candidate evidence; green hosted CI; reproducible release artifacts and tag; configure PyPI trusted publishing if PyPI delivery is wanted | Automated candidate assembly implemented; hosted review and publication pending |
 | M7. Public hosted application | Select host; authentication/TLS/access and retention policy; load/restart tests and quotas measured there; deployment/runbook and service smoke check | Pending; current launcher binds loopback only |
 
 M1–M5 advance the first usable version. M6/M7 are publication milestones, not
 claims implied by a GitHub push. No PyPI release, version tag or public web
 deployment is created by the candidate checks.
+
+The [candidate assembly guide](CANDIDATE.md) explains the final CI gate and
+downloadable review bundle. It requires successful prerequisite jobs, clean
+matching source/distributions and independently verified Linux/Windows evidence.
 
 ## Candidate acceptance procedure
 
@@ -75,8 +79,9 @@ current-driven physics. These are distinct from public web deployment.
   independent 1 nm report and 1 to 0.8 nm study show why finer grids matter.
 - Near-neutral modes lack rigorous certification; sign-uncertain jobs are rejected.
 - Edited configurations are research inputs, not automatically validated presets.
-- Full-strip historical DMI bands, scalable large-array modes, automatic branch
+- Full-strip historical DMI bands, scalable large-array modes, subspace branch
   tracking and nonlinear comb generation remain distinct future milestones.
+  Spatial MAC branch tracking and conservative pole grouping are implemented.
 
 The detailed [physics assessment](../science/VALIDATION_AND_RELEASE.md) remains the source
 for P1–P8 evidence. Scope changes must update both this plan and user-facing claims.

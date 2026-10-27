@@ -104,8 +104,8 @@ operator. Residues are invariant under rescaling/rephasing an individual
 nondegenerate eigenvector. Keep both signed branches for reconstruction.
 At exactly degenerate poles, the **sum over the degenerate subspace** is
 invariant; its individual residues depend on the eigenbasis. Near-degenerate
-or ill-conditioned poles also require caution. Automatic subspace grouping
-is not implemented. Complex residues interfere; their norms are not independent
+or ill-conditioned poles also require caution. The grouped exports below retain
+each original denominator. Complex residues interfere; their norms are not independent
 absorbed powers or universal mode probabilities. A mode can be absent from a
 measurement because the source, detector, or both have zero coupling.
 
@@ -128,3 +128,35 @@ stability and amplitude gates. Rebuild `ModalResponse` after changing physics.
 uniform and finite-k periodic Gilbert response, all components, complex
 polarization reconstruction and modal gauge/degenerate-group invariance.
 This does not add nonlinear response, thickness modes or current torques.
+
+## Interpret grouped poles
+
+The analysis also writes **pole_groups.csv**, **pole_groups.json** and
+**pole_groups.npz**. Start with the CSV: `members` lists indices in this
+analysis, `count` is the number of poles, and `kind` is `single`,
+`numerically_coincident` or `nearby_distinct`. Frequency and growth ranges make
+splittings explicit. NPZ contains the mode-to-group map and summed tensor
+residues, in 1/(T s).
+
+Defaults group poles within `1e6 Hz + 1e-4 × max(|λ₁|, |λ₂|)/(2π)` using the
+**full complex pole**, so damping differences matter. Every pair in a group
+must satisfy the tolerance; chains cannot connect distant endpoints. Positive,
+negative and zero-frequency branches are kept separate. This deterministic
+partition is a reporting convention, not proof of physical degeneracy.
+`numerically_coincident` uses a roundoff-scale threshold and is not a rigorous
+uncertainty certificate. Grouping does not repair an ill-conditioned eigenbasis.
+
+To change reporting resolution, add `--group-atol-Hz 100000 --group-rtol 0`
+to the analysis command. These options do not alter the equilibrium or solver.
+A very broad tolerance can hide distinct resonances in a group; inspect ranges.
+
+The full tensor is reconstructed from every original pole and denominator,
+with its error recorded in `summary.json`. The rejection check scales with
+the full spatial response and individual modal contributions so a symmetry-cancelled probe is allowed;
+absolute reconstruction error is also recorded. **Never divide a near-degenerate
+summed residue by a mean pole.** That can erase interference and split peaks.
+The Python `grouped_response(frequencies_Hz, eigenvalues_per_s, residues,
+grouping)` iterator yields one exact group contribution at a time; summing
+these reproduces the full response. `group_poles(eigenvalues_per_s, residues,
+atol_Hz=..., rtol=...)` constructs the groups. At coincident poles, summed
+residues provide the basis-invariant subspace coupling.

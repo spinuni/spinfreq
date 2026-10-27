@@ -15,6 +15,7 @@
 | Spatial spectroscopy | [Polarized drives and local/Fourier probes](spatial_spectroscopy/README.md) | Analytical finite-k/complex response, source/detector definitions, cancellation and weak-drive scaling |
 | Mode analysis | [Spatial MAC and ambiguity](mode_tracking/README.md) | Synthetic rank reversal/degeneracy checks and a real skyrmion scan |
 | Polarization tensors | [Full Gilbert tensors and modal residues](susceptibility/README.md) | Independent uniform/finite-k tensors, all-pole reconstruction and coupling invariance |
+| Pole groups | [Grouped response reconstruction](pole_groups/README.md) | Complex-pole partitioning, degenerate-group sums and exact nearby-pole response |
 | Literature exploration | [Liu 2024](liu2024/README.md) | Single-skyrmion/array studies; nonlinear comb remains unvalidated |
 
 Accepted data and settings are versioned. Intermediate arrays, exploratory

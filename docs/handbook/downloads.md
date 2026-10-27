@@ -1,5 +1,11 @@
 # Downloads and installation
 
+The CI workflow can assemble a **release-candidate-review** artifact after all
+prerequisite checks and native platform evidence pass. It contains a wheel,
+source archive, installation commands and checksummed evidence. See the
+[candidate download and review guide](https://github.com/spinuni/spinfreq/blob/main/docs/releases/CANDIDATE.md).
+Hosted success and stable publication remain pending review.
+
 Current source candidate: **0.1.0rc2**, Python 3.11–3.13, MIT license. A stable 0.1.0 release, PyPI package and native application installers have **not** been published. Source installation is the available distribution route. No GPU or MuMax3 installation is required for the CPU solver.
 
 **First time using SpinFreq? Follow [Start here](start.html).** Windows users can use the source ZIP's `windows/Install.cmd` and `Run-Demo.cmd` helpers. They create a local Python environment and run the CPU example; no WSL2 is needed. These are source-install helpers, rather than a standalone executable bundle.

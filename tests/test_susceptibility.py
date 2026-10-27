@@ -119,6 +119,16 @@ def test_verified_job_export_and_tampering(tmp_path):
     assert not (tmp_path/'bad').exists()
 
 
+def test_tensor_export_allows_symmetry_cancelled_probe(tmp_path):
+    from spinfreq import Probe
+    config = replace(presets()['periodic-fmr'], nx=4, ny=2, points=5,
+                     drive_profile=SpatialProfile('plane_wave', k_rad_m=(2*np.pi/(4*4e-9), 0)),
+                     probes=(Probe('mean'),))
+    run_job(config, tmp_path/'job')
+    summary = analyze_job(tmp_path/'job', tmp_path/'tensor')
+    assert summary['grouped_tensor_reconstruction_scaled_error'] < 1e-12
+
+
 def test_changed_numerical_source_rejected(tmp_path):
     job = tmp_path/'job'
     run_job(replace(presets()['prism-fmr'], points=3), job)
