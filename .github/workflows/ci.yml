@@ -23,6 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[test]'
+      - run: python scripts/sync_examples.py --check
       - run: python -m pytest -q
 
   research-workflows:
@@ -70,8 +71,11 @@ jobs:
       - run: python -m pip install '.[test,web]'
       - run: spinfreq-doctor --check
       - run: spinfreq-demo --output results/first-result
+      - run: spinfreq-examples --list
+      - run: spinfreq-examples --name localized-source --output results/editable-example
+      - run: python results/editable-example/run.py
       - run: spinfreq-susceptibility --job results/first-result --output results/first-tensor
-      - run: python -m pytest -q tests/test_onboarding.py tests/test_tracking.py tests/test_susceptibility.py tests/test_pole_groups.py
+      - run: python -m pytest -q tests/test_onboarding.py tests/test_tracking.py tests/test_susceptibility.py tests/test_pole_groups.py tests/test_bundled_examples.py
       - name: Exercise source-install and demo helpers on native Windows
         if: runner.os == 'Windows'
         shell: cmd
@@ -87,6 +91,7 @@ jobs:
           path: |
             results/first-result/
             results/first-simulation/
+            results/editable-example/
 
   fmr-reference:
     runs-on: ubuntu-latest
@@ -331,6 +336,9 @@ jobs:
           test -s /tmp/spinfreq-smoke/modes.npz
           test -s /tmp/spinfreq-smoke/response.npz
           test -s /tmp/spinfreq-smoke/spectrum.png
+          /tmp/spinfreq-wheel/bin/spinfreq-examples --list
+          /tmp/spinfreq-wheel/bin/spinfreq-examples --name localized-source --output /tmp/spinfreq-installed-example
+          /tmp/spinfreq-wheel/bin/python /tmp/spinfreq-installed-example/run.py
       - name: Check that the source distribution contains runnable tests and benchmarks
         run: |
           mkdir /tmp/spinfreq-source

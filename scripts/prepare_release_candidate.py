@@ -126,6 +126,7 @@ Windows PowerShell (no activation required):
 .\\.venv\\Scripts\\python.exe -m pip install "{wheels[0].name}[web]"
 .\\.venv\\Scripts\\spinfreq-doctor.exe --check
 .\\.venv\\Scripts\\spinfreq-demo.exe --open
+.\\.venv\\Scripts\\spinfreq-examples.exe --list
 ```
 
 Linux/macOS:
@@ -134,6 +135,7 @@ Linux/macOS:
 .venv/bin/python -m pip install "{wheels[0].name}[web]"
 .venv/bin/spinfreq-doctor --check
 .venv/bin/spinfreq-demo --open
+.venv/bin/spinfreq-examples --list
 ```
 
 Dependencies require internet for this installation. CPU simulations use local

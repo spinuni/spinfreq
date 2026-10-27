@@ -61,7 +61,7 @@ def sha256(data):
 def source_digest(name, data):
     # Git may check the same revision out with CRLF on Windows. Normalize text
     # only; artifact/wheel/result checksums above remain exact byte hashes.
-    if Path(name).suffix in ('.py', '.html', '.js', '.css', '.toml'):
+    if Path(name).suffix in ('.py', '.html', '.js', '.css', '.toml', '.json'):
         data = data.replace(b'\r\n', b'\n')
     return sha256(data)
 
@@ -70,7 +70,7 @@ def package_fingerprint(directory):
     directory = Path(directory)
     records = {p.relative_to(directory).as_posix(): source_digest(p.name, p.read_bytes())
                for p in sorted(directory.rglob('*')) if p.is_file()
-               and '__pycache__' not in p.parts and p.suffix in ('.py', '.html', '.js', '.css', '.png')}
+               and '__pycache__' not in p.parts and p.suffix in ('.py', '.html', '.js', '.css', '.png', '.json')}
     if not records:
         raise EvidenceError('No package files found')
     return sha256(json.dumps(records, sort_keys=True).encode())
@@ -175,7 +175,7 @@ def verify_wheel(path, fingerprint, package_version):
         if metadata['Name'] != 'spinfreq' or metadata['Version'] != package_version:
             raise EvidenceError('Wheel name/version mismatch')
         records = {name.removeprefix('spinfreq/'):source_digest(name, archive.read(name)) for name in names
-                   if name.startswith('spinfreq/') and Path(name).suffix in ('.py', '.html', '.js', '.css', '.png')}
+                   if name.startswith('spinfreq/') and Path(name).suffix in ('.py', '.html', '.js', '.css', '.png', '.json')}
         if sha256(json.dumps(records, sort_keys=True).encode()) != fingerprint:
             raise EvidenceError('Wheel contents disagree with qualified package source')
 

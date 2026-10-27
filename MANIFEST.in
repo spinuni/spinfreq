@@ -2,6 +2,7 @@ include README.md
 include LICENSE CHANGELOG.md CITATION.cff CONTRIBUTING.md
 include .github/repository.json
 recursive-include examples *.json *.md
+recursive-include spinfreq/data *.json
 recursive-include scripts *.py
 recursive-include windows *.cmd *.md
 recursive-include docs *.md

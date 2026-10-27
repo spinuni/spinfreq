@@ -82,6 +82,38 @@ in GHz; JSON uses SI units such as metres, hertz and tesla.
 
 ## 3. Try another example
 
+The installed package includes an offline gallery. You can create editable
+experiments in any writable folder, including after installing a wheel without
+a source checkout. From the folder containing your `.venv`, use:
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\spinfreq-examples.exe --list
+.\.venv\Scripts\spinfreq-examples.exe --name localized-source --output my-experiment
+.\.venv\Scripts\python.exe my-experiment/run.py --check
+.\.venv\Scripts\python.exe my-experiment/run.py
+```
+
+Linux/macOS:
+
+```bash
+.venv/bin/spinfreq-examples --list
+.venv/bin/spinfreq-examples --name localized-source --output my-experiment
+.venv/bin/python my-experiment/run.py --check
+.venv/bin/python my-experiment/run.py
+```
+
+Creation does not calculate anything. Read `my-experiment/README.md`, then edit
+`configuration.json` in SI units. For a study template, edit `study.json`
+instead. The creation command also prints an exact invocation for the Python
+environment you used. `--check` reports the edited mesh and case count without
+creating results. After running, open `my-experiment/results/run/spectrum.png`
+(or `results/study/spectra.png` for a study). Use a new project name if it exists;
+use `run.py --output results/second-run` to preserve an earlier calculation.
+
+You can also run the built-in presets directly:
+
 In Windows PowerShell, from the repository root:
 
 ```powershell

@@ -51,6 +51,13 @@ power_W = film.absorbed_power(f, delta_m, drive)
 
 ## Local research API
 
+`spinfreq.bundled_examples.list_examples()` returns the offline gallery with
+template kind, scope, mesh and case count. `create_example(name, output)` in
+the same module creates a new editable project and returns its starter manifest;
+existing directories are refused. The installed `spinfreq-examples --list` and
+`--name NAME --output NEW_FOLDER` commands expose this workflow. Generated
+`run.py` uses the shared job/study APIs; `--check` only validates edited inputs.
+
 `susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=None)`
 returns B-based transfer tensors `(nf, nprobe, 3, 3)` in 1/T, all signed modal
 residues and shifted-system residuals. `analyze_job(job, output)` verifies a

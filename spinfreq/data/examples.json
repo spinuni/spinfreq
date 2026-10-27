@@ -1,0 +1,416 @@
+{
+  "examples": {
+    "confined-skyrmion": {
+      "dmi_boundary": "bond",
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "dx_m": 2e-09,
+      "dy_m": 2e-09,
+      "field_T": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "fmax_Hz": 45000000000.0,
+      "fmin_Hz": 1000000000.0,
+      "material": {
+        "A": 1.5e-11,
+        "D": 0.003,
+        "K": 600000.0,
+        "Ms": 580000.0,
+        "alpha": 0.01,
+        "gamma": 175950000000.0
+      },
+      "maxiter": 2000,
+      "model": "confined",
+      "nx": 20,
+      "ny": 20,
+      "points": 101,
+      "schema_version": 1,
+      "seed": "skyrmion",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "thickness_m": 1e-09,
+      "torque_tolerance_T": 1e-08
+    },
+    "fmr-damping-sweep": {
+      "axes": {
+        "material.alpha": [
+          0.01,
+          0.02,
+          0.04
+        ]
+      },
+      "base": {
+        "dmi_boundary": "bond",
+        "drive_T": [
+          1e-06,
+          0.0,
+          0.0
+        ],
+        "dx_m": 4e-09,
+        "dy_m": 4e-09,
+        "field_T": [
+          0.0,
+          0.0,
+          0.1
+        ],
+        "fmax_Hz": 80000000000.0,
+        "fmin_Hz": 40000000000.0,
+        "material": {
+          "A": 1.5e-11,
+          "D": 0,
+          "K": 800000.0,
+          "Ms": 580000.0,
+          "alpha": 0.02,
+          "gamma": 176085900000.0
+        },
+        "maxiter": 2000,
+        "model": "periodic",
+        "nx": 1,
+        "ny": 1,
+        "points": 101,
+        "schema_version": 1,
+        "seed": "uniform",
+        "seed_radius_m": 8e-09,
+        "seed_wall_m": 3e-09,
+        "thickness_m": 1e-09,
+        "torque_tolerance_T": 1e-08
+      },
+      "continuation": false,
+      "schema_version": 1
+    },
+    "fmr-field-sweep": {
+      "axes": {
+        "field_T.2": [
+          0.05,
+          0.1,
+          0.15,
+          0.2,
+          0.25,
+          0.3
+        ]
+      },
+      "base": {
+        "dmi_boundary": "bond",
+        "drive_T": [
+          1e-06,
+          0.0,
+          0.0
+        ],
+        "dx_m": 4e-09,
+        "dy_m": 4e-09,
+        "field_T": [
+          0.0,
+          0.0,
+          0.1
+        ],
+        "fmax_Hz": 80000000000.0,
+        "fmin_Hz": 40000000000.0,
+        "material": {
+          "A": 1.5e-11,
+          "D": 0,
+          "K": 800000.0,
+          "Ms": 580000.0,
+          "alpha": 0.02,
+          "gamma": 176085900000.0
+        },
+        "maxiter": 2000,
+        "model": "periodic",
+        "nx": 1,
+        "ny": 1,
+        "points": 101,
+        "schema_version": 1,
+        "seed": "uniform",
+        "seed_radius_m": 8e-09,
+        "seed_wall_m": 3e-09,
+        "thickness_m": 1e-09,
+        "torque_tolerance_T": 1e-08
+      },
+      "continuation": true,
+      "schema_version": 1
+    },
+    "localized-source": {
+      "dmi_boundary": "bond",
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "drive_profile": {
+        "center_m": [
+          1.6e-08,
+          1.6e-08
+        ],
+        "kind": "gaussian",
+        "sigma_m": [
+          8e-09,
+          8e-09
+        ]
+      },
+      "dx_m": 8e-09,
+      "dy_m": 8e-09,
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "fmax_Hz": 140000000000.0,
+      "fmin_Hz": 40000000000.0,
+      "material": {
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "Ms": 580000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "maxiter": 2000,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 4,
+      "points": 101,
+      "probes": [
+        {
+          "name": "source",
+          "profile": {
+            "center_m": [
+              1.6e-08,
+              1.6e-08
+            ],
+            "kind": "gaussian",
+            "sigma_m": [
+              8e-09,
+              8e-09
+            ]
+          }
+        },
+        {
+          "name": "detector",
+          "profile": {
+            "center_m": [
+              4.8e-08,
+              1.6e-08
+            ],
+            "kind": "rectangle",
+            "size_m": [
+              1.6e-08,
+              3.2e-08
+            ]
+          }
+        },
+        {
+          "name": "mean",
+          "profile": {
+            "kind": "uniform"
+          }
+        }
+      ],
+      "schema_version": 1,
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "thickness_m": 1e-09,
+      "torque_tolerance_T": 1e-08
+    },
+    "periodic-fmr": {
+      "dmi_boundary": "bond",
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "dx_m": 4e-09,
+      "dy_m": 4e-09,
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "fmax_Hz": 60000000000.0,
+      "fmin_Hz": 1000000000.0,
+      "material": {
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "Ms": 580000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "maxiter": 2000,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 8,
+      "points": 101,
+      "schema_version": 1,
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "thickness_m": 1e-09,
+      "torque_tolerance_T": 1e-08
+    },
+    "prism-fmr": {
+      "dmi_boundary": "bond",
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "dx_m": 4e-09,
+      "dy_m": 8e-09,
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "fmax_Hz": 60000000000.0,
+      "fmin_Hz": 1000000000.0,
+      "material": {
+        "A": 0,
+        "D": 0,
+        "K": 600000.0,
+        "Ms": 580000.0,
+        "alpha": 0.03,
+        "gamma": 175950000000.0
+      },
+      "maxiter": 2000,
+      "model": "confined",
+      "nx": 1,
+      "ny": 1,
+      "points": 101,
+      "schema_version": 1,
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "thickness_m": 1e-09,
+      "torque_tolerance_T": 1e-08
+    },
+    "skyrmion-field-path": {
+      "axes": {
+        "field_T.2": [
+          0.0,
+          0.025,
+          0.05
+        ]
+      },
+      "base": {
+        "dmi_boundary": "bond",
+        "drive_T": [
+          1e-06,
+          0.0,
+          0.0
+        ],
+        "dx_m": 2e-09,
+        "dy_m": 2e-09,
+        "field_T": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "fmax_Hz": 45000000000.0,
+        "fmin_Hz": 1000000000.0,
+        "material": {
+          "A": 1.5e-11,
+          "D": 0.003,
+          "K": 600000.0,
+          "Ms": 580000.0,
+          "alpha": 0.01,
+          "gamma": 175950000000.0
+        },
+        "maxiter": 2000,
+        "model": "confined",
+        "nx": 20,
+        "ny": 20,
+        "points": 41,
+        "schema_version": 1,
+        "seed": "skyrmion",
+        "seed_radius_m": 8e-09,
+        "seed_wall_m": 3e-09,
+        "thickness_m": 1e-09,
+        "torque_tolerance_T": 1e-08
+      },
+      "continuation": true,
+      "schema_version": 1
+    },
+    "wavevector-probe": {
+      "dmi_boundary": "bond",
+      "drive_T": [
+        1e-06,
+        0.0,
+        0.0
+      ],
+      "drive_imag_T": [
+        0,
+        -1e-06,
+        0
+      ],
+      "drive_profile": {
+        "k_rad_m": [
+          98174770.42468102,
+          0
+        ],
+        "kind": "plane_wave"
+      },
+      "dx_m": 8e-09,
+      "dy_m": 8e-09,
+      "field_T": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "fmax_Hz": 140000000000.0,
+      "fmin_Hz": 40000000000.0,
+      "material": {
+        "A": 1.5e-11,
+        "D": 0,
+        "K": 800000.0,
+        "Ms": 580000.0,
+        "alpha": 0.02,
+        "gamma": 176085900000.0
+      },
+      "maxiter": 2000,
+      "model": "periodic",
+      "nx": 8,
+      "ny": 1,
+      "points": 101,
+      "probes": [
+        {
+          "name": "k_plus",
+          "profile": {
+            "k_rad_m": [
+              98174770.42468102,
+              0
+            ],
+            "kind": "plane_wave"
+          }
+        },
+        {
+          "name": "k_minus",
+          "profile": {
+            "k_rad_m": [
+              -98174770.42468102,
+              0
+            ],
+            "kind": "plane_wave"
+          }
+        },
+        {
+          "name": "mean",
+          "profile": {
+            "kind": "uniform"
+          }
+        }
+      ],
+      "schema_version": 1,
+      "seed": "uniform",
+      "seed_radius_m": 8e-09,
+      "seed_wall_m": 3e-09,
+      "thickness_m": 1e-09,
+      "torque_tolerance_T": 1e-08
+    }
+  },
+  "schema_version": 1
+}

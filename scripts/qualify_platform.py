@@ -74,11 +74,11 @@ def main():
     with tempfile.TemporaryDirectory(prefix='spinfreq-qualification-') as cwd:
         probe_code = '''import os,subprocess,sys,sysconfig
 from pathlib import Path
-for name in ('spinfreq','spinfreq-web','spinfreq-verify-evidence'):
+for name in ('spinfreq','spinfreq-web','spinfreq-verify-evidence','spinfreq-examples'):
  path=Path(sysconfig.get_path('scripts'))/(name+('.exe' if os.name=='nt' else ''))
  subprocess.run([str(path),'--help'],check=True,timeout=20)
 '''
-        passed = run('entrypoints', [sys.executable, '-c', probe_code], cwd, 75)
+        passed = run('entrypoints', [sys.executable, '-c', probe_code], cwd, 100)
         if passed:
             passed = run('pytest', [sys.executable, '-m', 'pytest', '--import-mode=importlib', '-q',
                                     *tests, '--junitxml', str(output/'tests.xml')], cwd, 240)

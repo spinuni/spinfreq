@@ -45,8 +45,8 @@ python scripts/qualify_platform.py --wheel dist --expect-platform linux --output
 Use an empty output directory. Omit `--require-clean` only for development checks;
 a dirty-source report cannot satisfy release verification with that flag.
 
-The collector first exercises the installed `spinfreq`, `spinfreq-web` and
-`spinfreq-verify-evidence` launchers with `--help`. It then runs selected
+The collector first exercises the installed `spinfreq`, `spinfreq-web`,
+`spinfreq-verify-evidence` and `spinfreq-examples` launchers with `--help`. It then runs selected
 numerical/lifecycle tests from a temporary working
 directory, using importlib loading so the checkout cannot shadow the installed
 package. It then starts that installed web server, submits a real Chromium job,
@@ -81,6 +81,10 @@ A valid Linux bundle reports its Linux checks passed and **cannot** close Window
 Source/procedure fingerprints normalize CRLF to LF for text files, allowing
 review of the same Git revision across Windows and Linux. Wheel/result artifact
 checksums and binary assets remain byte-exact.
+
+Bundled JSON example resources participate in package and wheel fingerprints.
+The desktop CI matrix also creates and executes a bundled spectroscopy project,
+and distribution CI exercises the same gallery outside the checkout.
 
 Hashes check consistency and corruption; they are not signatures or proof against
 fabricated reports. Review the trusted runner, CI run/revision and logs before

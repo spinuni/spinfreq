@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — installed editable example gallery
+
+- All eight FMR/skyrmion/spectroscopy/study templates are bundled in the wheel;
+  `spinfreq-examples` lists them or creates an editable project without a checkout.
+- Generated guides, byte-stable starter manifests and portable `run.py` runners
+  support validation, edited inputs, relocated projects and fresh result folders.
+- Source/gallery synchronization checks and JSON resource fingerprint coverage;
+  installed example execution added to desktop and distribution CI.
+
 ## Unreleased — first-release assembly and grouped poles
 
 - Conservative same-sign complex-pole groups, summed tensor residues and exact

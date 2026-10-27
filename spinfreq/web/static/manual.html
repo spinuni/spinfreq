@@ -9,6 +9,7 @@
 <ul>
 <li><a href="#install-and-launch">Install and launch</a></li>
 <li><a href="#your-first-simulation">Your first simulation</a></li>
+<li><a href="#create-an-editable-experiment">Create an editable experiment</a></li>
 <li><a href="#choose-the-physical-model">Choose the physical model</a></li>
 <li><a href="#configuration-and-units">Configuration and units</a></li>
 <li><a href="#local-parameter-studies-and-restart-textures">Local parameter studies and restart textures</a></li>
@@ -47,6 +48,14 @@ python -m venv .venv
 spinfreq --config prism.json --output results/my-first-prism
 </code></pre>
 <p>Use a new output directory for every shared-API job. Existing files cause refusal rather than mixing runs. CLI calculations run directly; the web worker resource limits do not apply to direct CLI or Python calls.</p>
+<h2 id="create-an-editable-experiment">Create an editable experiment</h2>
+<p>For editable source/detector and parameter-study experiments, use
+<code>spinfreq-examples --list</code>, then
+<code>spinfreq-examples --name localized-source --output my-experiment</code>.
+The installed wheel includes these recipes; no source checkout is required.
+The new folder contains an SI configuration, <code>run.py</code> and a guide. Run with the
+same Python environment and use <code>--check</code> before calculating. See
+<a href="start.html#3-try-another-example">Start here</a> for Windows/Linux/macOS commands.</p>
 <h2 id="choose-the-physical-model">Choose the physical model</h2>
 <p>The local experiment tools below build on these same models; they do not add new physics.</p>
 <table>

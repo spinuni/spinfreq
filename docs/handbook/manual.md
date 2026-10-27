@@ -43,6 +43,16 @@ spinfreq --config prism.json --output results/my-first-prism
 
 Use a new output directory for every shared-API job. Existing files cause refusal rather than mixing runs. CLI calculations run directly; the web worker resource limits do not apply to direct CLI or Python calls.
 
+## Create an editable experiment
+
+For editable source/detector and parameter-study experiments, use
+`spinfreq-examples --list`, then
+`spinfreq-examples --name localized-source --output my-experiment`.
+The installed wheel includes these recipes; no source checkout is required.
+The new folder contains an SI configuration, `run.py` and a guide. Run with the
+same Python environment and use `--check` before calculating. See
+[Start here](start.html#3-try-another-example) for Windows/Linux/macOS commands.
+
 ## Choose the physical model
 
 The local experiment tools below build on these same models; they do not add new physics.

@@ -4,6 +4,20 @@
 opens a single-cell spectrum. Follow the [first-result tutorial](../docs/getting-started/README.md)
 for platform-specific installation and help interpreting plots.
 
+**Installed from a wheel? No checkout is needed for the examples.** Run
+`spinfreq-examples --list` and choose a template:
+
+```bash
+spinfreq-examples --name localized-source --output my-experiment
+```
+
+Open `my-experiment/README.md`, edit its configuration and use the printed
+check/run commands. `run.py --check` validates without calculating. Projects
+find their inputs independently of the terminal's current directory, and the
+default result folder is inside the project. Existing projects/results are
+preserved. Study templates create `study.json`; other templates create
+`configuration.json`. The same eight recipes below are bundled with the wheel.
+
 Then choose a small uniform film, a confined skyrmion, a spatial source/detector,
 or a parameter study below. Commands run from the repository root; use
 `.venv/bin/` or `.\.venv\Scripts\` executable paths if the environment is not active.

@@ -100,6 +100,29 @@ is a nonuniform magnetic texture; its existence and stability must be checked.</
 checks. It does not represent a spatially resolved device. Frequency is plotted
 in GHz; JSON uses SI units such as metres, hertz and tesla.</p>
 <h2 id="3-try-another-example">3. Try another example</h2>
+<p>The installed package includes an offline gallery. You can create editable
+experiments in any writable folder, including after installing a wheel without
+a source checkout. From the folder containing your <code>.venv</code>, use:</p>
+<p>Windows PowerShell:</p>
+<pre><code class="language-powershell">.\.venv\Scripts\spinfreq-examples.exe --list
+.\.venv\Scripts\spinfreq-examples.exe --name localized-source --output my-experiment
+.\.venv\Scripts\python.exe my-experiment/run.py --check
+.\.venv\Scripts\python.exe my-experiment/run.py
+</code></pre>
+<p>Linux/macOS:</p>
+<pre><code class="language-bash">.venv/bin/spinfreq-examples --list
+.venv/bin/spinfreq-examples --name localized-source --output my-experiment
+.venv/bin/python my-experiment/run.py --check
+.venv/bin/python my-experiment/run.py
+</code></pre>
+<p>Creation does not calculate anything. Read <code>my-experiment/README.md</code>, then edit
+<code>configuration.json</code> in SI units. For a study template, edit <code>study.json</code>
+instead. The creation command also prints an exact invocation for the Python
+environment you used. <code>--check</code> reports the edited mesh and case count without
+creating results. After running, open <code>my-experiment/results/run/spectrum.png</code>
+(or <code>results/study/spectra.png</code> for a study). Use a new project name if it exists;
+use <code>run.py --output results/second-run</code> to preserve an earlier calculation.</p>
+<p>You can also run the built-in presets directly:</p>
 <p>In Windows PowerShell, from the repository root:</p>
 <pre><code class="language-powershell">.\.venv\Scripts\spinfreq.exe --preset periodic-fmr --output results/my-film
 .\.venv\Scripts\spinfreq.exe --preset confined-skyrmion --output results/my-skyrmion

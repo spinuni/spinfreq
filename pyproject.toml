@@ -27,6 +27,7 @@ spinfreq-track = "spinfreq.tracking:main"
 spinfreq-susceptibility = "spinfreq.susceptibility:main"
 spinfreq-demo = "spinfreq.onboarding:demo_main"
 spinfreq-doctor = "spinfreq.onboarding:doctor_main"
+spinfreq-examples = "spinfreq.bundled_examples:main"
 
 [project.urls]
 Repository = "https://github.com/spinuni/spinfreq"
@@ -37,4 +38,5 @@ Validation = "https://github.com/spinuni/spinfreq/blob/main/docs/science/VALIDAT
 include = ["spinfreq*"]
 
 [tool.setuptools.package-data]
+"spinfreq" = ["data/*.json"]
 "spinfreq.web" = ["static/*.html", "static/*.js", "static/*.css", "static/*.png"]

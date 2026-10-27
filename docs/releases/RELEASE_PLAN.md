@@ -24,6 +24,10 @@ M1–M5 advance the first usable version. M6/M7 are publication milestones, not
 claims implied by a GitHub push. No PyPI release, version tag or public web
 deployment is created by the candidate checks.
 
+The wheel includes all eight editable example templates. `spinfreq-examples`
+creates portable job/study projects with validation, original-template hashes
+and local instructions; a source checkout is no longer needed for the gallery.
+
 The [candidate assembly guide](CANDIDATE.md) explains the final CI gate and
 downloadable review bundle. It requires successful prerequisite jobs, clean
 matching source/distributions and independently verified Linux/Windows evidence.

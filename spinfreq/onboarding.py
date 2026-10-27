@@ -104,4 +104,4 @@ def demo_main():
             opened = False
         if not opened:
             print("The browser did not open automatically. Open spectrum.png from the results folder.")
-    print("Next: follow docs/getting-started/README.md, then try the spectroscopy and parameter-study examples.")
+    print("Next: run spinfreq-examples --list, then create an editable experiment with --name and --output.")

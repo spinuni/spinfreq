@@ -97,6 +97,12 @@ delta_m = prepared.response(f, drive)
 power_W = film.absorbed_power(f, delta_m, drive)
 </code></pre>
 <h2 id="local-research-api">Local research API</h2>
+<p><code>spinfreq.bundled_examples.list_examples()</code> returns the offline gallery with
+template kind, scope, mesh and case count. <code>create_example(name, output)</code> in
+the same module creates a new editable project and returns its starter manifest;
+existing directories are refused. The installed <code>spinfreq-examples --list</code> and
+<code>--name NAME --output NEW_FOLDER</code> commands expose this workflow. Generated
+<code>run.py</code> uses the shared job/study APIs; <code>--check</code> only validates edited inputs.</p>
 <p><code>susceptibility(prepared, frequencies_Hz, source_weights=None, probe_weights=None)</code>
 returns B-based transfer tensors <code>(nf, nprobe, 3, 3)</code> in 1/T, all signed modal
 residues and shifted-system residuals. <code>analyze_job(job, output)</code> verifies a

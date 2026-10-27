@@ -35,6 +35,12 @@ frequency, and keep `configuration.json` and `results.zip` to reproduce the run.
 Repeated demos create new folders and preserve previous results. It is a fast
 single-cell example; spatial films and skyrmions are the next steps.
 
+The installed package also includes eight editable experiments. Run
+`spinfreq-examples --list`, then
+`spinfreq-examples --name localized-source --output my-experiment`.
+It creates a configuration, a guide and `run.py`, and prints the exact command
+for your Python environment. You can run these examples outside the checkout.
+
 ## Choose your next experiment
 
 | I want to… | Start here |
