@@ -93,6 +93,11 @@ def prepare_candidate(source, distributions, linux, windows, ci_results, output,
     output.mkdir(parents=True, exist_ok=True)
     for path in (wheels[0], sdists[0]):
         shutil.copyfile(path, output/path.name)
+    for name in ('install.py', 'Install.cmd', 'Run-Demo.cmd', 'Open-Web.cmd'):
+        data = (source/'scripts/release_assets'/name).read_bytes()
+        if name.endswith('.cmd'):
+            data = data.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')
+        (output/name).write_bytes(data)
     evidence_reports = {}
     for platform, directory in [('linux', Path(linux)), ('win32', Path(windows))]:
         report = json.loads((directory/'report.json').read_text())
@@ -115,6 +120,26 @@ Source revision: `{expected_revision}`. Review `candidate.json`, native evidence
 and the originating GitHub Actions run before publication. No release was published.
 
 Install 64-bit Python 3.11–3.13, then open a terminal in this folder:
+
+On **Windows**, extract the complete candidate ZIP into a writable folder,
+double-click **Install.cmd**, wait for the CPU check, then double-click
+**Run-Demo.cmd**. **Open-Web.cmd** starts configuration preview on localhost.
+No PowerShell activation or execution-policy change is needed.
+
+On **Linux/macOS**, run `python3 install.py`. The same installer can also be
+called as `python install.py` from Windows. It checks all recorded files,
+creates a local `.venv`, installs this exact wheel and runs a CPU self-check.
+Existing result folders are preserved. `installation.json` records success
+only after that check. Reinstallation keeps the local environment and replaces
+the package with the exact candidate wheel, even if its version is unchanged.
+
+To check integrity without installing or accessing the network:
+
+```text
+python install.py --verify-only
+```
+
+For manual installation instead:
 
 ```text
 python -m venv .venv

@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — candidate installation
+
+- Candidate bundles include a stdlib integrity checker/installer and Windows
+  Install/Demo/Web-preview shortcuts. Setup uses a local environment and the
+  exact wheel, including repeated candidates with the same version string.
+- Installation records are written only after the CPU self-check; results are
+  preserved on reinstall. Read-only verification needs no package dependencies.
+- Native desktop CI installs the actual wheel and runs a CPU demo in explicitly
+  marked installer-only fixtures, separate from platform qualification.
+
 ## Unreleased — installed editable example gallery
 
 - All eight FMR/skyrmion/spectroscopy/study templates are bundled in the wheel;

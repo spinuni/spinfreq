@@ -3,6 +3,9 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import shutil
+import subprocess
+import sys
 import tarfile
 import zipfile
 
@@ -21,6 +24,8 @@ def inputs(tmp_path, monkeypatch):
     for name in ['README.md', 'LICENSE', 'CHANGELOG.md', 'CITATION.cff', 'spinfreq/core.py', 'docs/first.md', 'tests/test_first.py']:
         path = source/name; path.parent.mkdir(parents=True, exist_ok=True); path.write_text('fixture\n')
     (source/'pyproject.toml').write_text('[project]\nname="spinfreq"\nversion="0.1.0rc2"\n')
+    shutil.copytree(Path(__file__).resolve().parents[1]/'scripts/release_assets', source/'scripts/release_assets',
+                    ignore=shutil.ignore_patterns('__pycache__'))
     wheel = dist/'spinfreq-0.1.0rc2-py3-none-any.whl'
     with zipfile.ZipFile(wheel, 'w') as archive:
         archive.writestr('spinfreq/core.py', b'fixture\n')
@@ -65,6 +70,8 @@ def test_candidate_bundle_checksums_and_no_publication(inputs):
     assert '.venv\\Scripts\\spinfreq-demo.exe' in (output/'INSTALL.md').read_text()
     for name, checksum in json.loads((output/'checksums.json').read_text()).items():
         assert sha256((output/name).read_bytes()) == checksum
+    subprocess.run([sys.executable, str(output/'install.py'), '--verify-only'],
+                   capture_output=True, text=True, check=True)
     with pytest.raises(FileExistsError):
         run()
 

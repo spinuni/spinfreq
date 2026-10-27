@@ -28,6 +28,11 @@ The wheel includes all eight editable example templates. `spinfreq-examples`
 creates portable job/study projects with validation, original-template hashes
 and local instructions; a source checkout is no longer needed for the gallery.
 
+Candidate downloads also include a stdlib bootstrap installer and Windows
+shortcuts, with exact-wheel replacement, checksum checks, CPU self-test and an
+installation record. Native desktop CI exercises the bootstrap and CPU demo;
+this does not promote Windows browser computation or imply a standalone binary.
+
 The [candidate assembly guide](CANDIDATE.md) explains the final CI gate and
 downloadable review bundle. It requires successful prerequisite jobs, clean
 matching source/distributions and independently verified Linux/Windows evidence.

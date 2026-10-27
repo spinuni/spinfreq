@@ -69,6 +69,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install '.[test,web]'
+      - run: python -m pip install build
+      - run: python -m build --wheel
+      - name: Test candidate installer and demo on the native host
+        run: python scripts/check_candidate_installer.py --wheel dist --output results/installer-smoke
       - run: spinfreq-doctor --check
       - run: spinfreq-demo --output results/first-result
       - run: spinfreq-examples --list
@@ -92,6 +96,9 @@ jobs:
             results/first-result/
             results/first-simulation/
             results/editable-example/
+            results/installer-smoke/installation.json
+            results/installer-smoke/installer-smoke.json
+            results/installer-smoke/preview.log
 
   fmr-reference:
     runs-on: ubuntu-latest
@@ -328,6 +335,8 @@ jobs:
           python -m venv /tmp/spinfreq-wheel
           SPINFREQ_WHEEL=(dist/*.whl)
           /tmp/spinfreq-wheel/bin/python -m pip install "${SPINFREQ_WHEEL[0]}[web,web-test]" pytest
+      - name: Verify candidate bootstrap scripts are included in the source archive
+        run: python -c "import pathlib,tarfile; archive=tarfile.open(next(pathlib.Path('dist').glob('*.tar.gz'))); names=archive.getnames(); assert any(name.endswith('/scripts/release_assets/install.py') for name in names); assert any(name.endswith('/scripts/release_assets/Install.cmd') for name in names)"
       - name: Exercise the installed entry point outside the source checkout
         working-directory: /tmp
         run: |

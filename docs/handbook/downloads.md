@@ -6,6 +6,13 @@ source archive, installation commands and checksummed evidence. See the
 [candidate download and review guide](https://github.com/spinuni/spinfreq/blob/main/docs/releases/CANDIDATE.md).
 Hosted success and stable publication remain pending review.
 
+Candidate bundles include a checked Python installer and Windows shortcuts:
+extract the complete bundle, double-click **Install.cmd**, then **Run-Demo.cmd**.
+**Open-Web.cmd** launches preview. Linux/macOS can use `python3 install.py`.
+Python 3.11–3.13 and internet for dependencies are required; no standalone
+executable installer has been published. `install.py --verify-only` checks the
+downloaded files without installing. See the candidate guide for details.
+
 The installed wheel includes the editable example gallery. Run
 `spinfreq-examples --list`, then create a project with
 `spinfreq-examples --name localized-source --output my-experiment`.
