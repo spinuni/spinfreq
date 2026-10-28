@@ -75,6 +75,33 @@ required checks fail. For the individual evidence procedure, see
 
 ## Remaining publication steps
 
+### Stage a GitHub draft
+
+Once the intended `Package checks` push run on `main` is successful and contains
+`release-candidate-review`, open
+[Actions → Prepare draft release](https://github.com/spinuni/spinfreq/actions/workflows/release-draft.yml).
+Choose **Run workflow** on `main`, enter its numeric **run_id** and full
+40-character **revision** SHA, then run it. No local GitHub API setup is needed.
+
+The workflow checks the original CI run, matching clean source, candidate
+checksums, both native evidence bundles, distribution contents and release
+notes. Pull-request, fork, failed and mismatched runs are refused. It downloads
+the original candidate rather than rebuilding a replacement. The notes in
+`docs/releases/NOTES.md` must name the tested package version.
+
+Only the final job has `contents: write`: it creates the version tag at the
+verified commit and a **draft GitHub release**. The draft includes the complete
+installable ZIP, wheel, source archive, installation guide, notes and SHA-256
+checksums. Alpha/beta/rc versions are marked as prereleases. Existing tags are
+never replaced. Nothing is automatically published to GitHub Releases or PyPI.
+
+Review the resulting draft and its originating CI evidence, then use GitHub's
+**Publish release** control when ready. If creation/upload fails after the tag
+or draft is created, inspect that state manually; reruns do not overwrite it.
+Repository policy must permit the workflow's explicit contents-write permission.
+
+### Publish a stable package
+
 Observe the trusted hosted CI results and review the candidate. Resolve failures
 before changing the version to stable `0.1.0`; that version change needs a new
 candidate built and tested from its own revision. Then publish the reviewed

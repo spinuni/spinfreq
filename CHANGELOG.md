@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — draft release handoff
+
+- Manual GitHub draft-release workflow verifies a successful main-branch CI run,
+  matching source/distributions, candidate checksums and native platform evidence.
+- Prepares an installable ZIP and attaches the exact wheel/source archive,
+  version-matched notes, installation guide and checksums. Read-only verification
+  is separated from narrowly scoped tag/draft creation; existing tags are refused.
+- Versioned release notes document scope and platform limits. No automatic
+  publication, PyPI upload or worker-default promotion is performed.
+
 ## Unreleased — candidate installation
 
 - Candidate bundles include a stdlib integrity checker/installer and Windows

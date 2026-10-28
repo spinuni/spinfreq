@@ -1,0 +1,97 @@
+name: Prepare draft release
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Package checks run ID from a push to main
+        required: true
+        type: string
+      revision:
+        description: Full 40-character commit SHA tested by that run
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spinfreq-draft-release
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      tag: ${{ steps.plan.outputs.tag }}
+      revision: ${{ steps.plan.outputs.revision }}
+      prerelease: ${{ steps.plan.outputs.prerelease }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SPINFREQ_REPOSITORY: ${{ github.repository }}
+      SPINFREQ_RUN_ID: ${{ inputs.run_id }}
+      SPINFREQ_REVISION: ${{ inputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: release-tools
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install ./release-tools
+      - name: Verify trusted run provenance before downloading candidate code or artifacts
+        run: >-
+          python release-tools/scripts/prepare_release_draft.py --fetch-run
+          --repository "$SPINFREQ_REPOSITORY" --run-id "$SPINFREQ_RUN_ID"
+          --revision "$SPINFREQ_REVISION" --run-metadata run-metadata.json
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.revision }}
+          path: candidate-source
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+          name: release-candidate-review
+          path: candidate
+      - name: Recheck source, distributions, native evidence and unused version tag
+        id: plan
+        run: >-
+          python release-tools/scripts/prepare_release_draft.py
+          --repository "$SPINFREQ_REPOSITORY" --run-id "$SPINFREQ_RUN_ID"
+          --revision "$SPINFREQ_REVISION" --run-metadata run-metadata.json
+          --source-root candidate-source --candidate candidate --output payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: draft-release-payload
+          path: payload/
+          if-no-files-found: error
+
+  draft:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SPINFREQ_TAG: ${{ needs.verify.outputs.tag }}
+      SPINFREQ_REVISION: ${{ needs.verify.outputs.revision }}
+      SPINFREQ_PRERELEASE: ${{ needs.verify.outputs.prerelease }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: draft-release-payload
+          path: payload
+      - name: Create a draft; never publish or overwrite an existing release
+        shell: bash
+        run: |
+          gh api --method POST "repos/$GH_REPO/git/refs" -f "ref=refs/tags/$SPINFREQ_TAG" -f "sha=$SPINFREQ_REVISION"
+          flags=(--draft --verify-tag --target "$SPINFREQ_REVISION" --title "SpinFreq $SPINFREQ_TAG" --notes-file payload/release-notes.md)
+          if [ "$SPINFREQ_PRERELEASE" = true ]; then flags+=(--prerelease); fi
+          gh release create "$SPINFREQ_TAG" "${flags[@]}" payload/*.whl payload/*.tar.gz payload/SpinFreq-*.zip payload/INSTALL.md payload/release-notes.md payload/SHA256SUMS.txt

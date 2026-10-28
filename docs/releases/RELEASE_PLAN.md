@@ -33,6 +33,12 @@ shortcuts, with exact-wheel replacement, checksum checks, CPU self-test and an
 installation record. Native desktop CI exercises the bootstrap and CPU demo;
 this does not promote Windows browser computation or imply a standalone binary.
 
+A manual `Prepare draft release` workflow can take a successful trusted
+main-branch CI run, reverify its candidate and create a version tag and GitHub
+draft with the exact tested artifacts. Verification has read-only permissions;
+only draft creation has contents-write access. It never publishes automatically.
+Hosted execution and owner review remain pending.
+
 The [candidate assembly guide](CANDIDATE.md) explains the final CI gate and
 downloadable review bundle. It requires successful prerequisite jobs, clean
 matching source/distributions and independently verified Linux/Windows evidence.
